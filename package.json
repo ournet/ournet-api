@@ -1,0 +1,60 @@
+{
+  "name": "ournet-api",
+  "version": "0.1.0",
+  "description": "Ournet API",
+  "main": "./lib/app.js",
+  "private": true,
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "start": "node ./lib/app.js",
+    "dev": "npm run tsc && node ./lib/app.js",
+    "build": "gulp prod && npm run tsc",
+    "pretest": "npm run clean && npm run tsc",
+    "test": "ava --no-cache --verbose  ./lib/*.test.js ./lib/**/*.test.js",
+    "posttest": "npm run clean-test-code",
+    "tsc": "tsc",
+    "tscw": "tsc -w",
+    "preversion": "npm run tsc",
+    "postversion": "git push --follow-tags",
+    "prepublish": "npm run tsc && npm run clean-test-code",
+    "clean": "rm -fr ./lib && rm -fr ./types",
+    "clean-test-code": "rm -fr ./lib/**/*.test.js && rm -fr ./lib/*.test.js && rm -fr ./types/**/*.test.d.ts && rm -fr ./types/*.test.d.ts"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ournet/ournet-api.git"
+  },
+  "keywords": [
+    "ournet",
+    "api"
+  ],
+  "author": "Dumitru Cantea",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ournet/ournet-api/issues"
+  },
+  "homepage": "https://github.com/Ournet/ournet-api#readme",
+  "devDependencies": {
+    "@types/express": "^4.0.35",
+    "@types/graphql": "^0.9.0",
+    "@types/joi": "^10.4.3",
+    "@types/node": "^7.x.x",
+    "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "@ournet/weather-data": "^0.1.1",
+    "@ournet/weather-domain": "^0.1.3",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "express-graphql": "^0.6.4",
+    "express-jwt": "^5.3.0",
+    "graphql": "^0.11.0",
+    "graphql-tools": "^1.2.1",
+    "jwks-rsa": "^1.2.0",
+    "ournet.logger": "^0.1.0"
+  }
+}
