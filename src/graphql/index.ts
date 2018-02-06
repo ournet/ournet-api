@@ -1,5 +1,6 @@
 
 import weather from './weather';
+import places from './places';
 
 const rootTypes = `
 type Query {
@@ -14,9 +15,10 @@ const rootResolvers = {
     }
 }
 
-export const typedefs = [rootTypes, weather.typedefs].join('\n');
+export const typedefs = [rootTypes, weather.typedefs, places.typedefs].join('\n');
 
 export const resolvers = {
-    Query: { ...rootResolvers.Query, ...weather.resolvers.Query },
+    Query: { ...rootResolvers.Query, ...weather.resolvers.Query, ...places.resolvers.Query },
+    Place: places.resolvers.Place,
     // Mutation: { ...{}, ...weather.resolvers.Mutation },
 };
