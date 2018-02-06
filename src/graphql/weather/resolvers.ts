@@ -6,7 +6,7 @@ import { Data } from '../../data';
 export default {
     Query: {
         weather_forecastReport: (_: any, args: TimezoneGeoPoint) => {
-            return Data.weather.getReport.execute(args).catch(error=>console.error(error))
+            return Data.weather.getReport(args)
         }
     },
     Mutation: {
