@@ -107,7 +107,6 @@ type DailyForecastDataPoint implements IForecastDataPoint {
 interface IForecastDataBlock {
     icon: String!
     night: Boolean
-    data: [IForecastDataPoint]!
 }
 
 type HourlyForecastDataBlock implements IForecastDataBlock {

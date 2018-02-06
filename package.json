@@ -45,7 +45,7 @@
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "@ournet/weather-data": "^0.1.1",
+    "@ournet/weather-data": "^0.1.2",
     "@ournet/weather-domain": "^0.1.3",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",

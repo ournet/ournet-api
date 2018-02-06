@@ -8,9 +8,9 @@
   dependencies:
     joi "^13.0.2"
 
-"@ournet/weather-data@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ournet/weather-data/-/weather-data-0.1.1.tgz#48292fa54f882c65c4ef5e9b84ac98acdc7c2a17"
+"@ournet/weather-data@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ournet/weather-data/-/weather-data-0.1.2.tgz#c4cf3e9b2d66f75800186b0ecc40e07f846caed7"
   dependencies:
     "@ournet/domain" "^0.1.4"
     "@ournet/weather-domain" "^0.1.3"
