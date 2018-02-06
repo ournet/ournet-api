@@ -24,7 +24,21 @@ export default function (params: { country: string, lang: string, start?: number
             if (error) {
                 return reject(error);
             }
-            resolve(result);
+
+            const data: { [key: string]: any } = {};
+            if (result) {
+                result.forEach((item: any) => {
+                    const key = item.start.toISOString().substr(0, 10);
+                    data[key] = data[key] || [];
+                    data[key].push(item);
+                });
+            }
+
+            debug(`holidays set to cache: ${key}`);
+
+            CACHE.set(key, data);
+
+            resolve(data);
         })
     });
 }

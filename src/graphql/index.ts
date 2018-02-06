@@ -24,17 +24,6 @@ const rootResolvers = {
             }
 
             return Data.holidays(args)
-                .then(items => {
-                    const data: { [key: string]: any } = {};
-                    if (items) {
-                        items.forEach((item: any) => {
-                            const key = item.start.toISOString().substr(0, 10);
-                            data[key] = data[key] || [];
-                            data[key].push(item);
-                        });
-                    }
-                    return data;
-                });
         }
     }
 }
