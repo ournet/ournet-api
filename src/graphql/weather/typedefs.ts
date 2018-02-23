@@ -145,5 +145,6 @@ input InputTimezoneGeoPoint {
 extend type Query {
   weather_forecastReport(place: InputTimezoneGeoPoint!): ForecastReport
   weather_datePlacesForecast(places: [InputTimezoneGeoPoint]!, date: Int!): [DailyForecastDataPoint]
+  weather_nowPlaceForecast(place: InputTimezoneGeoPoint!): HourlyForecastDataPoint
 }
 `;

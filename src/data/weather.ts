@@ -1,6 +1,6 @@
 
 const debug = require('debug')('ournet-api');
-import { GetReport, MetnoFetchForecast, ForecastReport, TimezoneGeoPoint, ForecastHelpers, DailyDataPoint } from '@ournet/weather-domain';
+import { GetReport, MetnoFetchForecast, ForecastReport, TimezoneGeoPoint, ForecastHelpers, DailyDataPoint, HourlyDataPoint } from '@ournet/weather-domain';
 import * as WeatherData from '@ournet/weather-data';
 import * as LRU from 'lru-cache';
 import { DetailsReportRepository, HourlyReportRepository } from '@ournet/weather-data';
@@ -47,6 +47,11 @@ const Api = {
         }
         return Promise.all(places.map(place => Api.getReport(place)))
             .then(results => results.map(report => findDayDataPoint(report, stringDate) || null))
+    },
+
+    nowPlaceForecast(place: TimezoneGeoPoint) {
+        return Api.getReport(place)
+            .then(report => findHourDataPoint(report) || null)
     }
 }
 
@@ -59,4 +64,13 @@ function findDayDataPoint(report: ForecastReport, stringDate: string): DailyData
     return report && report.daily && report.daily.data
         && report.daily.data.find(item => ForecastHelpers.dateToZoneDate(new Date(item.time * 1000), report.timezone) >= tzDate)
 
+}
+
+function findHourDataPoint(report: ForecastReport): HourlyDataPoint {
+    const date = new Date()
+    date.setMinutes(0, 0, 0)
+    const tzDate = ForecastHelpers.dateToZoneDate(date, report.timezone)
+
+    return report && report.hourly && report.hourly.data
+        && report.hourly.data.find(item => ForecastHelpers.dateToZoneDate(new Date(item.time * 1000), report.timezone) >= tzDate)
 }
