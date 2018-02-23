@@ -1,13 +1,11 @@
 
 export default `
 
-# scalar JSON
-
 interface IForecastDataPoint {
     cloudCover: Float
     dewPoint: Float
     humidity: Float
-    icon: String
+    icon: Int
     night: Boolean
     ozone: Float
     precipAccumulation: Float
@@ -28,7 +26,7 @@ type HourlyForecastDataPoint implements IForecastDataPoint {
     cloudCover: Float
     dewPoint: Float
     humidity: Float
-    icon: String
+    icon: Int
     night: Boolean
     ozone: Float
     precipAccumulation: Float
@@ -49,7 +47,7 @@ type HoursForecastDataPoint implements IForecastDataPoint {
     cloudCover: Float
     dewPoint: Float
     humidity: Float
-    icon: String
+    icon: Int
     night: Boolean
     ozone: Float
     precipAccumulation: Float
@@ -77,7 +75,7 @@ type DailyForecastDataPoint implements IForecastDataPoint {
     cloudCover: Float
     dewPoint: Float
     humidity: Float
-    icon: String
+    icon: Int
     night: Boolean
     ozone: Float
     precipAccumulation: Float
@@ -105,24 +103,24 @@ type DailyForecastDataPoint implements IForecastDataPoint {
 }
 
 interface IForecastDataBlock {
-    icon: String!
+    icon: Int!
     night: Boolean
 }
 
 type HourlyForecastDataBlock implements IForecastDataBlock {
-    icon: String!
+    icon: Int!
     night: Boolean
     data: [HourlyForecastDataPoint]!
 }
 
 type HoursForecastDataBlock implements IForecastDataBlock {
-    icon: String!
+    icon: Int!
     night: Boolean
     data: [HoursForecastDataPoint]!
 }
 
 type DailyForecastDataBlock implements IForecastDataBlock {
-    icon: String!
+    icon: Int!
     night: Boolean
     data: [DailyForecastDataPoint]!
 }
@@ -138,7 +136,14 @@ type ForecastReport {
     daily: DailyForecastDataBlock
 }
 
+input InputTimezoneGeoPoint {
+    longitude: Float!
+    latitude: Float!
+    timezone: String!
+}
+
 extend type Query {
-  weather_forecastReport(longitude: Float!, latitude: Float!, timezone: String!): ForecastReport
+  weather_forecastReport(place: InputTimezoneGeoPoint!): ForecastReport
+  weather_datePlacesForecast(places: [InputTimezoneGeoPoint]!, date: Int!): [DailyForecastDataPoint]
 }
 `;

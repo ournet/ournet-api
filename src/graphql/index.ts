@@ -10,7 +10,7 @@ scalar JSON
 type Query {
     holidays(country: String!, lang: String!, start: Int, end: Int): JSON
 }
-# type Mutation {}
+#type Mutation {}
 `
 
 const rootResolvers = {

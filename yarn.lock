@@ -45,6 +45,17 @@
     suncalc "^1.8.0"
     xml2js "^0.4.19"
 
+"@ournet/weather-domain@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@ournet/weather-domain/-/weather-domain-0.1.4.tgz#8bddffc7c387fa62fec4de8afefe59d9ed1a5b1b"
+  dependencies:
+    "@ournet/domain" "^0.1.4"
+    luxon "^0.3.1"
+    metno-symbols "^0.1.1"
+    node-fetch "^1.7.3"
+    suncalc "^1.8.0"
+    xml2js "^0.4.19"
+
 "@types/body-parser@*":
   version "1.16.8"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.16.8.tgz#687ec34140624a3bec2b1a8ea9268478ae8f3be3"
@@ -975,6 +986,10 @@ merge-descriptors@1.0.1:
 methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
+
+metno-symbols@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/metno-symbols/-/metno-symbols-0.1.1.tgz#8dee2d38fee58fa06ea90d6d07b0760a9c2b31fe"
 
 mime-db@~1.30.0:
   version "1.30.0"

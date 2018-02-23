@@ -5,11 +5,11 @@ import { Data } from '../../data';
 
 export default {
     Query: {
-        weather_forecastReport: (_: any, args: TimezoneGeoPoint) => {
-            return Data.weather.getReport(args)
-        }
-    },
-    Mutation: {
-
+        weather_forecastReport: (_: any, args: { place: TimezoneGeoPoint }) => {
+            return Data.weather.getReport(args.place)
+        },
+        weather_datePlacesForecast: (_: any, args: { places: TimezoneGeoPoint[], date: number }) => {
+            return Data.weather.datePlacesForecast(args.places, args.date)
+        },
     },
 }

@@ -44,9 +44,6 @@ export default {
             return Data.places.access.getOldPlaceId(args.id);
         }
     },
-    Mutation: {
-
-    },
 
     Place: {
         admin1: (place: IPlace) => {
