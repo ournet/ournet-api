@@ -10,7 +10,9 @@ scalar JSON
 type Query {
     holidays(country: String!, lang: String!, start: Int, end: Int): JSON
 }
-#type Mutation {}
+type Mutation {
+    add(n1: Int!, n2:Int!): Int
+}
 `
 
 const rootResolvers = {
@@ -25,6 +27,9 @@ const rootResolvers = {
 
             return Data.holidays(args)
         }
+    },
+    Mutation: {
+        add: (_: any, { n1, n2 }: { n1: number, n2: number }) => n1 + n2
     }
 }
 
@@ -34,5 +39,5 @@ export const resolvers = {
     Query: { ...rootResolvers.Query, ...weather.resolvers.Query, ...places.resolvers.Query },
     Place: places.resolvers.Place,
     JSON: GraphQLJsonType,
-    // Mutation: { ...{}, ...weather.resolvers.Mutation },
+    Mutation: { ...rootResolvers.Mutation },
 };
