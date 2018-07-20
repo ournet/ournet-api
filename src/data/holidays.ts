@@ -1,10 +1,10 @@
 
 const debug = require('debug')('ournet-api');
-const holidays = require('public-holidays');
+import { getHolidays } from 'public-holidays';
 const ms = require('ms');
 import * as LRU from 'lru-cache';
 
-const CACHE = new LRU<string, any>({
+const CACHE = new LRU<string, PublicHoliday[]>({
     max: 10,
     maxAge: ms('3h'),
 });
@@ -19,26 +19,20 @@ export default function (params: { country: string, lang: string, start?: number
         return Promise.resolve(cacheResult);
     }
 
-    return new Promise((resolve, reject) => {
-        holidays(params, (error: any, result: any) => {
-            if (error) {
-                return reject(error);
-            }
-
-            const data: { [key: string]: any } = {};
-            if (result) {
-                result.forEach((item: any) => {
-                    const key = item.start.toISOString().substr(0, 10);
-                    data[key] = data[key] || [];
-                    data[key].push(item);
-                });
-            }
-
-            debug(`holidays set to cache: ${key}`);
-
-            CACHE.set(key, data);
-
-            resolve(data);
-        })
+    return getHolidays({
+        country: params.country,
+        lang: params.lang,
+        start: params.start && new Date(params.start * 1000),
+        end: params.end && new Date(params.end * 1000),
+        timeout: 2 * 1000,
+    }).then(data => {
+        const holidays = (data || []).map(item => ({ name: item.name, date: Math.floor(item.date.getTime() / 1000) }))
+        CACHE.set(key, holidays);
+        return holidays;
     });
+}
+
+export type PublicHoliday = {
+    date: number
+    name: string
 }
