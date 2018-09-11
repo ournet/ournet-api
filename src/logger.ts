@@ -1,10 +1,27 @@
 
-export const logger = require('ournet.logger');
+import { createLogger, format, transports } from 'winston';
 
-if (process.env.NODE_ENV === 'production') {
-	logger.loggly({
-		tags: ['ournet-api'],
-		json: true
-	});
-	logger.removeConsole();
+const isProduction = process.env.NODE_ENV === 'production';
+
+const logglyLogger = createLogger({
+    level: isProduction ? 'warn' : 'info',
+    format: format.json(),
+});
+
+if (!isProduction) {
+    logglyLogger.add(new transports.Console({
+        format: format.simple()
+    }));
+}
+
+export const logger = {
+    info(message: string, ...meta: any[]) {
+        logglyLogger.info(message, meta);
+    },
+    warn(message: string, ...meta: any[]) {
+        logglyLogger.warn(message, meta);
+    },
+    error(message: string, ...meta: any[]) {
+        logglyLogger.error(message, meta);
+    },
 }

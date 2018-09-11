@@ -2,7 +2,7 @@
 import weather from './weather';
 import places from './places';
 import holidays from './holidays';
-const GraphQLJsonType = require('graphql-type-json');
+// const GraphQLJsonType = require('graphql-type-json');
 
 const rootTypes = `
 scalar JSON
@@ -29,6 +29,5 @@ export const typedefs = [rootTypes, holidays.typedefs, weather.typedefs, places.
 export const resolvers = {
     Query: { ...rootResolvers.Query, ...holidays.resolvers.Query, ...weather.resolvers.Query, ...places.resolvers.Query },
     Place: places.resolvers.Place,
-    JSON: GraphQLJsonType,
     Mutation: { ...rootResolvers.Mutation },
 };

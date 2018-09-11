@@ -1,52 +1,41 @@
 
-import { Data } from '../../data';
-import { IPlace } from '@ournet/places-domain';
+import { Place, PlaceSearchData, PlaceAdminData, PlacesAdminData, CountryPlacesData } from '@ournet/places-domain';
+import { Context } from '../../context';
 
 export default {
     Query: {
-        places_placeById: (_: any, args: { id: number }) => {
-            return Data.places.access.getById(args.id);
+        places_placeById: (_: any, args: { id: string }, context: Context) => {
+            return context.data.placeRep.getById(args.id);
         },
-        places_searchPlace: (_: any, args: { query: string, country: string, limit: number, searchType?: string }) => {
+        places_searchPlace: (_: any, args: PlaceSearchData, context: Context) => {
             if (!args.query || args.query.length < 2) {
                 return Promise.reject(new Error(`'query' must be greater than 2`));
             }
-            return Data.places.access.search({
-                query: args.query,
-                country: args.country,
-                limit: args.limit,
-                type: args.searchType,
-            })
-                .then(items => items.map(place => place.id))
-                .then(ids => {
-                    if (ids && ids.length) {
-                        return Data.places.access.getByIds(ids);
-                    }
-                    return [];
-                });
+
+            return context.data.placeRep.search(args);
         },
-        places_placesByIds: (_: any, args: { ids: number[] }) => {
-            return Data.places.access.getByIds(args.ids);
+        places_placesByIds: (_: any, args: { ids: string[] }, context: Context) => {
+            return context.data.placeRep.getByIds(args.ids);
         },
-        places_placesByAdmin1Code: (_: any, args: { country: string, admin1Code: string, limit: number }) => {
-            return Data.places.access.getPlacesInAdmin1(args);
+        places_placesByAdmin1Code: (_: any, args: PlacesAdminData, context: Context) => {
+            return context.data.placeRep.getPlacesInAdmin1(args);
         },
-        places_mainPlaces: (_: any, args: { country: string, limit: number }) => {
-            return Data.places.access.getMainPlaces(args);
+        places_mainPlaces: (_: any, args: CountryPlacesData, context: Context) => {
+            return context.data.placeRep.getMainPlaces(args);
         },
-        places_admin1s: (_: any, args: { country: string, limit: number }) => {
-            return Data.places.access.getAdmin1s(args);
+        places_admin1s: (_: any, args: CountryPlacesData, context: Context) => {
+            return context.data.placeRep.getAdmin1s(args);
         },
-        places_admin1: (_: any, args: { admin1Code: string, country: string }) => {
-            return Data.places.access.getAdmin1(args);
+        places_admin1: (_: any, args: PlaceAdminData, context: Context) => {
+            return context.data.placeRep.getAdmin1(args);
         },
-        places_placeOldId: (_: any, args: { id: number }) => {
-            return Data.places.access.getOldPlaceId(args.id);
+        places_placeOldId: (_: any, args: { id: number }, context: Context) => {
+            return context.data.placeRep.getOldPlaceId(args.id);
         }
     },
 
     Place: {
-        admin1: (place: IPlace) => {
+        admin1: (place: Place, context: Context) => {
             if (place.admin1 === null) {
                 return undefined;
             }
@@ -57,7 +46,7 @@ export default {
                 return place;
             }
             if (place.admin1Code && place.countryCode && place.featureClass !== 'A') {
-                return Data.places.access.getAdmin1({ country: place.countryCode, admin1Code: place.admin1Code });
+                return context.data.placeRep.getAdmin1({ country: place.countryCode, admin1Code: place.admin1Code });
             }
         }
     }

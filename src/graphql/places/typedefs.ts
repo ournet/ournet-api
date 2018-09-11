@@ -2,7 +2,7 @@
 export default `
 
 type Place {
-    id: Int!
+    id: String!
     name: String!
     asciiname: String
     names: String
@@ -27,9 +27,9 @@ type PlaceOldId {
 }
 
 extend type Query {
-    places_placeById (id: Int!): Place
+    places_placeById (id: String!): Place
     places_searchPlace (query: String!, country: String!, limit: Int!, searchType: String): [Place]
-    places_placesByIds(ids: [Int]!): [Place]
+    places_placesByIds(ids: [String]!): [Place]
     places_placesByAdmin1Code(country: String!, admin1Code: String!, limit: Int!): [Place]
     places_mainPlaces(country: String!, limit: Int!): [Place]
     places_admin1s(country: String!, limit: Int!): [Place]
