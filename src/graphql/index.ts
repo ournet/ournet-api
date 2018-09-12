@@ -4,6 +4,7 @@ import places from './places';
 import holidays from './holidays';
 import news from './news';
 import topics from './topics';
+import quotes from './quotes';
 
 const GraphQLJsonType = require('graphql-type-json');
 
@@ -34,6 +35,7 @@ export const typedefs = [
     places.typedefs,
     news.typedefs,
     topics.typedefs,
+    quotes.typedefs,
 ].join('\n');
 
 export const resolvers = {
@@ -44,6 +46,7 @@ export const resolvers = {
         ...places.resolvers.Query,
         ...news.resolvers.Query,
         ...topics.resolvers.Query,
+        ...quotes.resolvers.Query,
     },
     Place: places.resolvers.Place,
     Mutation: { ...rootResolvers.Mutation },
