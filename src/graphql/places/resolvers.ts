@@ -29,9 +29,12 @@ export default {
         places_admin1: (_: any, args: PlaceAdminData, context: Context) => {
             return context.data.placeRep.getAdmin1(args);
         },
-        places_placeOldId: (_: any, args: { id: number }, context: Context) => {
-            return context.data.placeRep.getOldPlaceId(args.id);
-        }
+        places_placeOldId: async (_: any, args: { id: number }, context: Context) => {
+            const oldId = await context.data.placeRep.getOldPlaceId(args.id);
+            if (oldId) {
+                return oldId.geoanmeid;
+            }
+        },
     },
 
     Place: {

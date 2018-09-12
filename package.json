@@ -7,7 +7,6 @@
   "scripts": {
     "start": "node ./lib/app.js",
     "dev": "npm run tsc && node ./lib/app.js",
-    "build": "gulp prod && npm run tsc",
     "pretest": "npm run clean && npm run tsc",
     "test": "ava --no-cache --verbose  ./lib/*.test.js ./lib/**/*.test.js",
     "posttest": "npm run clean-test-code",
