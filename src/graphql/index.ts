@@ -3,6 +3,8 @@ import weather from './weather';
 import places from './places';
 import holidays from './holidays';
 import news from './news';
+import topics from './topics';
+
 const GraphQLJsonType = require('graphql-type-json');
 
 const rootTypes = `
@@ -31,6 +33,7 @@ export const typedefs = [
     weather.typedefs,
     places.typedefs,
     news.typedefs,
+    topics.typedefs,
 ].join('\n');
 
 export const resolvers = {
@@ -40,6 +43,7 @@ export const resolvers = {
         ...weather.resolvers.Query,
         ...places.resolvers.Query,
         ...news.resolvers.Query,
+        ...topics.resolvers.Query,
     },
     Place: places.resolvers.Place,
     Mutation: { ...rootResolvers.Mutation },
