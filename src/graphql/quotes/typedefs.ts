@@ -19,8 +19,8 @@ type QuoteTopic {
     name: String!
     slug: String!
     abbr: String
-    type: QuoteTopicType
-    rel: QuoteTopicRelation
+    type: String
+    rel: String
 }
 
 type Quote {

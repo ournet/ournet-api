@@ -37,7 +37,7 @@ type NewsTopic {
     name: String!
     slug: String!
     abbr: String
-    type: NewsTopicType
+    type: String
 }
 
 enum NewsTopicType {
@@ -76,7 +76,7 @@ type NewsEvent {
 	quotesIds: [String]
 	videosIds: [String]
 
-	status: NewsEventStatus
+	status: String
 
 	createdAt: String!
 	updatedAt: String
@@ -114,9 +114,9 @@ enum ArticleContentFormat {
 type ArticleContent {
     id: String!
     refId: String!
-    refType: ArticleContentRefType!
+    refType: String!
     content: String!
-    format: ArticleContentFormat!
+    format: String!
     formatVersion: Int
     topicsMap: JSON
     expiresAt: Int!
@@ -131,7 +131,7 @@ enum ArticleContentRefType {
 
 type ArticleContentRef {
     refId: String!
-    refType: ArticleContentRefType!
+    refType: String!
 }
 
 type NewsTopItem {

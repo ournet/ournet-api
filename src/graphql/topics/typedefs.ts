@@ -20,7 +20,7 @@ type Topic {
     commonName: String
     englishName: String
     abbr: String
-    type: TopicType
+    type: String
 
     description: String
     about: String
