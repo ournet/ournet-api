@@ -4,20 +4,20 @@ export default `
 type Place {
     id: String!
     name: String!
-    asciiname: String
+    asciiname: String!
     names: String
     latitude: Float!
     longitude: Float!
-    featureClass: String
+    featureClass: String!
     featureCode: String
-    countryCode: String
-    admin1Code: String
+    countryCode: String!
+    admin1Code: String!
     admin2Code: String
     admin3Code: String
     population: Int
     elevation: Int
     dem: Int
-    timezone: String
+    timezone: String!
     admin1: Place
 }
 

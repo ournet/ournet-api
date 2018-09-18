@@ -5,7 +5,7 @@ interface IForecastDataPoint {
     cloudCover: Float
     dewPoint: Float
     humidity: Float
-    icon: Int
+    icon: Int!
     night: Boolean
     ozone: Float
     precipAccumulation: Float
@@ -13,7 +13,7 @@ interface IForecastDataPoint {
     precipProbability: Float
     precipType: String
     pressure: Float
-    temperature: Float
+    temperature: Float!
     time: Int!
     uvIndex: Float
     visibility: Float
@@ -26,7 +26,7 @@ type HourlyForecastDataPoint implements IForecastDataPoint {
     cloudCover: Float
     dewPoint: Float
     humidity: Float
-    icon: Int
+    icon: Int!
     night: Boolean
     ozone: Float
     precipAccumulation: Float
@@ -34,7 +34,7 @@ type HourlyForecastDataPoint implements IForecastDataPoint {
     precipProbability: Float
     precipType: String
     pressure: Float
-    temperature: Float
+    temperature: Float!
     time: Int!
     uvIndex: Float
     visibility: Float
@@ -47,7 +47,7 @@ type HoursForecastDataPoint implements IForecastDataPoint {
     cloudCover: Float
     dewPoint: Float
     humidity: Float
-    icon: Int
+    icon: Int!
     night: Boolean
     ozone: Float
     precipAccumulation: Float
@@ -55,7 +55,7 @@ type HoursForecastDataPoint implements IForecastDataPoint {
     precipProbability: Float
     precipType: String
     pressure: Float
-    temperature: Float
+    temperature: Float!
     time: Int!
     uvIndex: Float
     visibility: Float
@@ -75,7 +75,7 @@ type DailyForecastDataPoint implements IForecastDataPoint {
     cloudCover: Float
     dewPoint: Float
     humidity: Float
-    icon: Int
+    icon: Int!
     night: Boolean
     ozone: Float
     precipAccumulation: Float
@@ -83,7 +83,7 @@ type DailyForecastDataPoint implements IForecastDataPoint {
     precipProbability: Float
     precipType: String
     pressure: Float
-    temperature: Float
+    temperature: Float!
     time: Int!
     uvIndex: Float
     visibility: Float
