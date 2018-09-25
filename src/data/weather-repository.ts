@@ -11,10 +11,11 @@ import {
 } from "@ournet/weather-domain";
 import * as LRU from 'lru-cache';
 import ms = require('ms');
+import { mapPromise } from "@ournet/domain";
 
 export interface WeatherRepository {
     getReport(params: TimezoneGeoPoint): Promise<ForecastReport>
-    datePlacesForecast(places: TimezoneGeoPoint[], date: string): Promise<DailyDataPoint[]>
+    datePlacesForecast(places: TimezoneGeoPoint[], date: string): Promise<(DailyDataPoint | null)[]>
     nowPlaceForecast(place: TimezoneGeoPoint): Promise<HourlyDataPoint | null>
 }
 
@@ -46,13 +47,20 @@ export class CacheWeatherRepository {
         return repResult;
     }
 
-    datePlacesForecast(places: TimezoneGeoPoint[], date: string) {
+    async datePlacesForecast(places: TimezoneGeoPoint[], date: string) {
         if (date.length !== 10) {
-            return Promise.reject(new Error(`Invalid 'date' param`))
+            throw new Error(`Invalid 'date' param`);
         }
-        return Promise.all(places.map(place => this.getReport(place)))
-            .then(results => results.map(report => findDayDataPoint(report, date)))
-            .then(items => items.filter(item => !!item) as DailyDataPoint[]);
+
+        const results = await mapPromise(places, place => this.getReport(place).then(report => findDayDataPoint(report, date)));
+
+        const list: (DailyDataPoint | null)[] = []
+
+        for (const place of places) {
+            list.push(results.get(place) || null);
+        }
+
+        return list;
     }
 
     nowPlaceForecast(place: TimezoneGeoPoint) {
@@ -61,11 +69,14 @@ export class CacheWeatherRepository {
 }
 
 function findDayDataPoint(report: ForecastReport, stringDate: string) {
+    if (!report || !report.daily) {
+        return null;
+    }
     const utcDate = Date.UTC(parseInt(stringDate.substr(0, 4)), parseInt(stringDate.substr(5, 2)) - 1, parseInt(stringDate.substr(8, 2)), 0, 0, 0)
     const tzDate = ForecastHelper.dateToZoneDate(new Date(utcDate), report.timezone)
 
-    return report && report.daily && report.daily.data
-        && report.daily.data.find(item => ForecastHelper.dateToZoneDate(new Date(item.time * 1000), report.timezone) >= tzDate)
+    return report.daily.data && report.daily.data
+        .find(item => ForecastHelper.dateToZoneDate(new Date(item.time * 1000), report.timezone) >= tzDate)
         || null;
 }
 
