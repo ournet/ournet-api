@@ -14,7 +14,7 @@ import ms = require('ms');
 
 export interface WeatherRepository {
     getReport(params: TimezoneGeoPoint): Promise<ForecastReport>
-    datePlacesForecast(places: TimezoneGeoPoint[], date: number): Promise<DailyDataPoint[]>
+    datePlacesForecast(places: TimezoneGeoPoint[], date: string): Promise<DailyDataPoint[]>
     nowPlaceForecast(place: TimezoneGeoPoint): Promise<HourlyDataPoint | null>
 }
 
@@ -46,13 +46,12 @@ export class CacheWeatherRepository {
         return repResult;
     }
 
-    datePlacesForecast(places: TimezoneGeoPoint[], date: number) {
-        const stringDate = date.toString();
-        if (stringDate.length !== 8) {
+    datePlacesForecast(places: TimezoneGeoPoint[], date: string) {
+        if (date.length !== 10) {
             return Promise.reject(new Error(`Invalid 'date' param`))
         }
         return Promise.all(places.map(place => this.getReport(place)))
-            .then(results => results.map(report => findDayDataPoint(report, stringDate)))
+            .then(results => results.map(report => findDayDataPoint(report, date)))
             .then(items => items.filter(item => !!item) as DailyDataPoint[]);
     }
 
@@ -62,13 +61,12 @@ export class CacheWeatherRepository {
 }
 
 function findDayDataPoint(report: ForecastReport, stringDate: string) {
-    const utcDate = Date.UTC(parseInt(stringDate.substr(0, 4)), parseInt(stringDate.substr(4, 2)) - 1, parseInt(stringDate.substr(6, 2)), 0, 0, 0)
+    const utcDate = Date.UTC(parseInt(stringDate.substr(0, 4)), parseInt(stringDate.substr(5, 2)) - 1, parseInt(stringDate.substr(8, 2)), 0, 0, 0)
     const tzDate = ForecastHelper.dateToZoneDate(new Date(utcDate), report.timezone)
 
     return report && report.daily && report.daily.data
         && report.daily.data.find(item => ForecastHelper.dateToZoneDate(new Date(item.time * 1000), report.timezone) >= tzDate)
         || null;
-
 }
 
 function findHourDataPoint(report: ForecastReport) {
