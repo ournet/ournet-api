@@ -28,7 +28,7 @@ type PlaceOldId {
 
 extend type Query {
     places_placeById (id: String!): Place
-    places_searchPlace (query: String!, country: String!, limit: Int!, searchType: String): [Place]
+    places_searchPlace (query: String!, country: String!, limit: Int!, type: String): [Place]
     places_placesByIds(ids: [String]!): [Place]
     places_placesByAdmin1Code(country: String!, admin1Code: String!, limit: Int!): [Place]
     places_mainPlaces(country: String!, limit: Int!): [Place]
