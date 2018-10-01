@@ -30,10 +30,7 @@ export default {
             return context.data.placeRep.getAdmin1(args);
         },
         places_placeOldId: async (_: any, args: { id: number }, context: Context) => {
-            const oldId = await context.data.placeRep.getOldPlaceId(args.id);
-            if (oldId) {
-                return oldId.geoanmeid;
-            }
+            return context.data.placeRep.getOldPlaceId(args.id);
         },
     },
 

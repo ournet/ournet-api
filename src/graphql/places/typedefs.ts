@@ -34,6 +34,6 @@ extend type Query {
     places_mainPlaces(country: String!, limit: Int!): [Place]
     places_admin1s(country: String!, limit: Int!): [Place]
     places_admin1(admin1Code: String!, country: String!): Place
-    places_placeOldId(int: Int!): Int
+    places_placeOldId(id: Int!): PlaceOldId
 }
 `;
