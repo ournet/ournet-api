@@ -17,7 +17,7 @@ interface IForecastDataPoint {
     time: Int!
     uvIndex: Float
     visibility: Float
-    windBearing: Float
+    windDir: String
     windGust: Float
     windSpeed: Float
 }
@@ -38,7 +38,7 @@ type HourlyForecastDataPoint implements IForecastDataPoint {
     time: Int!
     uvIndex: Float
     visibility: Float
-    windBearing: Float
+    windDir: String
     windGust: Float
     windSpeed: Float
 }
@@ -59,7 +59,7 @@ type HoursForecastDataPoint implements IForecastDataPoint {
     time: Int!
     uvIndex: Float
     visibility: Float
-    windBearing: Float
+    windDir: String
     windGust: Float
     windSpeed: Float
 
@@ -87,7 +87,7 @@ type DailyForecastDataPoint implements IForecastDataPoint {
     time: Int!
     uvIndex: Float
     visibility: Float
-    windBearing: Float
+    windDir: String
     windGust: Float
     windSpeed: Float
 
