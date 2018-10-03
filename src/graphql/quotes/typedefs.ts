@@ -109,7 +109,7 @@ input CountQuotesByAuthorQueryParams {
 
 extend type Query {
     quotes_quoteById(id: String!): Quote
-    quotes_quotesByIds(ids: String!): [Quote]!
+    quotes_quotesByIds(ids: [String!]!): [Quote]!
     quotes_latest(params: LatestQuotesQueryParams): [Quote]!
     quotes_latestByTopic(params: LatestQuotesByTopicQueryParams): [Quote]!
     quotes_latestByAuthor(params: LatestQuotesByAuthorQueryParams): [Quote]!
