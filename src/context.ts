@@ -9,7 +9,7 @@ export class Context {
         this.data = new DbDataService({
             newsESHost: config.NEWS_ES_HOST,
             placesESHost: config.PLACES_ES_HOST,
-            topicsDb: connection.topicsMongoClient.db(),
+            mongoDb: connection.mongoClient.db(),
         });
     }
 
@@ -19,7 +19,7 @@ export class Context {
 
     static async create() {
         const config = getConfigFromEnv();
-        const connection = await DbDataConnection.create(config.TOPICS_DB_CONNECTION);
+        const connection = await DbDataConnection.create(config.MONGO_DB_CONNECTION);
         const context = new Context(connection, config);
 
         await context.data.init();

@@ -1,6 +1,6 @@
 
 export interface Config {
-    readonly TOPICS_DB_CONNECTION: string
+    readonly MONGO_DB_CONNECTION: string
 
     readonly NEWS_ES_HOST: string
 
@@ -13,7 +13,7 @@ export interface Config {
 
 export function getConfigFromEnv(): Config {
     const config: Config = {
-        TOPICS_DB_CONNECTION: process.env.TOPICS_DB_CONNECTION || '',
+        MONGO_DB_CONNECTION: process.env.MONGO_DB_CONNECTION || '',
         NEWS_ES_HOST: process.env.NEWS_ES_HOST || '',
         AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || '',
         AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || '',
@@ -27,8 +27,8 @@ export function getConfigFromEnv(): Config {
 }
 
 function validateConfig(config: Config) {
-    if (!config.TOPICS_DB_CONNECTION) {
-        throw new Error('TOPICS_DB_CONNECTION is required!');
+    if (!config.MONGO_DB_CONNECTION) {
+        throw new Error('MONGO_DB_CONNECTION is required!');
     }
     if (!config.NEWS_ES_HOST) {
         throw new Error('NEWS_ES_HOST is required!');

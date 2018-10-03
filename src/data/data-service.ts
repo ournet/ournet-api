@@ -18,6 +18,8 @@ import { PlaceRepositoryBuilder } from '@ournet/places-data';
 import { CachePlaceRepository } from './cache-place-repository';
 import { HolidayRepository, CacheHolidayRepository } from './holiday-repository';
 import { WeatherRepository, CacheWeatherRepository } from './weather-repository';
+import { HoroscopeReportRepository, HoroscopePhraseRepository, CacheHoroscopeReportRepository } from './horoscope-repository';
+import { PhraseRepositoryBuilder, ReportRepositoryBuilder } from '@ournet/horoscopes-data';
 
 export interface DataService {
     readonly topicRep: TopicRepository
@@ -29,12 +31,14 @@ export interface DataService {
     readonly weatherRep: WeatherRepository
     readonly placeRep: PlaceRepository
     readonly holidayRep: HolidayRepository
+    readonly horoReportRep: HoroscopeReportRepository
+    readonly horoPhraseRep: HoroscopePhraseRepository
 
     init(): Promise<void>
 }
 
 export type DataServiceParams = {
-    topicsDb: Db
+    mongoDb: Db
     newsESHost: string
     placesESHost: string
 }
@@ -49,11 +53,16 @@ export class DbDataService implements DataService {
     readonly weatherRep: WeatherRepository
     readonly placeRep: PlaceRepository
     readonly holidayRep: HolidayRepository
+    readonly horoReportRep: HoroscopeReportRepository
+    readonly horoPhraseRep: HoroscopePhraseRepository
+
     private weatherReportRep: ReportRepository
 
     constructor(params: DataServiceParams, dynamoOptions?: ServiceConfigurationOptions) {
         const dynamoClient = new DynamoDB.DocumentClient(dynamoOptions);
-        this.topicRep = TopicRepositoryBuilder.build(params.topicsDb);
+        this.topicRep = TopicRepositoryBuilder.build(params.mongoDb);
+        this.horoPhraseRep = PhraseRepositoryBuilder.build(params.mongoDb);
+        this.horoReportRep = new CacheHoroscopeReportRepository(ReportRepositoryBuilder.build(params.mongoDb));
         this.newsRep = NewsRepositoryBuilder.build(dynamoClient, params.newsESHost);
         this.eventRep = EventRepositoryBuilder.build(dynamoClient);
         this.articleContentRep = ArticleContentRepositoryBuilder.build(dynamoClient);
@@ -76,5 +85,7 @@ export class DbDataService implements DataService {
         await this.quoteRep.createStorage();
         await this.topicRep.createStorage();
         await this.weatherReportRep.createStorage();
+        await this.horoPhraseRep.createStorage();
+        await this.horoReportRep.createStorage();
     }
 }

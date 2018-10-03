@@ -2,14 +2,14 @@
 import { MongoClient } from 'mongodb';
 
 export interface DataConnection {
-    readonly topicsMongoClient: MongoClient
+    readonly mongoClient: MongoClient
     close(): Promise<void>
 }
 
 export class DbDataConnection implements DataConnection {
-    constructor(readonly topicsMongoClient: MongoClient) {
-        if (!topicsMongoClient.isConnected()) {
-            throw new Error(`topicsMongoClient must be connected!`);
+    constructor(readonly mongoClient: MongoClient) {
+        if (!mongoClient.isConnected()) {
+            throw new Error(`mongoClient must be connected!`);
         }
     }
 
@@ -19,6 +19,6 @@ export class DbDataConnection implements DataConnection {
     }
 
     close() {
-        return this.topicsMongoClient.close();
+        return this.mongoClient.close();
     }
 }

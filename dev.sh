@@ -14,6 +14,8 @@ yarn remove @ournet/weather-domain
 yarn remove @ournet/weather-data
 yarn remove @ournet/places-domain
 yarn remove @ournet/places-data
+yarn remove @ournet/horoscopes-domain
+yarn remove @ournet/horoscopes-data
 
 yarn link @ournet/domain
 yarn link news-sources
@@ -29,5 +31,7 @@ yarn link @ournet/weather-domain
 yarn link @ournet/weather-data
 yarn link @ournet/places-domain
 yarn link @ournet/places-data
+yarn link @ournet/horoscopes-domain
+yarn link @ournet/horoscopes-data
 
 yarn test
