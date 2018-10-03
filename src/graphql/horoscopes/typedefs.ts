@@ -26,7 +26,7 @@ type HoroscopeReport {
 input HoroscopeRandomPhrasesQueryParams {
     lang: String!
     limit: Int!
-    sign: String!
+    sign: Int!
     period: String!
 }
 
