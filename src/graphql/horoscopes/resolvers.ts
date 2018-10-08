@@ -7,7 +7,6 @@ export default {
         horoscopes_reportById: (_: any, args: { id: string }, context: Context) => {
             return context.data.horoReportRep.getById(args.id);
         },
-
         horoscopes_reportsByIds: (_: any, args: { ids: string[] }, context: Context) => {
             return context.data.horoReportRep.getByIds(args.ids);
         },

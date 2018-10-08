@@ -19,8 +19,16 @@ type HoroscopeReport {
     sign: Int!
     period: String!
     phrasesIds: [String!]!
+    numbers: [Int!]!
+    stats: HoroscopeReportStats!
     createdAt: String!
     expiresAt: Int!
+}
+
+type HoroscopeReportStats {
+    love: Int!
+    success: Int!
+    health: Int!
 }
 
 input HoroscopeRandomPhrasesQueryParams {
@@ -32,7 +40,7 @@ input HoroscopeRandomPhrasesQueryParams {
 
 extend type Query {
     horoscopes_reportById(id: String!): HoroscopeReport
-    horoscopes_reportsByIds(ids: [String!]!): [HoroscopeReport!]!
+    horoscopes_reportsByIds(ids: [String!]!): [HoroscopeReport]!
     horoscopes_randomPhrases(params: HoroscopeRandomPhrasesQueryParams): [HoroscopePhrase]!
     horoscopes_phraseById(id: String!): HoroscopePhrase
 }

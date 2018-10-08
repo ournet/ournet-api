@@ -33,6 +33,9 @@ export class CacheHoroscopeReportRepository implements HoroscopeReportRepository
     update(data: RepositoryUpdateData<Report>): Promise<Report> {
         return this.rep.update(data);
     }
+    getByTextHash(hash: string, options?: RepositoryAccessOptions<Report>) {
+        return this.rep.getByTextHash(hash, options);
+    }
     async getById(id: string, options?: RepositoryAccessOptions<Report>): Promise<Report | null> {
         const key = id;
         const cacheResult = REPORT_CACHE.get(key);
