@@ -39,7 +39,7 @@ input TopicWikiId  {
 
 extend type Query {
     topics_topicById(id: String!): Topic
-    topics_topicsByIds(ids: String!): [Topic]!
+    topics_topicsByIds(ids: [String]!): [Topic]!
     topics_topicsByWikiIds(wikiIds: [TopicWikiId]!): [Topic]!
 }
 `;
