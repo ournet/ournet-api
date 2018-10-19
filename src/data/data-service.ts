@@ -20,6 +20,7 @@ import { HolidayRepository, CacheHolidayRepository } from './holiday-repository'
 import { WeatherRepository, CacheWeatherRepository } from './weather-repository';
 import { HoroscopeReportRepository, HoroscopePhraseRepository, CacheHoroscopeReportRepository } from './horoscope-repository';
 import { PhraseRepositoryBuilder, ReportRepositoryBuilder } from '@ournet/horoscopes-data';
+import { CacheEventRepository } from './cache-event-repository';
 
 export interface DataService {
     readonly topicRep: TopicRepository
@@ -64,7 +65,7 @@ export class DbDataService implements DataService {
         this.horoPhraseRep = PhraseRepositoryBuilder.build(params.mongoDb);
         this.horoReportRep = new CacheHoroscopeReportRepository(ReportRepositoryBuilder.build(params.mongoDb));
         this.newsRep = NewsRepositoryBuilder.build(dynamoClient, params.newsESHost);
-        this.eventRep = EventRepositoryBuilder.build(dynamoClient);
+        this.eventRep = new CacheEventRepository(EventRepositoryBuilder.build(dynamoClient));
         this.articleContentRep = ArticleContentRepositoryBuilder.build(dynamoClient);
         this.imageRep = ImageRepositoryBuilder.build(dynamoClient);
         this.quoteRep = QuoteRepositoryBuilder.build(dynamoClient);

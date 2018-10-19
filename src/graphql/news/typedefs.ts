@@ -280,4 +280,8 @@ extend type Query {
     news_articleContentById (id: String!): ArticleContent
     news_articleContentsByIds (ids: [String]!): [ArticleContent]!
 }
+extend type Mutation {
+    news_viewNewsEvent(id: String!): Int!
+    news_viewNewsItem(id: String!): Int!
+}
 `;

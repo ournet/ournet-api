@@ -52,6 +52,9 @@ export const resolvers = {
         ...horoscopes.resolvers.Query,
     },
     Place: places.resolvers.Place,
-    Mutation: { ...rootResolvers.Mutation },
+    Mutation: {
+        ...rootResolvers.Mutation,
+        ...news.resolvers.Mutation,
+    },
     JSON: GraphQLJsonType,
 };

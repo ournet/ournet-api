@@ -17,6 +17,14 @@ import {
 } from '@ournet/news-domain';
 
 export default {
+    Mutation: {
+        news_viewNewsEvent: (_: any, args: { id: string }, context: Context) => {
+            return context.data.eventRep.viewNewsEvent(args.id);
+        },
+        news_viewNewsItem: (_: any, args: { id: string }, context: Context) => {
+            return context.data.newsRep.viewNewsItem(args.id);
+        },
+    },
     Query: {
         news_itemById: (_: any, args: { id: string }, context: Context) => {
             return context.data.newsRep.getById(args.id);
