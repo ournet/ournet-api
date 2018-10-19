@@ -6,7 +6,7 @@ const objectHash = require('object-hash');
 
 
 import { RepositoryAccessOptions, RepositoryUpdateData } from "@ournet/domain";
-import { EventRepository, NewsEvent, LatestEventsQueryParams, LatestEventsByTopicQueryParams, CountEventsQueryParams, CountEventsByTopicQueryParams, TrendingTopicsQueryParams, TopItem } from '@ournet/news-domain';
+import { EventRepository, NewsEvent, LatestEventsQueryParams, LatestEventsByTopicQueryParams, CountEventsQueryParams, CountEventsByTopicQueryParams, TrendingTopicsQueryParams, TopItem, SimilarEventsByTopicsQueryParams } from '@ournet/news-domain';
 
 const EVENT_ID_CACHE = new LRU<string, NewsEvent>({
     max: 100,
@@ -33,6 +33,11 @@ const TREND_TOPICS_CACHE = new LRU<string, TopItem[]>({
     maxAge: ms('5m'),
 });
 
+const SIMILAR_EVENTS_CACHE = new LRU<string, NewsEvent[]>({
+    max: 100,
+    maxAge: ms('20m'),
+});
+
 function cacheGetData<R>(rep: EventRepository, repName: keyof EventRepository, cache: LRU.Cache<string, R>, data: any, options?: any): Promise<R> {
     const key = repName + ':' + (['number', 'string'].indexOf(typeof data) > -1 ? data.toString() : objectHash(data));
     const cacheResult = cache.get(key);
@@ -43,7 +48,7 @@ function cacheGetData<R>(rep: EventRepository, repName: keyof EventRepository, c
 
     return (<any>rep)[repName](data, options)
         .then((repResult: R) => {
-            debug(`set data from cache: ${key}`);
+            debug(`set data to cache: ${key}`);
             cache.set(key, repResult);
             return repResult;
         });
@@ -96,5 +101,8 @@ export class CacheEventRepository implements EventRepository {
     }
     viewNewsEvent(id: string): Promise<number> {
         return this.rep.viewNewsEvent(id);
+    }
+    similarByTopics(params: SimilarEventsByTopicsQueryParams, options?: RepositoryAccessOptions<NewsEvent>) {
+        return cacheGetData<NewsEvent[]>(this.rep, 'similarByTopics', SIMILAR_EVENTS_CACHE, params, options);
     }
 }

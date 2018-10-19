@@ -14,6 +14,7 @@ import {
     LatestEventsByTopicQueryParams,
     CountEventsByTopicQueryParams,
     TrendingTopicsQueryParams,
+    SimilarEventsByTopicsQueryParams,
 } from '@ournet/news-domain';
 
 export default {
@@ -96,6 +97,10 @@ export default {
         },
         news_articleContentsByIds: (_: any, args: { ids: string[] }, context: Context) => {
             return context.data.articleContentRep.getByIds(args.ids);
+        },
+
+        news_similarEventsByTopics: (_: any, args: { params: SimilarEventsByTopicsQueryParams }, context: Context) => {
+            return context.data.eventRep.similarByTopics(args.params);
         },
     },
 }

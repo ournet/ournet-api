@@ -253,6 +253,16 @@ input CountEventsByTopicQueryParams {
     topicId: String!
 }
 
+input SimilarEventsByTopicsQueryParams {
+    lang: String!
+    country: String!
+    minDate: String
+    maxDate: String
+    limit: Int!
+    topicIds: [String]!
+    exceptId: String
+}
+
 extend type Query {
     news_itemById (id: String!): NewsItem
     news_itemsByIds (ids: [String]!): [NewsItem]!
@@ -276,6 +286,8 @@ extend type Query {
     news_eventsCountByTopic(params: CountEventsByTopicQueryParams): Int!
     news_topTopics(params: LatestEventsQueryParams): [NewsTopItem]!
     news_trendingTopics(params: TrendingTopicsQueryParams): [NewsTopItem]!
+
+    news_similarEventsByTopics(params: SimilarEventsByTopicsQueryParams): [NewsEvent]!
 
     news_articleContentById (id: String!): ArticleContent
     news_articleContentsByIds (ids: [String]!): [ArticleContent]!
