@@ -21,6 +21,8 @@ import { WeatherRepository, CacheWeatherRepository } from './weather-repository'
 import { HoroscopeReportRepository, HoroscopePhraseRepository, CacheHoroscopeReportRepository } from './horoscope-repository';
 import { PhraseRepositoryBuilder, ReportRepositoryBuilder } from '@ournet/horoscopes-data';
 import { CacheEventRepository } from './cache-event-repository';
+import { CacheTopicRepository } from './cache-topic-repository';
+import { CacheQuoteRepository } from './cache-quote-repository';
 
 export interface DataService {
     readonly topicRep: TopicRepository
@@ -61,14 +63,14 @@ export class DbDataService implements DataService {
 
     constructor(params: DataServiceParams, dynamoOptions?: ServiceConfigurationOptions) {
         const dynamoClient = new DynamoDB.DocumentClient(dynamoOptions);
-        this.topicRep = TopicRepositoryBuilder.build(params.mongoDb);
+        this.topicRep = new CacheTopicRepository(TopicRepositoryBuilder.build(params.mongoDb));
         this.horoPhraseRep = PhraseRepositoryBuilder.build(params.mongoDb);
         this.horoReportRep = new CacheHoroscopeReportRepository(ReportRepositoryBuilder.build(params.mongoDb));
         this.newsRep = NewsRepositoryBuilder.build(dynamoClient, params.newsESHost);
         this.eventRep = new CacheEventRepository(EventRepositoryBuilder.build(dynamoClient));
         this.articleContentRep = ArticleContentRepositoryBuilder.build(dynamoClient);
         this.imageRep = ImageRepositoryBuilder.build(dynamoClient);
-        this.quoteRep = QuoteRepositoryBuilder.build(dynamoClient);
+        this.quoteRep = new CacheQuoteRepository(QuoteRepositoryBuilder.build(dynamoClient));
         this.placeRep = new CachePlaceRepository(PlaceRepositoryBuilder.build(dynamoClient, params.placesESHost));
 
         this.weatherReportRep = ForecastReportRepositoryBuilder.build(dynamoClient);

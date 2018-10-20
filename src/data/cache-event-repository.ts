@@ -1,91 +1,64 @@
-const debug = require('debug')('ournet-api');
 
 import * as LRU from 'lru-cache';
 import ms = require('ms');
-const objectHash = require('object-hash');
-
-
-import { RepositoryAccessOptions, RepositoryUpdateData } from "@ournet/domain";
+import { RepositoryAccessOptions } from "@ournet/domain";
 import { EventRepository, NewsEvent, LatestEventsQueryParams, LatestEventsByTopicQueryParams, CountEventsQueryParams, CountEventsByTopicQueryParams, TrendingTopicsQueryParams, TopItem, SimilarEventsByTopicsQueryParams } from '@ournet/news-domain';
+import { CacheRepositoryStorage, CacheRepository } from './cache-repository';
 
-const EVENT_ID_CACHE = new LRU<string, NewsEvent>({
-    max: 100,
-    maxAge: ms('10m'),
-});
 
-const EVENT_IDS_CACHE = new LRU<string, NewsEvent[]>({
-    max: 100,
-    maxAge: ms('5m'),
-});
-
-const EVENT_LATEST_CACHE = new LRU<string, NewsEvent[]>({
-    max: 50,
-    maxAge: ms('5m'),
-});
-
-const EVENT_LATEST_TOPIC_CACHE = new LRU<string, NewsEvent[]>({
-    max: 50,
-    maxAge: ms('5m'),
-});
-
-const TREND_TOPICS_CACHE = new LRU<string, TopItem[]>({
-    max: 50,
-    maxAge: ms('5m'),
-});
-
-const SIMILAR_EVENTS_CACHE = new LRU<string, NewsEvent[]>({
-    max: 100,
-    maxAge: ms('20m'),
-});
-
-function cacheGetData<R>(rep: EventRepository, repName: keyof EventRepository, cache: LRU.Cache<string, R>, data: any, options?: any): Promise<R> {
-    const key = repName + ':' + (['number', 'string'].indexOf(typeof data) > -1 ? data.toString() : objectHash(data));
-    const cacheResult = cache.get(key);
-    if (cacheResult !== undefined) {
-        debug(`got data from cache: ${key}`);
-        return Promise.resolve(cacheResult);
-    }
-
-    return (<any>rep)[repName](data, options)
-        .then((repResult: R) => {
-            debug(`set data to cache: ${key}`);
-            cache.set(key, repResult);
-            return repResult;
-        });
+interface EventCacheRepositoryStorage extends CacheRepositoryStorage<NewsEvent> {
+    similarEvents: LRU.Cache<string, NewsEvent[]>
+    topTopics: LRU.Cache<string, TopItem[]>
+    trendTopics: LRU.Cache<string, TopItem[]>
+    latestEventsByTopic: LRU.Cache<string, NewsEvent[]>
+    latestEvents: LRU.Cache<string, NewsEvent[]>
 }
 
-export class CacheEventRepository implements EventRepository {
-    constructor(private rep: EventRepository) { }
+export class CacheEventRepository extends CacheRepository<NewsEvent, EventRepository, EventCacheRepositoryStorage> implements EventRepository {
+    constructor(rep: EventRepository) {
+        super(rep, {
+            getById: new LRU<string, NewsEvent>({
+                max: 100,
+                maxAge: ms('10m'),
+            }),
 
-    delete(id: string) {
-        return this.rep.delete(id);
+            getByIds: new LRU<string, NewsEvent[]>({
+                max: 100,
+                maxAge: ms('5m'),
+            }),
+
+            latestEvents: new LRU<string, NewsEvent[]>({
+                max: 50,
+                maxAge: ms('5m'),
+            }),
+
+            latestEventsByTopic: new LRU<string, NewsEvent[]>({
+                max: 50,
+                maxAge: ms('5m'),
+            }),
+
+            trendTopics: new LRU<string, TopItem[]>({
+                max: 50,
+                maxAge: ms('5m'),
+            }),
+
+            topTopics: new LRU<string, TopItem[]>({
+                max: 100,
+                maxAge: ms('5m'),
+            }),
+
+            similarEvents: new LRU<string, NewsEvent[]>({
+                max: 100,
+                maxAge: ms('20m'),
+            }),
+        });
     }
-    create(data: NewsEvent) {
-        return this.rep.create(data);
-    }
-    update(data: RepositoryUpdateData<NewsEvent>) {
-        return this.rep.update(data);
-    }
-    getById(id: string, options?: RepositoryAccessOptions<NewsEvent>) {
-        return cacheGetData<NewsEvent>(this.rep, 'getById', EVENT_ID_CACHE, id, options);
-    }
-    getByIds(ids: string[], options?: RepositoryAccessOptions<NewsEvent>) {
-        return cacheGetData<NewsEvent[]>(this.rep, 'getByIds', EVENT_IDS_CACHE, ids, options);
-    }
-    exists(id: string) {
-        return this.rep.exists(id);
-    }
-    deleteStorage() {
-        return this.rep.deleteStorage();
-    }
-    createStorage() {
-        return this.rep.createStorage();
-    }
+
     latest(params: LatestEventsQueryParams, options?: RepositoryAccessOptions<NewsEvent>) {
-        return cacheGetData<NewsEvent[]>(this.rep, 'latest', EVENT_LATEST_CACHE, params, options);
+        return this.getCacheData<NewsEvent[]>(this.rep, 'latest', this.storage.latestEvents, params, options);
     }
     latestByTopic(params: LatestEventsByTopicQueryParams, options?: RepositoryAccessOptions<NewsEvent>) {
-        return cacheGetData<NewsEvent[]>(this.rep, 'latestByTopic', EVENT_LATEST_TOPIC_CACHE, params, options);
+        return this.getCacheData<NewsEvent[]>(this.rep, 'latestByTopic', this.storage.latestEventsByTopic, params, options);
     }
     count(params: CountEventsQueryParams) {
         return this.rep.count(params);
@@ -94,15 +67,15 @@ export class CacheEventRepository implements EventRepository {
         return this.rep.countByTopic(params);
     }
     topTopics(params: LatestEventsQueryParams) {
-        return this.rep.topTopics(params);
+        return this.getCacheData<TopItem[]>(this.rep, 'topTopics', this.storage.topTopics, params);
     }
     trendingTopics(params: TrendingTopicsQueryParams) {
-        return cacheGetData<TopItem[]>(this.rep, 'trendingTopics', TREND_TOPICS_CACHE, params);
+        return this.getCacheData<TopItem[]>(this.rep, 'trendingTopics', this.storage.trendTopics, params);
     }
     viewNewsEvent(id: string): Promise<number> {
         return this.rep.viewNewsEvent(id);
     }
     similarByTopics(params: SimilarEventsByTopicsQueryParams, options?: RepositoryAccessOptions<NewsEvent>) {
-        return cacheGetData<NewsEvent[]>(this.rep, 'similarByTopics', SIMILAR_EVENTS_CACHE, params, options);
+        return this.getCacheData<NewsEvent[]>(this.rep, 'similarByTopics', this.storage.similarEvents, params, options);
     }
 }
