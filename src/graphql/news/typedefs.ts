@@ -74,7 +74,8 @@ type NewsEvent {
 	items: [NewsEventItem]!
 
 	quotesIds: [String]
-	videosIds: [String]
+    videosIds: [String]
+    imagesIds: [String]
 
 	status: String
 
