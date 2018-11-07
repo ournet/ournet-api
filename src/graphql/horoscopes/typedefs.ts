@@ -31,17 +31,15 @@ type HoroscopeReportStats {
     health: Int!
 }
 
-input HoroscopeRandomPhrasesQueryParams {
+input HoroscopeGenerateReportsParams {
     lang: String!
-    limit: Int!
-    sign: Int!
     period: String!
 }
 
 extend type Query {
     horoscopes_reportById(id: String!): HoroscopeReport
     horoscopes_reportsByIds(ids: [String!]!): [HoroscopeReport]!
-    horoscopes_randomPhrases(params: HoroscopeRandomPhrasesQueryParams): [HoroscopePhrase]!
     horoscopes_phraseById(id: String!): HoroscopePhrase
+    horoscopes_generateReports(params: HoroscopeGenerateReportsParams!): [HoroscopeReport]!
 }
 `;

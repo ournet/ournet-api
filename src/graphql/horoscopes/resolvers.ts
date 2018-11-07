@@ -1,6 +1,6 @@
 
 import { Context } from '../../context';
-import { RandomPhrasesQueryParams } from '@ournet/horoscopes-domain';
+import { GenerateReportUseCase, HoroscopeSign, Report } from '@ournet/horoscopes-domain';
 
 export default {
     Query: {
@@ -13,8 +13,15 @@ export default {
         horoscopes_phraseById: (_: any, args: { id: string }, context: Context) => {
             return context.data.horoPhraseRep.getById(args.id);
         },
-        horoscopes_randomPhrases: (_: any, args: { params: RandomPhrasesQueryParams }, context: Context) => {
-            return context.data.horoPhraseRep.random(args.params);
-        },
+        horoscopes_generateReports: async (_: any, args: { params: { lang: string, period: string } }, context: Context) => {
+            const list: Report[] = []
+            const generate = new GenerateReportUseCase(context.data.horoPhraseRep, context.data.horoReportRep);
+            for (const sign of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as HoroscopeSign[]) {
+                const report = await generate.execute({ lang: args.params.lang, period: args.params.period, sign });
+                list.push(report);
+            }
+
+            return list;
+        }
     }
 }
