@@ -1,5 +1,5 @@
 {
     "script": "./lib/app.js",
     "max_memory_restart": "500M",
-    "name": "ournet-api"
+    "name": "ournet-api-2"
 }
