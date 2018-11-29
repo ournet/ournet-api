@@ -53,7 +53,7 @@
     "@ournet/images-domain": "^0.1.1",
     "@ournet/news-data": "^0.1.0",
     "@ournet/news-domain": "^0.1.1",
-    "@ournet/places-data": "^0.2.0",
+    "@ournet/places-data": "^0.2.2",
     "@ournet/places-domain": "^0.2.0",
     "@ournet/quotes-data": "^0.1.0",
     "@ournet/quotes-domain": "^0.1.0",

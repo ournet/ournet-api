@@ -128,10 +128,10 @@
     joi "^13.6.0"
     transliteration "^1.6.6"
 
-"@ournet/places-data@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@ournet/places-data/-/places-data-0.2.0.tgz#60722083b7dd819e7bd055566b4e6811e6c5a804"
-  integrity sha512-cmUcGvOxy4I2r/aa8YYLrg0xOGGOOwTXCfLjx6iRrFXe9rQ6SQ/2hMb9ZCSQIeYznogh/Tc/tfSH3PwsNx0Nvw==
+"@ournet/places-data@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@ournet/places-data/-/places-data-0.2.2.tgz#7da052efee81f2ddd1e84755432ede860ad5f8f1"
+  integrity sha512-4RtBLIsu4b3yK5TCgUBqlCh5+DT8tYAVDkzDCTb6ixS5QiVUpaBaVg4c2pF0dmkdK2vxMYt1wwBnDmeCollWdw==
   dependencies:
     "@ournet/domain" "^0.3.3"
     "@ournet/places-domain" "^0.2.0"
