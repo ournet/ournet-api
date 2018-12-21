@@ -60,7 +60,7 @@
     "@ournet/topics-data": "^0.1.0",
     "@ournet/topics-domain": "^0.1.0",
     "@ournet/weather-data": "^0.2.0",
-    "@ournet/weather-domain": "^0.2.0",
+    "@ournet/weather-domain": "^0.2.1",
     "@types/express-graphql": "^0.6.2",
     "aws-sdk": "^2.354.0",
     "cors": "^2.8.5",
