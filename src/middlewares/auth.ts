@@ -1,5 +1,6 @@
 
 import { Request, Response, NextFunction } from 'express';
+import { logger } from '../logger';
 
 export function auth(req: Request, res: Response, next: NextFunction) {
     let hasData = false;
@@ -14,6 +15,7 @@ export function auth(req: Request, res: Response, next: NextFunction) {
             }
         }
     }
+    logger.warn(`invalid header authorization: ${JSON.stringify(req.headers)}`);
     if (hasData) {
         return res.status(401);
     }
