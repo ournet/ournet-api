@@ -1,8 +1,7 @@
 const debug = require('debug')('ournet-api:cache');
 
 import LRU from 'lru-cache';
-const objectHash = require('object-hash');
-
+import objectHash from 'object-hash';
 
 import { RepositoryAccessOptions, RepositoryUpdateData, Repository, BaseEntity } from "@ournet/domain";
 
@@ -15,7 +14,7 @@ export class CacheRepository<T extends BaseEntity, REP extends Repository<T>, ST
     constructor(protected rep: REP, protected storage: STORAGE) { }
 
     protected getCacheData<R>(rep: REP, repName: keyof REP, cache: LRU.Cache<string, R>, data: any, options?: any): Promise<R> {
-        const key = repName + ':' + (['number', 'string'].indexOf(typeof data) > -1 ? data.toString() : objectHash(data));
+        const key = repName + ':' + (['number', 'string'].indexOf(typeof data) > -1 ? data.toString() : objectHash(data || {}));
         const cacheResult = cache.get(key);
         if (cacheResult !== undefined) {
             debug(`got data from cache: ${key}`);

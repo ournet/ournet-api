@@ -5,7 +5,6 @@ import { RepositoryAccessOptions } from "@ournet/domain";
 import { EventRepository, NewsEvent, LatestEventsQueryParams, LatestEventsByTopicQueryParams, CountEventsQueryParams, CountEventsByTopicQueryParams, TrendingTopicsQueryParams, TopItem, SimilarEventsByTopicsQueryParams } from '@ournet/news-domain';
 import { CacheRepositoryStorage, CacheRepository } from './cache-repository';
 
-
 interface EventCacheRepositoryStorage extends CacheRepositoryStorage<NewsEvent> {
     similarEvents: LRU.Cache<string, NewsEvent[]>
     topTopics: LRU.Cache<string, TopItem[]>

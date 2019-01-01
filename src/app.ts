@@ -6,7 +6,7 @@ import { typedefs, resolvers } from './graphql';
 import { Context } from './context';
 import { isAuthenticated } from './middlewares/auth';
 import { gql, ApolloServer, AuthenticationError, IResolvers } from 'apollo-server';
-const typeDefs = gql(typedefs);
+const typeDefs = gql`${typedefs}`;
 const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT;
 
