@@ -9,7 +9,7 @@ export function auth(req: Request, res: Response, next: NextFunction) {
             (<string>req.headers.authorization).split(' ');
         if (parts[0] === 'Key') {
             hasData = true;
-            if (parts[1] === process.env.ENTITIZER_API_KEY) {
+            if (parts[1] === process.env.OURNET_API_KEY) {
                 return next();
             }
         }

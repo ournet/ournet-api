@@ -6,6 +6,7 @@ import { logger } from './logger';
 const graphqlTools = require('graphql-tools');
 import { typedefs, resolvers } from './graphql';
 import { Context } from './context';
+import { auth } from './middlewares/auth';
 const cors = require('cors');
 const graphqlHTTP = require('express-graphql');
 const isProduction = process.env.NODE_ENV === 'production';
@@ -33,8 +34,7 @@ async function start() {
     server.use(cors());
 
     if (isProduction) {
-        // server.use(checkJwt);
-        // server.use(checkRole);
+        server.use(auth);
     }
 
     server.use('/graphql', graphqlHTTP({
