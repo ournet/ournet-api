@@ -6,20 +6,20 @@
   "private": true,
   "scripts": {
     "start": "node ./lib/app.js",
-    "dev": "npm run tsc && node ./lib/app.js",
-    "pretest": "npm run clean && npm run tsc",
+    "dev": "yarn tsc && node ./lib/app.js",
+    "pretest": "yarn clean && yarn tsc",
     "test": "ava --no-cache --verbose  ./lib/*.test.js ./lib/**/*.test.js",
-    "posttest": "npm run clean-test-code",
+    "posttest": "yarn clean-test-code",
     "tsc": "tsc",
     "tscw": "tsc -w",
-    "preversion": "npm run tsc",
+    "preversion": "yarn tsc",
     "postversion": "git push --follow-tags",
-    "prepublish": "npm run tsc && npm run clean-test-code",
+    "prepublish": "yarn tsc && yarn clean-test-code",
     "clean": "rimraf ./lib",
     "clean-test-code": "rimraf ./lib/**/*.test.js && rimraf ./lib/*.test.js"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=8.0.0"
   },
   "repository": {
     "type": "git",
