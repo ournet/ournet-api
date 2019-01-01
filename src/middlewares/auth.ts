@@ -3,7 +3,6 @@ import { Request, Response, NextFunction } from 'express';
 
 export function auth(req: Request, res: Response, next: NextFunction) {
     let hasData = false;
-    console.log(req.headers)
     if (req.headers.authorization) {
         const parts = Array.isArray(req.headers.authorization)
             ? req.headers.authorization :
