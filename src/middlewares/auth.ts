@@ -7,7 +7,7 @@ export function auth(req: Request, res: Response, next: NextFunction) {
         const parts = Array.isArray(req.headers.authorization)
             ? req.headers.authorization :
             (<string>req.headers.authorization).split(' ');
-        if (parts[0] === 'Key') {
+        if (parts.length === 2) {
             hasData = true;
             if (parts[1] === process.env.OURNET_API_KEY) {
                 return next();
