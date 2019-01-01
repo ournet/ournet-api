@@ -1,6 +1,6 @@
 const debug = require('debug')('ournet-api:cache');
 
-import * as LRU from 'lru-cache';
+import LRU from 'lru-cache';
 const objectHash = require('object-hash');
 
 

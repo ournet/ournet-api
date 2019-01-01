@@ -1,5 +1,5 @@
 
-import * as LRU from 'lru-cache';
+import LRU from 'lru-cache';
 import ms = require('ms');
 import { RepositoryAccessOptions } from "@ournet/domain";
 import { EventRepository, NewsEvent, LatestEventsQueryParams, LatestEventsByTopicQueryParams, CountEventsQueryParams, CountEventsByTopicQueryParams, TrendingTopicsQueryParams, TopItem, SimilarEventsByTopicsQueryParams } from '@ournet/news-domain';

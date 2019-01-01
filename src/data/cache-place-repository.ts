@@ -1,5 +1,5 @@
 
-import * as LRU from 'lru-cache';
+import LRU from 'lru-cache';
 import ms = require('ms');
 
 import {

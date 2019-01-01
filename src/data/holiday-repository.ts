@@ -2,7 +2,7 @@
 const debug = require('debug')('ournet-api');
 import { getHolidays } from 'public-holidays';
 const ms = require('ms');
-import * as LRU from 'lru-cache';
+import LRU from 'lru-cache';
 
 const CACHE = new LRU<string, PublicHoliday[]>({
     max: 10,

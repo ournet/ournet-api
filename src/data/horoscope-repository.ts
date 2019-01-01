@@ -1,7 +1,7 @@
 
 const debug = require('debug')('ournet-api');
 
-import * as LRU from 'lru-cache';
+import LRU from 'lru-cache';
 import ms = require('ms');
 import {
     PhraseRepository as HoroscopePhraseRepository,

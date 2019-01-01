@@ -9,7 +9,7 @@ import {
     DailyDataPoint,
     HourlyDataPoint,
 } from "@ournet/weather-domain";
-import * as LRU from 'lru-cache';
+import LRU from 'lru-cache';
 import ms = require('ms');
 import { mapPromise } from "@ournet/domain";
 

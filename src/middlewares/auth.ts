@@ -21,3 +21,17 @@ export function auth(req: Request, res: Response, next: NextFunction) {
     }
     res.status(401).send('missing authorization header');
 }
+
+export function isAuthenticated(req: Request) {
+    if (req.headers.authorization) {
+        const parts = Array.isArray(req.headers.authorization)
+            ? req.headers.authorization :
+            (<string>req.headers.authorization).split(' ');
+        if (parts.length === 2) {
+            if (parts[1] === process.env.OURNET_API_KEY) {
+                return true;
+            }
+        }
+    }
+    return false;
+}

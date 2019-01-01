@@ -1,14 +1,12 @@
 
 require('dotenv').config();
 
-import * as express from 'express';
 import { logger } from './logger';
-const graphqlTools = require('graphql-tools');
 import { typedefs, resolvers } from './graphql';
 import { Context } from './context';
-import { auth } from './middlewares/auth';
-const cors = require('cors');
-const graphqlHTTP = require('express-graphql');
+import { isAuthenticated } from './middlewares/auth';
+import { gql, ApolloServer, AuthenticationError, IResolvers } from 'apollo-server';
+const typeDefs = gql(typedefs);
 const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT;
 
@@ -20,28 +18,19 @@ declare global {
     }
 }
 
-const schema = graphqlTools.makeExecutableSchema({ typeDefs: typedefs, resolvers });
-
 async function start() {
     const context = await Context.create();
-    const server = express();
+    const server = new ApolloServer({
+        typeDefs, resolvers: resolvers as IResolvers<any, Context>, cors: true,
+        context: async ({ req }: any) => {
+            if (isProduction && !isAuthenticated(req)) {
+                logger.warn(`invalid header authorization: ${JSON.stringify(req.headers)}`);
+                throw new AuthenticationError('No key');
+            }
 
-    server.use((req: express.Request, _res: express.Response, next: express.NextFunction) => {
-        req.context = context;
-        next();
+            return context;
+        }
     });
-
-    server.use(cors());
-
-    if (isProduction) {
-        server.use(auth);
-    }
-
-    server.use('/graphql', graphqlHTTP({
-        schema: schema,
-        graphiql: true,
-        context: context,
-    }));
 
     await server.listen(PORT);
 }
