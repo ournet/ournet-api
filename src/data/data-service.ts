@@ -23,6 +23,9 @@ import { PhraseRepositoryBuilder, ReportRepositoryBuilder } from '@ournet/horosc
 import { CacheEventRepository } from './cache-event-repository';
 import { CacheTopicRepository } from './cache-topic-repository';
 import { CacheQuoteRepository } from './cache-quote-repository';
+import { VideoRepository } from '@ournet/videos-domain';
+import { VideoRepositoryBuilder } from '@ournet/videos-data';
+import { CacheVideoRepository } from './cache-video-repository';
 
 export interface DataService {
     readonly topicRep: TopicRepository
@@ -36,6 +39,7 @@ export interface DataService {
     readonly holidayRep: HolidayRepository
     readonly horoReportRep: HoroscopeReportRepository
     readonly horoPhraseRep: HoroscopePhraseRepository
+    readonly videoRep: VideoRepository
 
     init(): Promise<void>
 }
@@ -58,6 +62,7 @@ export class DbDataService implements DataService {
     readonly holidayRep: HolidayRepository
     readonly horoReportRep: HoroscopeReportRepository
     readonly horoPhraseRep: HoroscopePhraseRepository
+    readonly videoRep: VideoRepository
 
     private weatherReportRep: ReportRepository
 
@@ -77,6 +82,8 @@ export class DbDataService implements DataService {
         this.weatherRep = new CacheWeatherRepository(new GetReport(this.weatherReportRep, this.weatherReportRep, new MetnoFetchForecast()));
 
         this.holidayRep = new CacheHolidayRepository();
+
+        this.videoRep = new CacheVideoRepository(VideoRepositoryBuilder.build(dynamoClient));
     }
 
     async init() {
@@ -90,5 +97,6 @@ export class DbDataService implements DataService {
         await this.weatherReportRep.createStorage();
         await this.horoPhraseRep.createStorage();
         await this.horoReportRep.createStorage();
+        await this.videoRep.createStorage();
     }
 }

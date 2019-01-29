@@ -36,8 +36,6 @@ export default {
 
     Place: {
         admin1: (place: Place, _: any, context: Context) => {
-            // console.log(`c1: ${JSON.stringify(context)}`)
-            // console.log(`c2: ${JSON.stringify(context1, )}`)
             if (place.admin1 === null) {
                 return undefined;
             }

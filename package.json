@@ -46,7 +46,7 @@
     "typescript": "3.2.2"
   },
   "dependencies": {
-    "@ournet/domain": "^0.3.3",
+    "@ournet/domain": "^0.3.4",
     "@ournet/horoscopes-data": "^0.1.1",
     "@ournet/horoscopes-domain": "^0.1.3",
     "@ournet/images-data": "^0.1.0",
@@ -59,6 +59,8 @@
     "@ournet/quotes-domain": "^0.1.0",
     "@ournet/topics-data": "^0.1.0",
     "@ournet/topics-domain": "^0.1.0",
+    "@ournet/videos-data": "^0.1.0",
+    "@ournet/videos-domain": "^0.1.0",
     "@ournet/weather-data": "^0.2.1",
     "@ournet/weather-domain": "^0.2.2",
     "apollo-server": "^2.3.1",

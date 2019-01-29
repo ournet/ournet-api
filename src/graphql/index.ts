@@ -6,6 +6,7 @@ import news from './news';
 import topics from './topics';
 import quotes from './quotes';
 import horoscopes from './horoscopes';
+import videos from './videos';
 
 const GraphQLJsonType = require('graphql-type-json');
 
@@ -38,6 +39,7 @@ export const typedefs = [
     topics.typedefs,
     quotes.typedefs,
     horoscopes.typedefs,
+    videos.typedefs,
 ].join('\n');
 
 export const resolvers = {
@@ -50,6 +52,7 @@ export const resolvers = {
         ...topics.resolvers.Query,
         ...quotes.resolvers.Query,
         ...horoscopes.resolvers.Query,
+        ...videos.resolvers.Query,
     },
     Place: places.resolvers.Place,
     Mutation: {
