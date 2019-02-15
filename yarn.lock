@@ -81,7 +81,7 @@
     joi "^14.0.3"
     normalize-url "^3.2.0"
 
-"@ournet/domain@^0.3.4":
+"@ournet/domain@^0.3.4", "@ournet/domain@~0.3.4", "@ournet/domain@~0.3.x", "@ournet/domain@~0.x.x":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@ournet/domain/-/domain-0.3.4.tgz#59a8fb3c13a38b3a82601e9c3fbde40eee9d7c93"
   integrity sha512-PNpVFhgtOlgQGeRkjQWZjBkbP7edHzX6LZRNteXk2/sjO55kg/Bf7JahbxywZ6K+WQsjWpbUJgtHHHS7aoqaAQ==
@@ -91,7 +91,7 @@
     joi "^14.0.3"
     normalize-url "^3.2.0"
 
-"@ournet/horoscopes-data@^0.1.1":
+"@ournet/horoscopes-data@~0.x.x":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@ournet/horoscopes-data/-/horoscopes-data-0.1.1.tgz#00a320be0ee9b4620aeba84d64085cb36d45587d"
   integrity sha512-0mlwn2pb+dZjeDULR9neg1mqqtS8WpheZscIomQoY7jZXHwXEJwGIbKwTHkxZk5GpWEKO+DDG98/nSOT8YlBxg==
@@ -100,7 +100,7 @@
     "@ournet/horoscopes-domain" "^0.1.1"
     mongodb "^3.1.9"
 
-"@ournet/horoscopes-domain@^0.1.1", "@ournet/horoscopes-domain@^0.1.3":
+"@ournet/horoscopes-domain@^0.1.1", "@ournet/horoscopes-domain@~0.x.x":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@ournet/horoscopes-domain/-/horoscopes-domain-0.1.3.tgz#fff76d316c1e00bf97bfb1a8f31f77dfa7dcd633"
   integrity sha512-JJYVPQ4HTiNR16c0PjxrC9sFfu+ykEJq5PrZAdTUSu7l+930967hwjid8TGwMP0sv9ydg4AtigbVRpFJ1yHdZQ==
@@ -110,7 +110,7 @@
     joi "^14.0.3"
     standard-text "^0.1.1"
 
-"@ournet/images-data@^0.1.0":
+"@ournet/images-data@~0.x.x":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@ournet/images-data/-/images-data-0.1.0.tgz#0876a248e1f244c91f6fc2e3439e65d4ebebac91"
   integrity sha512-tBhq9I3s9rju7yFzFvRno9E0CSe8v6R1jj0dwHP5fEOZiKmeyoy7W6u1Bm25WkUOsj4KlExtbVjvElidI5Uj2A==
@@ -120,7 +120,7 @@
     aws-sdk "^2.291.0"
     dynamo-item "^0.1.1"
 
-"@ournet/images-domain@^0.1.1", "@ournet/images-domain@^0.1.2":
+"@ournet/images-domain@^0.1.1", "@ournet/images-domain@~0.x.x":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@ournet/images-domain/-/images-domain-0.1.2.tgz#9af9534f8e6bd848d626524344790163e7cefa99"
   integrity sha512-CI5NKuisnk2NycsmLmEE01jaSAiIfP4viFXa737Z2nmy5XGJcRtlvQ1oGtNdrYKkjzb466G6w7gfzusUFFmtaw==
@@ -128,29 +128,29 @@
     "@ournet/domain" "^0.3.3"
     joi "^14.0.6"
 
-"@ournet/news-data@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ournet/news-data/-/news-data-0.1.1.tgz#315642f4b7f32e5a6adaafb92bccf4d83a3dcdf6"
-  integrity sha512-r0tacdAkAP9IeYQNZJX7IHF/m+/XwDjjK9StK+GWShPHeL+uAu2HVu2oq2qCAdN/ma5g1cQAG31s4x5H+xl6Fg==
+"@ournet/news-data@~0.x.x":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ournet/news-data/-/news-data-0.1.2.tgz#94cd6901033c5757b8e24fc7f1933ce5b2cc800d"
+  integrity sha512-YExkW1T8tUbGCbAbEBG685PjuUVDbHxtP6IQbNT+olOZuWMVtdbp3Y1j9gn4X1QVzcHmMhR+dlmzggoJU6cv3Q==
   dependencies:
-    "@ournet/domain" "^0.3.3"
-    "@ournet/news-domain" "^0.1.1"
-    aws-sdk "^2.354.0"
-    dynamo-item "^0.1.1"
-    elasticsearch "^15.2.0"
+    "@ournet/domain" "~0.3.4"
+    "@ournet/news-domain" "~0.1.2"
+    aws-sdk "^2.395.0"
+    dynamo-item "~0.1.1"
+    elasticsearch "^15.3.1"
     ms "^2.1.1"
 
-"@ournet/news-domain@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ournet/news-domain/-/news-domain-0.1.1.tgz#cf738e3929110fb7abf6731c3e0e576bb94ccbfa"
-  integrity sha512-vx1byy/6yV3opfbGDG6eZ03rsoMRgJ7Httr6Mde0ZtyRHmzNABsWv8RNjs9tU1aBhiZCm6Ehh+0JDj/zoa1ivg==
+"@ournet/news-domain@~0.1.2", "@ournet/news-domain@~0.x.x":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ournet/news-domain/-/news-domain-0.1.2.tgz#fce8103fc8d16f8274c5046ca5b1bcb1c9558ff2"
+  integrity sha512-unO2F3yqDB+2+7ffELKlj97GBZSOHwPos8X6RWcH+9vLFojr15D3PFrTWEFbG5nFzwuEtpQUxhsbwcyM+oZqYQ==
   dependencies:
-    "@ournet/domain" "^0.3.3"
+    "@ournet/domain" "^0.3.4"
     ellipsize "^0.1.0"
     joi "^13.6.0"
     transliteration "^1.6.6"
 
-"@ournet/places-data@^0.2.2":
+"@ournet/places-data@~0.x.x":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@ournet/places-data/-/places-data-0.2.2.tgz#7da052efee81f2ddd1e84755432ede860ad5f8f1"
   integrity sha512-4RtBLIsu4b3yK5TCgUBqlCh5+DT8tYAVDkzDCTb6ixS5QiVUpaBaVg4c2pF0dmkdK2vxMYt1wwBnDmeCollWdw==
@@ -161,7 +161,7 @@
     dynamo-item "^0.1.1"
     elasticsearch "^15.2.0"
 
-"@ournet/places-domain@^0.2.0":
+"@ournet/places-domain@^0.2.0", "@ournet/places-domain@~0.x.x":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@ournet/places-domain/-/places-domain-0.2.0.tgz#9e1c1e57744339ee2a7a353b68e7e561659a0c49"
   integrity sha512-8umxs7KhZu604maP9rdXFUDcMw+NrlNW/nAnoZwAmcYdgPIwJjDDK5OzRcnEIiYbS7TIFe0Sg157xf2nGtW1FA==
@@ -169,26 +169,26 @@
     "@ournet/domain" "^0.3.3"
     joi "^14.0.6"
 
-"@ournet/quotes-data@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@ournet/quotes-data/-/quotes-data-0.1.0.tgz#4cb13b36e276363375ffdec74af4f924a3afa9c4"
-  integrity sha512-HO5RyPWIoN890MSWkrrsajRqM0p+Bb3xiBZpIjeK2GJo0zAs3o3rIE8ZVaW1ORK+WKHXHY6VPOBnwaPfZ8ffPQ==
+"@ournet/quotes-data@~0.x.x":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@ournet/quotes-data/-/quotes-data-0.2.0.tgz#f53126fa9f54c9dd9a41f86e71be15ebb30a7e43"
+  integrity sha512-ZEmBccCTmaPloZtsWI8wjlu/Fby6c3y3J9WfoZtP0EeT3YbOnuUxpToNukE7sKaZUnQha1ensr/Zye8waVCoag==
   dependencies:
-    "@ournet/domain" "^0.3.3"
-    "@ournet/quotes-domain" "^0.1.0"
+    "@ournet/domain" "~0.3.x"
+    "@ournet/quotes-domain" "~0.2.x"
     aws-sdk "^2.354.0"
-    dynamo-item "^0.1.1"
+    dynamo-item "~0.1.x"
 
-"@ournet/quotes-domain@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@ournet/quotes-domain/-/quotes-domain-0.1.0.tgz#8c15377d2d44d5caa7b6f8effb1b0401b8ed3c87"
-  integrity sha512-Arv6L4AkWAgRQt5kcjeQrSbxdqzPIGOyFCyU6dwsxbKVaqxpD5on+M5ddJfHTmz9rgUodB/a+SjqYISnEmsDFw==
+"@ournet/quotes-domain@~0.2.x", "@ournet/quotes-domain@~0.x.x":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@ournet/quotes-domain/-/quotes-domain-0.2.0.tgz#44d923600feed4dca50356752f1594d60e0a867c"
+  integrity sha512-+DXzuhLY+sooBE6aMg8hd9swDelQLAjX5T2jzocTgOUv3IT1owtKVTtsZevo8Q1KhGsgB6zg6UQi/EH36FqaVQ==
   dependencies:
-    "@ournet/domain" "^0.3.3"
+    "@ournet/domain" "~0.3.x"
     ellipsize "^0.1.0"
     joi "^14.0.6"
 
-"@ournet/topics-data@^0.1.0":
+"@ournet/topics-data@~0.x.x":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@ournet/topics-data/-/topics-data-0.1.0.tgz#7065c058723b2767ba0ec2fd2c1dccef39bc3fcf"
   integrity sha512-35M1t/FoJDQHHCoW/3ypIChX7uWUiykJWKgsgaA/Af2XuCP+qcSOCdvOQM0YTiEwGrkKObt2yu6pJInPuyp9xA==
@@ -198,7 +198,7 @@
     mongodb "^3.1.9"
     nanoid "^2.0.0"
 
-"@ournet/topics-domain@^0.1.0":
+"@ournet/topics-domain@^0.1.0", "@ournet/topics-domain@~0.x.x":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@ournet/topics-domain/-/topics-domain-0.1.0.tgz#56ae79cc74fb1fba503dbefa5d55eb6ade4b93db"
   integrity sha512-GqB7zPiBz1+/EP5o8NiTaaQjLMvTRXvAJIchDJ/1VugxO7iFbOWLQidC9H6GjfTvh/Df4Ckr2cOsSWweY3ekhw==
@@ -207,7 +207,7 @@
     joi "^14.0.6"
     transliteration "^1.6.6"
 
-"@ournet/videos-data@^0.1.0":
+"@ournet/videos-data@~0.x.x":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@ournet/videos-data/-/videos-data-0.1.0.tgz#6a6a03feb1f99790098c18608a85a461543558f2"
   integrity sha512-w/t+LjsbqtDw5KgFy1Was0zOLQoRUjapGMrZSDIs/NAgaiQMdk2IBNgACWuutrsjt2VBVW/2lqDbAVE+ZMZmDQ==
@@ -217,7 +217,7 @@
     aws-sdk "^2.354.0"
     dynamo-item "^0.1.1"
 
-"@ournet/videos-domain@^0.1.0":
+"@ournet/videos-domain@^0.1.0", "@ournet/videos-domain@~0.x.x":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@ournet/videos-domain/-/videos-domain-0.1.0.tgz#a118fb68db3b31f5bc1991db6f7dc67307a66f1c"
   integrity sha512-9fhcuo6LSb+gOviXQ9vArtNYNZ/dmpSKcVzmmLK/bgj28oO1loq4lbTVtF0C5wTw/IET1It0Z18kpB7NrSUcMA==
@@ -226,7 +226,7 @@
     joi "^14.0.3"
     ms "^2.1.1"
 
-"@ournet/weather-data@^0.2.1":
+"@ournet/weather-data@~0.x.x":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@ournet/weather-data/-/weather-data-0.2.1.tgz#269365bed21cebdff111095f843e99b0b652898b"
   integrity sha512-hVXjyz8BsQahVXOWrj37drXU7W9g9I4ZQrkTaisKxyRYhBdWGOsXR0kBSLj4cF+LNaRKkGNxzofuUQSoCr+/Pg==
@@ -245,6 +245,18 @@
     joi "^14.0.6"
     luxon "^1.6.2"
     metno-symbols "^0.1.1"
+    node-fetch "^2.3.0"
+    suncalc "^1.8.0"
+    xml2js "^0.4.19"
+
+"@ournet/weather-domain@~0.x.x":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@ournet/weather-domain/-/weather-domain-0.2.3.tgz#4ef36c5fa198e3b27f0a5505b7d7989a8ad7ef25"
+  integrity sha512-WjNN4S4FTdnefdSqmwLZwN2IV8yaw9mniaB0Q/+B2yLqtmOdzh7Ba7W4wOlN3spHlBFVVdn3hyEDvMMZqfa5Eg==
+  dependencies:
+    "@ournet/domain" "^0.3.3"
+    joi "^14.0.6"
+    luxon "^1.6.2"
     node-fetch "^2.3.0"
     suncalc "^1.8.0"
     xml2js "^0.4.19"
@@ -915,6 +927,21 @@ aws-sdk@^2.286.2, aws-sdk@^2.291.0, aws-sdk@^2.354.0, aws-sdk@^2.382.0:
     sax "1.2.1"
     url "0.10.3"
     uuid "3.1.0"
+    xml2js "0.4.19"
+
+aws-sdk@^2.395.0:
+  version "2.403.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.403.0.tgz#b215ca78ea57f1a5ee64ff72c870f85ee96a8140"
+  integrity sha512-ftLAVadIjlLQiMWwbFgjaL2u5vmFCP5IDrJ+aIkrmfbzQsxTq2ze7slxgFpXP5eRtRF4/HVspzr0PS2MnsZMRA==
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.8"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.3.2"
     xml2js "0.4.19"
 
 aws-sign2@~0.6.0:
@@ -2026,7 +2053,7 @@ dynamo-input@^0.1.0:
   dependencies:
     aws-sdk "^2.286.2"
 
-dynamo-item@^0.1.1:
+dynamo-item@^0.1.1, dynamo-item@~0.1.1, dynamo-item@~0.1.x:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/dynamo-item/-/dynamo-item-0.1.1.tgz#c69e39d490a8c5dcee90aaae7f6c50f153ad862a"
   integrity sha512-VN/2TpppDKrLAJ+xO58gKmZy6MmidkiReRjulSwpxuWoIpWceLxh8MfEcSgo4UQUi7AxkaPOL6gfJwn95DhwcQ==
@@ -2051,6 +2078,15 @@ elasticsearch@^15.2.0:
   version "15.2.0"
   resolved "https://registry.yarnpkg.com/elasticsearch/-/elasticsearch-15.2.0.tgz#234362b5aa743d9c0a925566569ea7813b8f2569"
   integrity sha512-jOFcBoEh3Sn3gjUTozInODZTLriJtfppAUC7jnQCUE+OUj8o7GoAyC+L4h/L3ZxmXNFbQCunqVR+nmSofHdo9A==
+  dependencies:
+    agentkeepalive "^3.4.1"
+    chalk "^1.0.0"
+    lodash "^4.17.10"
+
+elasticsearch@^15.3.1:
+  version "15.4.1"
+  resolved "https://registry.yarnpkg.com/elasticsearch/-/elasticsearch-15.4.1.tgz#28b54de22fea74003e57395e035926fe7b63b8dd"
+  integrity sha512-IL46Sv9krCKtpvlI37/vQVQrWx6QeT1OJhfWW6L3fIXzR1Vv5utO+DHYz8AosUI6vlkxShoq+y6sUIBhTF1OIg==
   dependencies:
     agentkeepalive "^3.4.1"
     chalk "^1.0.0"
@@ -5750,7 +5786,7 @@ uuid@3.1.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
   integrity sha512-DIWtzUkw04M4k3bf1IcpS2tngXEL26YUD2M0tMDUpnUrz2hgzUBlD55a4FjdLGPvfHxS6uluGWvaVEqgBcVa+g==
 
-uuid@^3.1.0:
+uuid@3.3.2, uuid@^3.1.0:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==

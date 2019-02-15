@@ -58,7 +58,7 @@ type QuoteTopItem {
     count: Int!
 }
 
-input LatestQuotesQueryParams {
+input ListQuotesQueryParams {
     lang: String!
     country: String!
     maxDate: String
@@ -66,7 +66,7 @@ input LatestQuotesQueryParams {
     limit: Int!
 }
 
-input LatestQuotesByTopicQueryParams {
+input ListQuotesByTopicQueryParams {
     lang: String!
     country: String!
     maxDate: String
@@ -75,7 +75,7 @@ input LatestQuotesByTopicQueryParams {
     topicId: String!
 }
 
-input LatestQuotesByAuthorQueryParams {
+input ListQuotesByAuthorQueryParams {
     lang: String!
     country: String!
     maxDate: String
@@ -110,14 +110,15 @@ input CountQuotesByAuthorQueryParams {
 extend type Query {
     quotes_quoteById(id: String!): Quote
     quotes_quotesByIds(ids: [String!]!): [Quote]!
-    quotes_latest(params: LatestQuotesQueryParams): [Quote]!
-    quotes_latestByTopic(params: LatestQuotesByTopicQueryParams): [Quote]!
-    quotes_latestByAuthor(params: LatestQuotesByAuthorQueryParams): [Quote]!
+    quotes_latest(params: ListQuotesQueryParams): [Quote]!
+    quotes_latestByTopic(params: ListQuotesByTopicQueryParams): [Quote]!
+    quotes_latestByAuthor(params: ListQuotesByAuthorQueryParams): [Quote]!
     quotes_count(params: CountQuotesQueryParams): Int!
     quotes_countByTopic(params: CountQuotesByTopicQueryParams): Int!
     quotes_countByAuthor(params: CountQuotesByAuthorQueryParams): Int!
-    quotes_topTopics(params: LatestQuotesQueryParams): [QuoteTopItem]!
-    quotes_topAuthors(params: LatestQuotesQueryParams): [QuoteTopItem]!
-    quotes_topAuthorTopics(params: LatestQuotesByAuthorQueryParams): [QuoteTopItem]!
+    quotes_topTopics(params: ListQuotesQueryParams): [QuoteTopItem]!
+    quotes_topAuthors(params: ListQuotesQueryParams): [QuoteTopItem]!
+    quotes_topAuthorTopics(params: ListQuotesByAuthorQueryParams): [QuoteTopItem]!
+    quotes_popularByAuthor(params: ListQuotesByAuthorQueryParams): [Quote]!
 }
 `;

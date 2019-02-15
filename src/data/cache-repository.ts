@@ -13,12 +13,12 @@ export interface CacheRepositoryStorage<T extends BaseEntity> {
 export class CacheRepository<T extends BaseEntity, REP extends Repository<T>, STORAGE extends CacheRepositoryStorage<T>> implements Repository<T> {
     constructor(protected rep: REP, protected storage: STORAGE) { }
 
-    protected getCacheData<R>(rep: REP, repName: keyof REP, cache: LRU.Cache<string, R>, data: any, options?: any): Promise<R> {
+    protected async getCacheData<R>(rep: REP, repName: keyof REP, cache: LRU.Cache<string, R>, data: any, options?: any): Promise<R> {
         const key = repName + ':' + (['number', 'string'].indexOf(typeof data) > -1 ? data.toString() : objectHash(data || {}));
         const cacheResult = cache.get(key);
         if (cacheResult !== undefined) {
             debug(`got data from cache: ${key}`);
-            return Promise.resolve(cacheResult);
+            return cacheResult;
         }
 
         return (<any>rep)[repName](data, options)

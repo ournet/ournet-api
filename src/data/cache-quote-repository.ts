@@ -3,7 +3,7 @@ import LRU from 'lru-cache';
 import ms = require('ms');
 import { RepositoryAccessOptions } from "@ournet/domain";
 import { CacheRepositoryStorage, CacheRepository } from './cache-repository';
-import { Quote, QuoteRepository, LatestQuotesQueryParams, LatestQuotesByTopicQueryParams, LatestQuotesByAuthorQueryParams, CountQuotesByTopicQueryParams, CountQuotesQueryParams, CountQuotesByAuthorQueryParams, TopItem } from '@ournet/quotes-domain';
+import { Quote, QuoteRepository, ListQuotesQueryParams, ListQuotesByTopicQueryParams, ListQuotesByAuthorQueryParams, CountQuotesByTopicQueryParams, CountQuotesQueryParams, CountQuotesByAuthorQueryParams, TopItem } from '@ournet/quotes-domain';
 
 
 interface QuoteCacheRepositoryStorage extends CacheRepositoryStorage<Quote> {
@@ -13,9 +13,25 @@ interface QuoteCacheRepositoryStorage extends CacheRepositoryStorage<Quote> {
     topTopics: LRU.Cache<string, TopItem[]>
     topAuthors: LRU.Cache<string, TopItem[]>
     topAuthorTopics: LRU.Cache<string, TopItem[]>
+    popularQuotesByAuthor: LRU.Cache<string, Quote[]>
 }
 
 export class CacheQuoteRepository extends CacheRepository<Quote, QuoteRepository, QuoteCacheRepositoryStorage> implements QuoteRepository {
+    popularQuotes(_params: ListQuotesQueryParams, _options?: RepositoryAccessOptions<Quote> | undefined): Promise<Quote[]> {
+        throw new Error("Method not implemented.");
+    }
+    popularQuotesByTopic(_params: ListQuotesByTopicQueryParams, _options?: RepositoryAccessOptions<Quote> | undefined): Promise<Quote[]> {
+        throw new Error("Method not implemented.");
+    }
+    countPopularQuotes(_params: CountQuotesQueryParams): Promise<number> {
+        throw new Error("Method not implemented.");
+    }
+    countPopularQuotesByTopic(_params: CountQuotesByTopicQueryParams): Promise<number> {
+        throw new Error("Method not implemented.");
+    }
+    countPopularQuotesByAuthor(_params: CountQuotesByAuthorQueryParams): Promise<number> {
+        throw new Error("Method not implemented.");
+    }
 
     constructor(rep: QuoteRepository) {
         super(rep, {
@@ -55,16 +71,24 @@ export class CacheQuoteRepository extends CacheRepository<Quote, QuoteRepository
                 max: 100,
                 maxAge: ms('20m'),
             }),
+            popularQuotesByAuthor: new LRU<string, Quote[]>({
+                max: 100,
+                maxAge: ms('20m'),
+            }),
         });
     }
 
-    latest(params: LatestQuotesQueryParams, options?: RepositoryAccessOptions<Quote>) {
+    popularQuotesByAuthor(params: ListQuotesByAuthorQueryParams, options?: RepositoryAccessOptions<Quote>) {
+        return this.getCacheData(this.rep, 'popularQuotesByAuthor', this.storage.popularQuotesByAuthor, params, options);
+    }
+
+    latest(params: ListQuotesQueryParams, options?: RepositoryAccessOptions<Quote>) {
         return this.getCacheData(this.rep, 'latest', this.storage.latest, params, options);
     }
-    latestByTopic(params: LatestQuotesByTopicQueryParams, options?: RepositoryAccessOptions<Quote>) {
+    latestByTopic(params: ListQuotesByTopicQueryParams, options?: RepositoryAccessOptions<Quote>) {
         return this.getCacheData(this.rep, 'latestByTopic', this.storage.latestByTopic, params, options);
     }
-    latestByAuthor(params: LatestQuotesByAuthorQueryParams, options?: RepositoryAccessOptions<Quote>) {
+    latestByAuthor(params: ListQuotesByAuthorQueryParams, options?: RepositoryAccessOptions<Quote>) {
         return this.getCacheData(this.rep, 'latestByAuthor', this.storage.latestByAuthor, params, options);
     }
     count(params: CountQuotesQueryParams) {
@@ -76,13 +100,14 @@ export class CacheQuoteRepository extends CacheRepository<Quote, QuoteRepository
     countByAuthor(params: CountQuotesByAuthorQueryParams) {
         return this.rep.countByAuthor(params);
     }
-    topTopics(params: LatestQuotesQueryParams) {
+    topTopics(params: ListQuotesQueryParams) {
         return this.getCacheData(this.rep, 'topTopics', this.storage.topTopics, params);
     }
-    topAuthors(params: LatestQuotesQueryParams) {
+    topAuthors(params: ListQuotesQueryParams) {
         return this.getCacheData(this.rep, 'topAuthors', this.storage.topAuthors, params);
     }
-    topAuthorTopics(params: LatestQuotesByAuthorQueryParams) {
+    topAuthorTopics(params: ListQuotesByAuthorQueryParams) {
         return this.getCacheData(this.rep, 'topAuthorTopics', this.storage.topAuthorTopics, params);
     }
+
 }
