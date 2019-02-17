@@ -38,6 +38,8 @@ type Quote {
     expiresAt: Int!
 
     countViews: Int!
+
+    events: [QuoteEvent]
 }
 
 type QuoteAuthor {
@@ -50,7 +52,14 @@ type QuoteSource {
     host: String!
     path: String!
     title: String!
-    id: String
+    id: String!
+    imageId: String
+}
+
+type QuoteEvent {
+    title: String!
+    id: String!
+    imageId: String
 }
 
 type QuoteTopItem {
