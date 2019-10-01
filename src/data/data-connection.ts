@@ -1,24 +1,27 @@
-
-import { MongoClient } from 'mongodb';
+import { MongoClient } from "mongodb";
 
 export interface DataConnection {
-    readonly mongoClient: MongoClient
-    close(): Promise<void>
+  readonly mongoClient: MongoClient;
+  readonly mongoConnectionString: string;
+  close(): Promise<void>;
 }
 
 export class DbDataConnection implements DataConnection {
-    constructor(readonly mongoClient: MongoClient) {
-        if (!mongoClient.isConnected()) {
-            throw new Error(`mongoClient must be connected!`);
-        }
+  constructor(
+    readonly mongoClient: MongoClient,
+    readonly mongoConnectionString: string
+  ) {
+    if (!mongoClient.isConnected()) {
+      throw new Error(`mongoClient must be connected!`);
     }
+  }
 
-    static async create(mongoConnectionString: string) {
-        const client = await MongoClient.connect(mongoConnectionString);
-        return new DbDataConnection(client);
-    }
+  static async create(mongoConnectionString: string) {
+    const client = await MongoClient.connect(mongoConnectionString);
+    return new DbDataConnection(client, mongoConnectionString);
+  }
 
-    close() {
-        return this.mongoClient.close();
-    }
+  close() {
+    return this.mongoClient.close();
+  }
 }
