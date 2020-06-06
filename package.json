@@ -63,7 +63,7 @@
     "@ournet/videos-domain": "~0.x.x",
     "@ournet/weather-data": "~0.x.x",
     "@ournet/weather-domain": "~0.x.x",
-    "apollo-server": "^2.3.1",
+    "apollo-server": "^2.14.2",
     "aws-sdk": "^2.382.0",
     "cocoshel-mongo-storage": "^0.0.3",
     "debug": "^4.1.1",
