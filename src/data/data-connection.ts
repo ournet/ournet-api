@@ -17,7 +17,10 @@ export class DbDataConnection implements DataConnection {
   }
 
   static async create(mongoConnectionString: string) {
-    const client = await MongoClient.connect(mongoConnectionString);
+    const client = await MongoClient.connect(mongoConnectionString, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true
+    });
     return new DbDataConnection(client, mongoConnectionString);
   }
 
