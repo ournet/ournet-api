@@ -226,7 +226,19 @@
     aws-sdk "^2.382.0"
     dynamo-item "^0.1.1"
 
-"@ournet/weather-domain@^0.2.2", "@ournet/weather-domain@~0.x.x":
+"@ournet/weather-domain@0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@ournet/weather-domain/-/weather-domain-0.2.5.tgz#34b71caf42f2396d89e7defb62037576b2c370f4"
+  integrity sha512-ZwK8162Vcw00hFu46euSoJPj1dDcJPmBZnYIUSyJg6+VCzZV8MFh02DlB/0PCZuBovd51m+0aYc4qYued895SQ==
+  dependencies:
+    "@ournet/domain" "^0.3.3"
+    joi "^14.0.6"
+    luxon "^1.6.2"
+    node-fetch "^2.3.0"
+    suncalc "^1.8.0"
+    xml2js "^0.4.19"
+
+"@ournet/weather-domain@^0.2.2":
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@ournet/weather-domain/-/weather-domain-0.2.4.tgz#113b6bc4307edaef7dd24334830cea8ecb6709c3"
   integrity sha512-PWackvm95udwtmbiEE12ZTQoKUfftDely/iVYtPV6t5cRhTHYgWavO5aLbEWXw5yTeajN3HiDtzjTyLU/6Akrw==
