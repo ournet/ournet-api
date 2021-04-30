@@ -126,7 +126,7 @@ export class DbDataService implements DataService {
       new GetReport(
         this.weatherReportRep,
         this.weatherReportRep,
-        new MetnoFetchForecast()
+        new MetnoFetchForecast("ournet/1.0")
       )
     );
 
