@@ -97,10 +97,10 @@
     "@ournet/domain" "~0.x.x"
     joi "^14.0.6"
 
-"@ournet/news-data@~0.x.x":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@ournet/news-data/-/news-data-0.1.3.tgz#960d3c947e4870e7c178aa7444f33cab31c1a7e0"
-  integrity sha512-lPjqI9KSgHfK7yuKjVXpKXgb3GxB8ZUROhLKWFZ/fZpm4H6v3yWEBRu+bs5zULLlQqscPY+gV0C/jpOs+qlv6g==
+"@ournet/news-data@~0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@ournet/news-data/-/news-data-0.1.4.tgz#2b4d1062b8947f2d4a97b41e94a244af693d6942"
+  integrity sha512-11Wh0cJPk3gmDeENBdyCyNSTU/4LYasjiEeQT9EqBoEJdgHN0iT0mJ1DXb2uzkUWKUPr4zzVGfTBBk/DGRsuRg==
   dependencies:
     "@ournet/domain" "~0.3.4"
     "@ournet/news-domain" "~0.1.x"
@@ -119,16 +119,16 @@
     joi "^13.6.0"
     transliteration "^2.2.0"
 
-"@ournet/places-data@~0.x.x":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@ournet/places-data/-/places-data-0.2.4.tgz#f0e8f37782130844448ed6b85f6466099199060d"
-  integrity sha512-fb62WKkLo7Moq1hzjcHYQFsoJ+l0s1yNC9EC4Iyy2vZ0oW1uVxMNt2qHPMyjAxzu9QJFqqpmFnZnGW6pkXwB1A==
+"@ournet/places-data@~0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@ournet/places-data/-/places-data-0.2.5.tgz#a465209ed495a3e716cceb7dc0cd2509b46ce36f"
+  integrity sha512-hC7H0LO8wkYQXadLlOq1VfFFkHlViMRYHnGAvLDfB7yJrIolZTArjF5GtUaBsJpPVD5Ryg3KLEVpyj7okNxkSQ==
   dependencies:
     "@ournet/domain" "^0.3.3"
     "@ournet/places-domain" "^0.2.0"
-    aws-sdk "^2.354.0"
+    aws-sdk "^2.1058.0"
     dynamo-item "^0.1.1"
-    elasticsearch "^15.2.0"
+    elasticsearch "^16.7.2"
 
 "@ournet/places-domain@^0.2.0", "@ournet/places-domain@~0.x.x":
   version "0.2.0"
@@ -1119,15 +1119,6 @@ ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-
-elasticsearch@^15.2.0:
-  version "15.5.0"
-  resolved "https://registry.yarnpkg.com/elasticsearch/-/elasticsearch-15.5.0.tgz#62d9f238cf9e10b81c50a2303aa470c1f7da6b37"
-  integrity sha512-ZGKKaDkOFAap61ObBNkAxhYXCcAbRfkI4NVoSeLGnTD6/cItvY2j9LII/VV8/zclGe1x5m6DsVp47E4ze4aAeQ==
-  dependencies:
-    agentkeepalive "^3.4.1"
-    chalk "^1.0.0"
-    lodash "^4.17.10"
 
 elasticsearch@^16.7.2:
   version "16.7.2"
