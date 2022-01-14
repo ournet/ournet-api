@@ -97,10 +97,10 @@
     "@ournet/domain" "~0.x.x"
     joi "^14.0.6"
 
-"@ournet/news-data@~0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ournet/news-data/-/news-data-0.1.4.tgz#2b4d1062b8947f2d4a97b41e94a244af693d6942"
-  integrity sha512-11Wh0cJPk3gmDeENBdyCyNSTU/4LYasjiEeQT9EqBoEJdgHN0iT0mJ1DXb2uzkUWKUPr4zzVGfTBBk/DGRsuRg==
+"@ournet/news-data@~0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@ournet/news-data/-/news-data-0.1.5.tgz#5bbee2f67e5e5e5650c4566f0acbddd697dbd266"
+  integrity sha512-M1XzEkknMTFsQ1jE1T8FZmwhmwBkO77sRw2nGvoRY5HcZiizBmuC+mH6NzlTHnegSwHarRb5atb/SD8vVW/isg==
   dependencies:
     "@ournet/domain" "~0.3.4"
     "@ournet/news-domain" "~0.1.x"
@@ -119,10 +119,10 @@
     joi "^13.6.0"
     transliteration "^2.2.0"
 
-"@ournet/places-data@~0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@ournet/places-data/-/places-data-0.2.5.tgz#a465209ed495a3e716cceb7dc0cd2509b46ce36f"
-  integrity sha512-hC7H0LO8wkYQXadLlOq1VfFFkHlViMRYHnGAvLDfB7yJrIolZTArjF5GtUaBsJpPVD5Ryg3KLEVpyj7okNxkSQ==
+"@ournet/places-data@~0.2.6":
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/@ournet/places-data/-/places-data-0.2.6.tgz#a2646bfccfcc6a7ff1fa8de67d2a1d76a527d8ed"
+  integrity sha512-ljxvpAr0ICQaaFHCEEyCmGQ1ciHHDsNIQysEglZqOCPcHrxk6LYlTj1rB3JJw5dI/Mm5Qv31TyWxNmV7TgwzcA==
   dependencies:
     "@ournet/domain" "^0.3.3"
     "@ournet/places-domain" "^0.2.0"
