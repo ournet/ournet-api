@@ -10,17 +10,13 @@ export class DbDataConnection implements DataConnection {
   constructor(
     readonly mongoClient: MongoClient,
     readonly mongoConnectionString: string
-  ) {
-    if (!mongoClient.isConnected()) {
-      throw new Error(`mongoClient must be connected!`);
-    }
-  }
+  ) {}
 
   static async create(mongoConnectionString: string) {
-    const client = await MongoClient.connect(mongoConnectionString, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true
-    });
+    const client = await new MongoClient(mongoConnectionString, {
+      // useUnifiedTopology: true,
+      // useNewUrlParser: true
+    }).connect();
     return new DbDataConnection(client, mongoConnectionString);
   }
 

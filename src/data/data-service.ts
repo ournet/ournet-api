@@ -110,9 +110,8 @@ export class DbDataService implements DataService {
     this.eventRep = new CacheEventRepository(
       EventRepositoryBuilder.build(dynamoClient)
     );
-    this.articleContentRep = ArticleContentRepositoryBuilder.build(
-      dynamoClient
-    );
+    this.articleContentRep =
+      ArticleContentRepositoryBuilder.build(dynamoClient);
     this.imageRep = ImageRepositoryBuilder.build(dynamoClient);
     this.quoteRep = new CacheQuoteRepository(
       QuoteRepositoryBuilder.build(dynamoClient)
