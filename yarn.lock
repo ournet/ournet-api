@@ -61,9 +61,9 @@
     normalize-url "^3.2.0"
 
 "@ournet/horoscopes-data@~0.x.x":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ournet/horoscopes-data/-/horoscopes-data-0.1.1.tgz#00a320be0ee9b4620aeba84d64085cb36d45587d"
-  integrity sha512-0mlwn2pb+dZjeDULR9neg1mqqtS8WpheZscIomQoY7jZXHwXEJwGIbKwTHkxZk5GpWEKO+DDG98/nSOT8YlBxg==
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ournet/horoscopes-data/-/horoscopes-data-0.1.2.tgz#660093ffcc0a4ea8f993a6128f9c3f94e5b010ff"
+  integrity sha512-6ru/hN8Sf1v+M+FkhFHfBBcVkQAsu8vHXBGKzR8skvJa2JXVf41setYGkQrLUHmNGlL0gIR3oFAf/E4CpoLRhg==
   dependencies:
     "@ournet/domain" "^0.3.3"
     "@ournet/horoscopes-domain" "^0.1.1"
