@@ -8,7 +8,10 @@ export default {
       args: { place: TimezoneGeoPoint },
       context: Context
     ) => {
-      return context.data.weatherRep.getReport(args.place);
+      return context.data.weatherRep.getReport(args.place).catch((error) => {
+        console.error(error);
+        return null;
+      });
     },
     weather_datePlacesForecast: (
       _: any,

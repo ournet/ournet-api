@@ -205,7 +205,7 @@
     aws-sdk "^2.382.0"
     dynamo-item "^0.1.1"
 
-"@ournet/weather-domain@^0.2.2", "@ournet/weather-domain@^0.2.6":
+"@ournet/weather-domain@^0.2.2":
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/@ournet/weather-domain/-/weather-domain-0.2.6.tgz#8b165e949ba9dfe731055cf89ae7a5c1051b162f"
   integrity sha512-0XR3FNlwkpxjx3edPQD0Uf1vIbRUBabuTZlVOKG++2ALnQI4O4qjDN4YDkauNbU8h1w47AD0zra4izTDnHKdxg==
@@ -214,6 +214,18 @@
     joi "^14.0.6"
     luxon "^1.6.2"
     node-fetch "^2.3.0"
+    suncalc "^1.8.0"
+    xml2js "^0.4.19"
+
+"@ournet/weather-domain@^0.2.9":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@ournet/weather-domain/-/weather-domain-0.2.9.tgz#66fc2b631d5a8da1ff92bba06eb88aac69e76688"
+  integrity sha512-jHjBjTU06we1qKBbcLsaVWo9dQzhLpgOcgt3/pySJb71N3XczSbL/SDYYSz8ZgdpK8B5q83V3CIW+IP2J1zzeA==
+  dependencies:
+    "@ournet/domain" "^0.3.3"
+    joi "^14.0.6"
+    luxon "^1.6.2"
+    node-fetch "^2.6.1"
     suncalc "^1.8.0"
     xml2js "^0.4.19"
 
@@ -2740,10 +2752,10 @@ type-is@^1.6.16, type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typescript@4.5.4:
-  version "4.5.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.4.tgz#a17d3a0263bf5c8723b9c52f43c5084edf13c2e8"
-  integrity sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==
+typescript@^4.6.3:
+  version "4.6.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
+  integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"

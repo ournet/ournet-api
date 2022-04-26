@@ -41,7 +41,7 @@
     "@types/ms": "^0.7.30",
     "@types/object-hash": "^1.2.0",
     "rimraf": "^2.6.2",
-    "typescript": "4.5.4"
+    "typescript": "^4.6.3"
   },
   "dependencies": {
     "@ournet/domain": "~0.x.x",
@@ -60,7 +60,7 @@
     "@ournet/videos-data": "~0.x.x",
     "@ournet/videos-domain": "~0.x.x",
     "@ournet/weather-data": "~0.x.x",
-    "@ournet/weather-domain": "^0.2.6",
+    "@ournet/weather-domain": "^0.2.9",
     "apollo-server": "^2.3.1",
     "aws-sdk": "^2.382.0",
     "debug": "^4.1.1",
