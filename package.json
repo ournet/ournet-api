@@ -61,7 +61,7 @@
     "@ournet/videos-domain": "~0.x.x",
     "@ournet/weather-data": "~0.x.x",
     "@ournet/weather-domain": "^0.2.9",
-    "apollo-server": "^2.3.1",
+    "apollo-server": "^2.25.4",
     "aws-sdk": "^2.382.0",
     "debug": "^4.1.1",
     "dotenv": "^6.2.0",
