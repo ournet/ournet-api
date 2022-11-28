@@ -8,6 +8,8 @@ export interface Config {
   readonly AWS_REGION: string;
 
   readonly PLACES_ES_HOST: string;
+
+  readonly REDISCLOUD_URL: string;
 }
 
 export function getConfigFromEnv(): Config {
@@ -17,7 +19,8 @@ export function getConfigFromEnv(): Config {
     AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || "",
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || "",
     AWS_REGION: process.env.AWS_REGION || "",
-    PLACES_ES_HOST: process.env.PLACES_ES_HOST || ""
+    PLACES_ES_HOST: process.env.PLACES_ES_HOST || "",
+    REDISCLOUD_URL: process.env.REDISCLOUD_URL || ""
   };
 
   validateConfig(config);
@@ -36,3 +39,5 @@ function validateConfig(config: Config) {
     throw new Error("PLACES_ES_HOST is required!");
   }
 }
+
+export default getConfigFromEnv();

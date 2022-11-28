@@ -1,26 +1,46 @@
+import { RepositoryUpdateData, RepositoryAccessOptions } from "@ournet/domain";
+import { Video, VideoRepository } from "@ournet/videos-domain";
+import { SECONDS_1D, SECONDS_3D, uniq } from "../utils";
+import { CacheStorage } from "./cache-storage";
 
-import LRU from 'lru-cache';
-import ms = require('ms');
-import { CacheRepositoryStorage, CacheRepository } from './cache-repository';
-import { Video, VideoRepository } from '@ournet/videos-domain';
+export class CacheVideoRepository implements VideoRepository {
+  constructor(private rep: VideoRepository, private storage: CacheStorage) {}
+  delete(id: string): Promise<boolean> {
+    return this.rep.delete(id);
+  }
+  create(data: Video): Promise<Video> {
+    return this.rep.create(data);
+  }
+  update(data: RepositoryUpdateData<Video>): Promise<Video> {
+    return this.rep.update(data);
+  }
+  getById(
+    id: string,
+    options?: RepositoryAccessOptions<Video> | undefined
+  ): Promise<Video | null> {
+    const key = this.storage.formatKey(["videoById", id]);
+    return this.storage.executeCached(key, SECONDS_3D, () =>
+      this.rep.getById(id, options)
+    );
+  }
 
-interface VideoCacheRepositoryStorage extends CacheRepositoryStorage<Video> {
+  getByIds(
+    ids: string[],
+    options?: RepositoryAccessOptions<Video> | undefined
+  ): Promise<Video[]> {
+    const key = this.storage.formatKey(["videoByIds", ...uniq(ids)]);
+    return this.storage.executeCached(key, SECONDS_1D, () =>
+      this.rep.getByIds(ids, options)
+    );
+  }
 
-}
-
-export class CacheVideoRepository extends CacheRepository<Video, VideoRepository, VideoCacheRepositoryStorage> implements VideoRepository {
-
-    constructor(rep: VideoRepository) {
-        super(rep, {
-            getById: new LRU<string, Video>({
-                max: 500,
-                maxAge: ms('15m'),
-            }),
-
-            getByIds: new LRU<string, Video[]>({
-                max: 50,
-                maxAge: ms('5m'),
-            }),
-        });
-    }
+  exists(id: string): Promise<boolean> {
+    return this.rep.exists(id);
+  }
+  deleteStorage(): Promise<void> {
+    return this.rep.deleteStorage();
+  }
+  createStorage(): Promise<void> {
+    return this.rep.createStorage();
+  }
 }

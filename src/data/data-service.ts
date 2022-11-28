@@ -51,6 +51,8 @@ import { VideoRepository } from "@ournet/videos-domain";
 import { VideoRepositoryBuilder } from "@ournet/videos-data";
 import { CacheVideoRepository } from "./cache-video-repository";
 import CocoshelService from "./cocoshel-service";
+import RedisCacheStorage from "./redis-cache-storage";
+import { getRedisInstance } from "./redis";
 
 export interface DataService {
   readonly topicRep: TopicRepository;
@@ -98,26 +100,33 @@ export class DbDataService implements DataService {
     params: DataServiceParams,
     dynamoOptions?: ServiceConfigurationOptions
   ) {
+    const storage = new RedisCacheStorage(getRedisInstance());
+
     const dynamoClient = new DynamoDB.DocumentClient(dynamoOptions);
     this.topicRep = new CacheTopicRepository(
-      TopicRepositoryBuilder.build(params.mongoDb)
+      TopicRepositoryBuilder.build(params.mongoDb),
+      storage
     );
     this.horoPhraseRep = PhraseRepositoryBuilder.build(params.mongoDb);
     this.horoReportRep = new CacheHoroscopeReportRepository(
-      ReportRepositoryBuilder.build(params.mongoDb)
+      ReportRepositoryBuilder.build(params.mongoDb),
+      storage
     );
     this.newsRep = NewsRepositoryBuilder.build(dynamoClient, params.newsESHost);
     this.eventRep = new CacheEventRepository(
-      EventRepositoryBuilder.build(dynamoClient)
+      EventRepositoryBuilder.build(dynamoClient),
+      storage
     );
     this.articleContentRep =
       ArticleContentRepositoryBuilder.build(dynamoClient);
     this.imageRep = ImageRepositoryBuilder.build(dynamoClient);
     this.quoteRep = new CacheQuoteRepository(
-      QuoteRepositoryBuilder.build(dynamoClient)
+      QuoteRepositoryBuilder.build(dynamoClient),
+      storage
     );
     this.placeRep = new CachePlaceRepository(
-      PlaceRepositoryBuilder.build(dynamoClient, params.placesESHost)
+      PlaceRepositoryBuilder.build(dynamoClient, params.placesESHost),
+      storage
     );
 
     this.weatherReportRep = ForecastReportRepositoryBuilder.build(dynamoClient);
@@ -126,13 +135,15 @@ export class DbDataService implements DataService {
         this.weatherReportRep,
         this.weatherReportRep,
         new MetnoFetchForecast("ournet/1.0")
-      )
+      ),
+      storage
     );
 
-    this.holidayRep = new CacheHolidayRepository();
+    this.holidayRep = new CacheHolidayRepository(storage);
 
     this.videoRep = new CacheVideoRepository(
-      VideoRepositoryBuilder.build(dynamoClient)
+      VideoRepositoryBuilder.build(dynamoClient),
+      storage
     );
 
     this.cocoshel = new CocoshelService(params.mongoConnectionString);

@@ -1,5 +1,3 @@
-const debug = require("debug")("ournet-api");
-
 import {
   GetReport,
   TimezoneGeoPoint,
@@ -8,9 +6,9 @@ import {
   DailyDataPoint,
   HourlyDataPoint
 } from "@ournet/weather-domain";
-import LRU from "lru-cache";
-import ms = require("ms");
 import { mapPromise } from "@ournet/domain";
+import { CacheStorage } from "./cache-storage";
+import { SECONDS_30M } from "../utils";
 
 export interface WeatherRepository {
   getReport(params: TimezoneGeoPoint): Promise<ForecastReport>;
@@ -21,32 +19,23 @@ export interface WeatherRepository {
   nowPlaceForecast(place: TimezoneGeoPoint): Promise<HourlyDataPoint | null>;
 }
 
-const FORECAST_REPORT_CACHE = new LRU<string, ForecastReport>({
-  max: 500,
-  maxAge: ms("30m")
-});
-
 export class CacheWeatherRepository {
-  constructor(private getReportUseCase: GetReport) {}
+  constructor(
+    private getReportUseCase: GetReport,
+    private storage: CacheStorage
+  ) {}
 
   async getReport(params: TimezoneGeoPoint) {
     const normalizedParams = ForecastHelper.normalizeReportId(params);
-    const key = `${normalizedParams.longitude}_${normalizedParams.latitude}`.toLowerCase();
-    const cacheResult = FORECAST_REPORT_CACHE.get(key);
+    const key = this.storage.formatKey([
+      "weatherGetReport",
+      normalizedParams.longitude,
+      normalizedParams.latitude
+    ]);
 
-    if (cacheResult) {
-      debug(`forecastReport: got from cache: ${key}`);
-      return cacheResult;
-    }
-
-    const repResult = await this.getReportUseCase.execute(params);
-
-    if (repResult) {
-      debug(`forecastReport: set to cache: ${key}`);
-      FORECAST_REPORT_CACHE.set(key, repResult);
-    }
-
-    return repResult;
+    return this.storage.executeCached(key, SECONDS_30M, () =>
+      this.getReportUseCase.execute(params)
+    );
   }
 
   async datePlacesForecast(places: TimezoneGeoPoint[], date: string) {
@@ -77,9 +66,9 @@ function findDayDataPoint(report: ForecastReport, stringDate: string) {
     return null;
   }
   const utcDate = Date.UTC(
-    parseInt(stringDate.substr(0, 4)),
-    parseInt(stringDate.substr(5, 2)) - 1,
-    parseInt(stringDate.substr(8, 2)),
+    parseInt(stringDate.substring(0, 4)),
+    parseInt(stringDate.substring(5, 2)) - 1,
+    parseInt(stringDate.substring(8, 2)),
     0,
     0,
     0

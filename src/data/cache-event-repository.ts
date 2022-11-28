@@ -1,6 +1,4 @@
-import LRU from "lru-cache";
-import ms = require("ms");
-import { RepositoryAccessOptions } from "@ournet/domain";
+import { RepositoryAccessOptions, RepositoryUpdateData } from "@ournet/domain";
 import {
   EventRepository,
   NewsEvent,
@@ -9,125 +7,178 @@ import {
   CountEventsQueryParams,
   CountEventsByTopicQueryParams,
   TrendingTopicsQueryParams,
-  TopItem,
   SimilarEventsByTopicsQueryParams
 } from "@ournet/news-domain";
-import { CacheRepositoryStorage, CacheRepository } from "./cache-repository";
+import { SECONDS_1D, SECONDS_1H, SECONDS_3H, uniq } from "../utils";
+import { CacheStorage } from "./cache-storage";
 
-interface EventCacheRepositoryStorage
-  extends CacheRepositoryStorage<NewsEvent> {
-  similarEvents: LRU.Cache<string, NewsEvent[]>;
-  topTopics: LRU.Cache<string, TopItem[]>;
-  trendTopics: LRU.Cache<string, TopItem[]>;
-  latestEventsByTopic: LRU.Cache<string, NewsEvent[]>;
-  latestEvents: LRU.Cache<string, NewsEvent[]>;
-}
+export class CacheEventRepository implements EventRepository {
+  constructor(private rep: EventRepository, private storage: CacheStorage) {}
+  delete(id: string): Promise<boolean> {
+    return this.rep.delete(id);
+  }
+  create(data: NewsEvent): Promise<NewsEvent> {
+    return this.rep.create(data);
+  }
+  update(data: RepositoryUpdateData<NewsEvent>): Promise<NewsEvent> {
+    return this.rep.update(data);
+  }
 
-export class CacheEventRepository
-  extends CacheRepository<
-    NewsEvent,
-    EventRepository,
-    EventCacheRepositoryStorage
-  >
-  implements EventRepository {
-  constructor(rep: EventRepository) {
-    super(rep, {
-      getById: new LRU<string, NewsEvent>({
-        max: 100,
-        maxAge: ms("10m")
-      }),
+  getById(
+    id: string,
+    options?: RepositoryAccessOptions<NewsEvent> | undefined
+  ): Promise<NewsEvent | null> {
+    const key = this.storage.formatKey(["Event", "getById", id]);
 
-      getByIds: new LRU<string, NewsEvent[]>({
-        max: 100,
-        maxAge: ms("5m")
-      }),
+    return this.storage.executeCached(key, SECONDS_1H, () =>
+      this.rep.getById(id, options)
+    );
+  }
 
-      latestEvents: new LRU<string, NewsEvent[]>({
-        max: 50,
-        maxAge: ms("5m")
-      }),
+  getByIds(
+    ids: string[],
+    options?: RepositoryAccessOptions<NewsEvent> | undefined
+  ): Promise<NewsEvent[]> {
+    const key = this.storage.formatKey(["Event", "getByIds", ...uniq(ids)]);
 
-      latestEventsByTopic: new LRU<string, NewsEvent[]>({
-        max: 50,
-        maxAge: ms("5m")
-      }),
+    return this.storage.executeCached(key, SECONDS_1H, () =>
+      this.rep.getByIds(ids, options)
+    );
+  }
 
-      trendTopics: new LRU<string, TopItem[]>({
-        max: 50,
-        maxAge: ms("5m")
-      }),
-
-      topTopics: new LRU<string, TopItem[]>({
-        max: 100,
-        maxAge: ms("5m")
-      }),
-
-      similarEvents: new LRU<string, NewsEvent[]>({
-        max: 100,
-        maxAge: ms("20m")
-      })
-    });
+  exists(id: string): Promise<boolean> {
+    return this.rep.exists(id);
+  }
+  deleteStorage(): Promise<void> {
+    return this.rep.deleteStorage();
+  }
+  createStorage(): Promise<void> {
+    return this.rep.createStorage();
   }
 
   latest(
     params: LatestEventsQueryParams,
     options?: RepositoryAccessOptions<NewsEvent>
   ) {
-    return this.getCacheData<NewsEvent[]>(
-      this.rep,
+    const key = this.storage.formatKey([
+      "Event",
       "latest",
-      this.storage.latestEvents,
-      params,
-      options
+      params.country,
+      params.lang,
+      params.limit,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_1H, () =>
+      this.rep.latest(params, options)
     );
   }
+
   latestByTopic(
     params: LatestEventsByTopicQueryParams,
     options?: RepositoryAccessOptions<NewsEvent>
   ) {
-    return this.getCacheData<NewsEvent[]>(
-      this.rep,
+    const key = this.storage.formatKey([
+      "Event",
       "latestByTopic",
-      this.storage.latestEventsByTopic,
-      params,
-      options
+      params.topicId,
+      params.country,
+      params.lang,
+      params.limit,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_3H, () =>
+      this.rep.latestByTopic(params, options)
     );
   }
+
   count(params: CountEventsQueryParams) {
-    return this.rep.count(params);
+    const key = this.storage.formatKey([
+      "Event",
+      "count",
+      params.country,
+      params.lang,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_1D, () =>
+      this.rep.count(params)
+    );
   }
+
   countByTopic(params: CountEventsByTopicQueryParams) {
-    return this.rep.countByTopic(params);
+    const key = this.storage.formatKey([
+      "Event",
+      "countByTopic",
+      params.topicId,
+      params.country,
+      params.lang,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_1D, () =>
+      this.rep.countByTopic(params)
+    );
   }
+
   topTopics(params: LatestEventsQueryParams) {
-    return this.getCacheData<TopItem[]>(
-      this.rep,
+    const key = this.storage.formatKey([
+      "Event",
       "topTopics",
-      this.storage.topTopics,
-      params
+      params.country,
+      params.lang,
+      params.maxDate || "",
+      params.minDate || "",
+      params.limit
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_1H, () =>
+      this.rep.topTopics(params)
     );
   }
+
   trendingTopics(params: TrendingTopicsQueryParams) {
-    return this.getCacheData<TopItem[]>(
-      this.rep,
+    const key = this.storage.formatKey([
+      "Event",
       "trendingTopics",
-      this.storage.trendTopics,
-      params
+      params.country,
+      params.lang,
+      params.limit,
+      params.period
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_1H, () =>
+      this.rep.trendingTopics(params)
     );
   }
+
   viewNewsEvent(id: string): Promise<number> {
     return this.rep.viewNewsEvent(id);
   }
+
   similarByTopics(
     params: SimilarEventsByTopicsQueryParams,
     options?: RepositoryAccessOptions<NewsEvent>
   ) {
-    return this.getCacheData<NewsEvent[]>(
-      this.rep,
+    const key = this.storage.formatKey([
+      "Event",
       "similarByTopics",
-      this.storage.similarEvents,
-      params,
-      options
+      params.country,
+      params.lang,
+      params.maxDate || "",
+      params.minDate || "",
+      params.limit,
+      params.exceptId || "",
+      ...uniq(params.topicIds)
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_1H, () =>
+      this.rep.similarByTopics(params, options)
     );
   }
 }

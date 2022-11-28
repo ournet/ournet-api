@@ -1,37 +1,61 @@
+import { RepositoryAccessOptions, RepositoryUpdateData } from "@ournet/domain";
+import { Topic, TopicRepository, TopicWikiId } from "@ournet/topics-domain";
+import { SECONDS_1D, SECONDS_3D, uniq } from "../utils";
+import { CacheStorage } from "./cache-storage";
 
-import LRU from 'lru-cache';
-import ms = require('ms');
-import { RepositoryAccessOptions } from "@ournet/domain";
-import { CacheRepositoryStorage, CacheRepository } from './cache-repository';
-import { Topic, TopicRepository, TopicWikiId } from '@ournet/topics-domain';
+export class CacheTopicRepository implements TopicRepository {
+  constructor(private rep: TopicRepository, private storage: CacheStorage) {}
+  delete(id: string): Promise<boolean> {
+    return this.rep.delete(id);
+  }
+  create(data: Topic): Promise<Topic> {
+    return this.rep.create(data);
+  }
+  update(data: RepositoryUpdateData<Topic>): Promise<Topic> {
+    return this.rep.update(data);
+  }
 
+  getById(
+    id: string,
+    options?: RepositoryAccessOptions<Topic> | undefined
+  ): Promise<Topic | null> {
+    const key = this.storage.formatKey(["Topic", "getById", id]);
+    return this.storage.executeCached(key, SECONDS_3D, () =>
+      this.rep.getById(id, options)
+    );
+  }
 
-interface TopicCacheRepositoryStorage extends CacheRepositoryStorage<Topic> {
-    getByWikiIds: LRU.Cache<string, Topic[]>
-}
+  getByIds(
+    ids: string[],
+    options?: RepositoryAccessOptions<Topic> | undefined
+  ): Promise<Topic[]> {
+    const key = this.storage.formatKey(["Topic", "getByIds", ...uniq(ids)]);
+    return this.storage.executeCached(key, SECONDS_3D, () =>
+      this.rep.getByIds(ids, options)
+    );
+  }
 
-export class CacheTopicRepository extends CacheRepository<Topic, TopicRepository, TopicCacheRepositoryStorage> implements TopicRepository {
+  exists(id: string): Promise<boolean> {
+    return this.rep.exists(id);
+  }
+  deleteStorage(): Promise<void> {
+    return this.rep.deleteStorage();
+  }
+  createStorage(): Promise<void> {
+    return this.rep.createStorage();
+  }
 
-    constructor(rep: TopicRepository) {
-        super(rep, {
-            getById: new LRU<string, Topic>({
-                max: 100,
-                maxAge: ms('10m'),
-            }),
-
-            getByIds: new LRU<string, Topic[]>({
-                max: 100,
-                maxAge: ms('5m'),
-            }),
-
-            getByWikiIds: new LRU<string, Topic[]>({
-                max: 100,
-                maxAge: ms('5m'),
-            }),
-        });
-    }
-
-    getByWikiIds(wikiIds: TopicWikiId[], options?: RepositoryAccessOptions<Topic>) {
-        return this.getCacheData(this.rep, 'getByWikiIds', this.storage.getByWikiIds, wikiIds, options);
-    }
+  getByWikiIds(
+    wikiIds: TopicWikiId[],
+    options?: RepositoryAccessOptions<Topic>
+  ) {
+    const key = this.storage.formatKey([
+      "Topic",
+      "getByWikiIds",
+      ...uniq(wikiIds.map((it) => [it.country, it.lang, it.wikiId].join("_")))
+    ]);
+    return this.storage.executeCached(key, SECONDS_1D, () =>
+      this.rep.getByWikiIds(wikiIds, options)
+    );
+  }
 }

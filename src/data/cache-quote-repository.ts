@@ -1,113 +1,260 @@
+import { RepositoryAccessOptions, RepositoryUpdateData } from "@ournet/domain";
+import {
+  Quote,
+  QuoteRepository,
+  ListQuotesQueryParams,
+  ListQuotesByTopicQueryParams,
+  ListQuotesByAuthorQueryParams,
+  CountQuotesByTopicQueryParams,
+  CountQuotesQueryParams,
+  CountQuotesByAuthorQueryParams
+} from "@ournet/quotes-domain";
+import { SECONDS_1D, SECONDS_2H, SECONDS_3H, SECONDS_6H, uniq } from "../utils";
+import { CacheStorage } from "./cache-storage";
 
-import LRU from 'lru-cache';
-import ms = require('ms');
-import { RepositoryAccessOptions } from "@ournet/domain";
-import { CacheRepositoryStorage, CacheRepository } from './cache-repository';
-import { Quote, QuoteRepository, ListQuotesQueryParams, ListQuotesByTopicQueryParams, ListQuotesByAuthorQueryParams, CountQuotesByTopicQueryParams, CountQuotesQueryParams, CountQuotesByAuthorQueryParams, TopItem } from '@ournet/quotes-domain';
+export class CacheQuoteRepository implements QuoteRepository {
+  constructor(private rep: QuoteRepository, private storage: CacheStorage) {}
+  delete(id: string): Promise<boolean> {
+    return this.rep.delete(id);
+  }
+  create(data: Quote): Promise<Quote> {
+    return this.rep.create(data);
+  }
+  update(data: RepositoryUpdateData<Quote>): Promise<Quote> {
+    return this.rep.update(data);
+  }
 
+  getById(
+    id: string,
+    options?: RepositoryAccessOptions<Quote> | undefined
+  ): Promise<Quote | null> {
+    const key = this.storage.formatKey(["Quote", "getById", id]);
 
-interface QuoteCacheRepositoryStorage extends CacheRepositoryStorage<Quote> {
-    latest: LRU.Cache<string, Quote[]>
-    latestByTopic: LRU.Cache<string, Quote[]>
-    latestByAuthor: LRU.Cache<string, Quote[]>
-    topTopics: LRU.Cache<string, TopItem[]>
-    topAuthors: LRU.Cache<string, TopItem[]>
-    topAuthorTopics: LRU.Cache<string, TopItem[]>
-    popularQuotesByAuthor: LRU.Cache<string, Quote[]>
-}
+    return this.storage.executeCached(key, SECONDS_1D, () =>
+      this.rep.getById(id, options)
+    );
+  }
 
-export class CacheQuoteRepository extends CacheRepository<Quote, QuoteRepository, QuoteCacheRepositoryStorage> implements QuoteRepository {
-    popularQuotes(_params: ListQuotesQueryParams, _options?: RepositoryAccessOptions<Quote> | undefined): Promise<Quote[]> {
-        throw new Error("Method not implemented.");
-    }
-    popularQuotesByTopic(_params: ListQuotesByTopicQueryParams, _options?: RepositoryAccessOptions<Quote> | undefined): Promise<Quote[]> {
-        throw new Error("Method not implemented.");
-    }
-    countPopularQuotes(_params: CountQuotesQueryParams): Promise<number> {
-        throw new Error("Method not implemented.");
-    }
-    countPopularQuotesByTopic(_params: CountQuotesByTopicQueryParams): Promise<number> {
-        throw new Error("Method not implemented.");
-    }
-    countPopularQuotesByAuthor(_params: CountQuotesByAuthorQueryParams): Promise<number> {
-        throw new Error("Method not implemented.");
-    }
+  getByIds(
+    ids: string[],
+    options?: RepositoryAccessOptions<Quote> | undefined
+  ): Promise<Quote[]> {
+    const key = this.storage.formatKey(["Quote", "getByIds", ...uniq(ids)]);
 
-    constructor(rep: QuoteRepository) {
-        super(rep, {
-            getById: new LRU<string, Quote>({
-                max: 100,
-                maxAge: ms('10m'),
-            }),
+    return this.storage.executeCached(key, SECONDS_6H, () =>
+      this.rep.getByIds(ids, options)
+    );
+  }
 
-            getByIds: new LRU<string, Quote[]>({
-                max: 100,
-                maxAge: ms('5m'),
-            }),
+  exists(id: string): Promise<boolean> {
+    return this.rep.exists(id);
+  }
+  deleteStorage(): Promise<void> {
+    return this.rep.deleteStorage();
+  }
+  createStorage(): Promise<void> {
+    return this.rep.createStorage();
+  }
 
-            latest: new LRU<string, Quote[]>({
-                max: 50,
-                maxAge: ms('10m'),
-            }),
+  popularQuotes(
+    _params: ListQuotesQueryParams,
+    _options?: RepositoryAccessOptions<Quote> | undefined
+  ): Promise<Quote[]> {
+    throw new Error("Method not implemented.");
+  }
+  popularQuotesByTopic(
+    _params: ListQuotesByTopicQueryParams,
+    _options?: RepositoryAccessOptions<Quote> | undefined
+  ): Promise<Quote[]> {
+    throw new Error("Method not implemented.");
+  }
+  countPopularQuotes(_params: CountQuotesQueryParams): Promise<number> {
+    throw new Error("Method not implemented.");
+  }
+  countPopularQuotesByTopic(
+    _params: CountQuotesByTopicQueryParams
+  ): Promise<number> {
+    throw new Error("Method not implemented.");
+  }
+  countPopularQuotesByAuthor(
+    _params: CountQuotesByAuthorQueryParams
+  ): Promise<number> {
+    throw new Error("Method not implemented.");
+  }
 
-            latestByTopic: new LRU<string, Quote[]>({
-                max: 50,
-                maxAge: ms('10m'),
-            }),
+  popularQuotesByAuthor(
+    params: ListQuotesByAuthorQueryParams,
+    options?: RepositoryAccessOptions<Quote>
+  ) {
+    const key = this.storage.formatKey([
+      "Quote",
+      "popularQuotesByAuthor",
+      params.authorId,
+      params.country,
+      params.lang,
+      params.limit,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
 
-            latestByAuthor: new LRU<string, Quote[]>({
-                max: 50,
-                maxAge: ms('20m'),
-            }),
-            topTopics: new LRU<string, TopItem[]>({
-                max: 100,
-                maxAge: ms('20m'),
-            }),
-            topAuthors: new LRU<string, TopItem[]>({
-                max: 100,
-                maxAge: ms('20m'),
-            }),
-            topAuthorTopics: new LRU<string, TopItem[]>({
-                max: 100,
-                maxAge: ms('20m'),
-            }),
-            popularQuotesByAuthor: new LRU<string, Quote[]>({
-                max: 100,
-                maxAge: ms('20m'),
-            }),
-        });
-    }
+    return this.storage.executeCached(key, SECONDS_2H, () =>
+      this.rep.popularQuotesByAuthor(params, options)
+    );
+  }
 
-    popularQuotesByAuthor(params: ListQuotesByAuthorQueryParams, options?: RepositoryAccessOptions<Quote>) {
-        return this.getCacheData(this.rep, 'popularQuotesByAuthor', this.storage.popularQuotesByAuthor, params, options);
-    }
+  latest(
+    params: ListQuotesQueryParams,
+    options?: RepositoryAccessOptions<Quote>
+  ) {
+    const key = this.storage.formatKey([
+      "Quote",
+      "latest",
+      params.country,
+      params.lang,
+      params.limit,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
 
-    latest(params: ListQuotesQueryParams, options?: RepositoryAccessOptions<Quote>) {
-        return this.getCacheData(this.rep, 'latest', this.storage.latest, params, options);
-    }
-    latestByTopic(params: ListQuotesByTopicQueryParams, options?: RepositoryAccessOptions<Quote>) {
-        return this.getCacheData(this.rep, 'latestByTopic', this.storage.latestByTopic, params, options);
-    }
-    latestByAuthor(params: ListQuotesByAuthorQueryParams, options?: RepositoryAccessOptions<Quote>) {
-        return this.getCacheData(this.rep, 'latestByAuthor', this.storage.latestByAuthor, params, options);
-    }
-    count(params: CountQuotesQueryParams) {
-        return this.rep.count(params);
-    }
-    countByTopic(params: CountQuotesByTopicQueryParams) {
-        return this.rep.countByTopic(params);
-    }
-    countByAuthor(params: CountQuotesByAuthorQueryParams) {
-        return this.rep.countByAuthor(params);
-    }
-    topTopics(params: ListQuotesQueryParams) {
-        return this.getCacheData(this.rep, 'topTopics', this.storage.topTopics, params);
-    }
-    topAuthors(params: ListQuotesQueryParams) {
-        return this.getCacheData(this.rep, 'topAuthors', this.storage.topAuthors, params);
-    }
-    topAuthorTopics(params: ListQuotesByAuthorQueryParams) {
-        return this.getCacheData(this.rep, 'topAuthorTopics', this.storage.topAuthorTopics, params);
-    }
+    return this.storage.executeCached(key, SECONDS_3H, () =>
+      this.rep.latest(params, options)
+    );
+  }
 
+  latestByTopic(
+    params: ListQuotesByTopicQueryParams,
+    options?: RepositoryAccessOptions<Quote>
+  ) {
+    const key = this.storage.formatKey([
+      "Quote",
+      "latestByTopic",
+      params.topicId,
+      params.country,
+      params.lang,
+      params.limit,
+      params.relation || "",
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_6H, () =>
+      this.rep.latestByTopic(params, options)
+    );
+  }
+
+  latestByAuthor(
+    params: ListQuotesByAuthorQueryParams,
+    options?: RepositoryAccessOptions<Quote>
+  ) {
+    const key = this.storage.formatKey([
+      "Quote",
+      "latestByAuthor",
+      params.authorId,
+      params.country,
+      params.lang,
+      params.limit,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_6H, () =>
+      this.rep.latestByAuthor(params, options)
+    );
+  }
+
+  count(params: CountQuotesQueryParams) {
+    const key = this.storage.formatKey([
+      "Quote",
+      "count",
+      params.country,
+      params.lang,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_6H, () =>
+      this.rep.count(params)
+    );
+  }
+
+  countByTopic(params: CountQuotesByTopicQueryParams) {
+    const key = this.storage.formatKey([
+      "Quote",
+      "countByTopic",
+      params.topicId,
+      params.country,
+      params.lang,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_6H, () =>
+      this.rep.countByTopic(params)
+    );
+  }
+
+  countByAuthor(params: CountQuotesByAuthorQueryParams) {
+    const key = this.storage.formatKey([
+      "Quote",
+      "countByAuthor",
+      params.authorId,
+      params.country,
+      params.lang,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_6H, () =>
+      this.rep.countByAuthor(params)
+    );
+  }
+
+  topTopics(params: ListQuotesQueryParams) {
+    const key = this.storage.formatKey([
+      "Quote",
+      "topTopics",
+      params.country,
+      params.lang,
+      params.limit,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_6H, () =>
+      this.rep.topTopics(params)
+    );
+  }
+
+  topAuthors(params: ListQuotesQueryParams) {
+    const key = this.storage.formatKey([
+      "Quote",
+      "topAuthors",
+      params.country,
+      params.lang,
+      params.limit,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_6H, () =>
+      this.rep.topAuthors(params)
+    );
+  }
+
+  topAuthorTopics(params: ListQuotesByAuthorQueryParams) {
+    const key = this.storage.formatKey([
+      "Quote",
+      "topAuthorTopics",
+      params.authorId,
+      params.country,
+      params.lang,
+      params.limit,
+      params.maxDate || "",
+      params.minDate || ""
+    ]);
+
+    return this.storage.executeCached(key, SECONDS_6H, () =>
+      this.rep.topAuthorTopics(params)
+    );
+  }
 }
