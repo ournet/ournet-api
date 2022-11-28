@@ -6,12 +6,12 @@ export interface ILogger {
 
 export const logger: ILogger = {
   error: function (message?: any, ...optionalParams: any[]): void {
-    logger.error(message, ...optionalParams);
+    console.error(message, ...optionalParams);
   },
   info: function (message?: any, ...optionalParams: any[]): void {
-    logger.info(message, ...optionalParams);
+    console.info(message, ...optionalParams);
   },
   warn: function (message?: any, ...optionalParams: any[]): void {
-    logger.warn(message, ...optionalParams);
+    console.warn(message, ...optionalParams);
   }
 };
