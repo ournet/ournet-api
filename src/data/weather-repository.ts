@@ -9,6 +9,7 @@ import {
 import { mapPromise } from "@ournet/domain";
 import { CacheStorage } from "./cache-storage";
 import { SECONDS_30M } from "../utils";
+import { logger } from "../logger";
 
 export interface WeatherRepository {
   getReport(params: TimezoneGeoPoint): Promise<ForecastReport>;
@@ -63,20 +64,11 @@ export class CacheWeatherRepository {
 
 function findDayDataPoint(report: ForecastReport, stringDate: string) {
   if (!report || !report.daily) {
+    logger.warn(`No daily wheather report`);
     return null;
   }
-  const utcDate = Date.UTC(
-    parseInt(stringDate.substring(0, 4)),
-    parseInt(stringDate.substring(5, 2)) - 1,
-    parseInt(stringDate.substring(8, 2)),
-    0,
-    0,
-    0
-  );
-  const tzDate = ForecastHelper.dateToZoneDate(
-    new Date(utcDate),
-    report.timezone
-  );
+  const utcDate = new Date(stringDate);
+  const tzDate = ForecastHelper.dateToZoneDate(utcDate, report.timezone);
 
   return (
     (report.daily.data &&
