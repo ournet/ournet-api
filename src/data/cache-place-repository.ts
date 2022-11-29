@@ -8,7 +8,7 @@ import {
 } from "@ournet/places-domain";
 import { RepositoryAccessOptions, RepositoryUpdateData } from "@ournet/domain";
 import { CacheStorage } from "./cache-storage";
-import { SECONDS_1D, SECONDS_3D, SECONDS_6H, SECONDS_7D, uniq } from "../utils";
+import { SECONDS_1D, SECONDS_3D, SECONDS_7D, uniq } from "../utils";
 
 export class CachePlaceRepository implements PlaceRepository {
   constructor(private rep: PlaceRepository, private storage: CacheStorage) {}
@@ -39,7 +39,7 @@ export class CachePlaceRepository implements PlaceRepository {
   ): Promise<Place[]> {
     const key = this.storage.formatKey(["Place", "getByIds", ...uniq(ids)]);
 
-    return this.storage.executeCached(key, SECONDS_6H, () =>
+    return this.storage.executeCached(key, SECONDS_7D, () =>
       this.rep.getByIds(ids, options)
     );
   }
@@ -123,7 +123,7 @@ export class CachePlaceRepository implements PlaceRepository {
       data.limit
     ]);
 
-    return this.storage.executeCached(key, SECONDS_1D, () =>
+    return this.storage.executeCached(key, SECONDS_7D, () =>
       this.rep.getMainPlaces(data, options)
     );
   }

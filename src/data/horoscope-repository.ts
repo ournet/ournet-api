@@ -5,7 +5,7 @@ import {
 } from "@ournet/horoscopes-domain";
 import { RepositoryUpdateData, RepositoryAccessOptions } from "@ournet/domain";
 import { CacheStorage } from "./cache-storage";
-import { SECONDS_30M, uniq } from "../utils";
+import { SECONDS_6H, uniq } from "../utils";
 
 export { HoroscopePhraseRepository, HoroscopeReportRepository };
 
@@ -39,7 +39,7 @@ export class CacheHoroscopeReportRepository
   ): Promise<Report | null> {
     const key = this.storage.formatKey(["horoGetById", id]);
 
-    return this.storage.executeCached(key, SECONDS_30M, () =>
+    return this.storage.executeCached(key, SECONDS_6H, () =>
       this.rep.getById(key, options)
     );
   }
@@ -50,7 +50,7 @@ export class CacheHoroscopeReportRepository
   ): Promise<Report[]> {
     const key = this.storage.formatKey(["horoGetByIds", ...uniq(ids)]);
 
-    return this.storage.executeCached(key, SECONDS_30M, () =>
+    return this.storage.executeCached(key, SECONDS_6H, () =>
       this.rep.getByIds(ids, options)
     );
   }

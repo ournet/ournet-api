@@ -9,7 +9,7 @@ import {
   CountQuotesQueryParams,
   CountQuotesByAuthorQueryParams
 } from "@ournet/quotes-domain";
-import { SECONDS_1D, SECONDS_2H, SECONDS_3H, SECONDS_6H, uniq } from "../utils";
+import { SECONDS_1D, SECONDS_3H, SECONDS_6H, uniq } from "../utils";
 import { CacheStorage } from "./cache-storage";
 
 export class CacheQuoteRepository implements QuoteRepository {
@@ -97,7 +97,7 @@ export class CacheQuoteRepository implements QuoteRepository {
       params.minDate || ""
     ]);
 
-    return this.storage.executeCached(key, SECONDS_2H, () =>
+    return this.storage.executeCached(key, SECONDS_6H, () =>
       this.rep.popularQuotesByAuthor(params, options)
     );
   }

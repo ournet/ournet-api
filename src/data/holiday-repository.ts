@@ -1,5 +1,5 @@
 import { getHolidays } from "public-holidays";
-import { SECONDS_3H } from "../utils";
+import { SECONDS_7D } from "../utils";
 import { CacheStorage } from "./cache-storage";
 
 export type HolidaysGetParams = {
@@ -21,7 +21,7 @@ export class CacheHolidayRepository implements HolidayRepository {
       params.start || 0
     }_${params.end || 0}`;
 
-    return this.storage.executeCached(key, SECONDS_3H, async () => {
+    return this.storage.executeCached(key, SECONDS_7D, async () => {
       const data = await getHolidays({
         country: params.country,
         lang: params.lang,

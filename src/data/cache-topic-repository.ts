@@ -1,6 +1,6 @@
 import { RepositoryAccessOptions, RepositoryUpdateData } from "@ournet/domain";
 import { Topic, TopicRepository, TopicWikiId } from "@ournet/topics-domain";
-import { SECONDS_1D, SECONDS_3D, SECONDS_7D, uniq } from "../utils";
+import { SECONDS_1D, SECONDS_7D, uniq } from "../utils";
 import { CacheStorage } from "./cache-storage";
 
 export class CacheTopicRepository implements TopicRepository {
@@ -30,7 +30,7 @@ export class CacheTopicRepository implements TopicRepository {
     options?: RepositoryAccessOptions<Topic> | undefined
   ): Promise<Topic[]> {
     const key = this.storage.formatKey(["Topic", "getByIds", ...uniq(ids)]);
-    return this.storage.executeCached(key, SECONDS_3D, () =>
+    return this.storage.executeCached(key, SECONDS_7D, () =>
       this.rep.getByIds(ids, options)
     );
   }
