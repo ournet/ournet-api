@@ -37,10 +37,13 @@ export class CacheHoroscopeReportRepository
     id: string,
     options?: RepositoryAccessOptions<Report>
   ): Promise<Report | null> {
-    const key = this.storage.formatKey(["horoGetById", id]);
+    const key = this.storage.formatKey(["horoGetById_1", id]);
 
-    return this.storage.executeCached(key, SECONDS_6H, () =>
-      this.rep.getById(key, options)
+    return this.storage.executeCached(
+      key,
+      SECONDS_6H,
+      () => this.rep.getById(key, options),
+      { omitNull: true }
     );
   }
 
@@ -48,10 +51,13 @@ export class CacheHoroscopeReportRepository
     ids: string[],
     options?: RepositoryAccessOptions<Report>
   ): Promise<Report[]> {
-    const key = this.storage.formatKey(["horoGetByIds", ...uniq(ids)]);
+    const key = this.storage.formatKey(["horoGetByIds_1", ...uniq(ids)]);
 
-    return this.storage.executeCached(key, SECONDS_6H, () =>
-      this.rep.getByIds(ids, options)
+    return this.storage.executeCached(
+      key,
+      SECONDS_6H,
+      () => this.rep.getByIds(ids, options),
+      { omitNull: true }
     );
   }
 
