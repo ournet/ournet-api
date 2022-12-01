@@ -42,7 +42,7 @@ export class CacheHoroscopeReportRepository
     return this.storage.executeCached(
       key,
       SECONDS_6H,
-      () => this.rep.getById(key, options),
+      () => this.rep.getById(id, options),
       { omitNull: true }
     );
   }
