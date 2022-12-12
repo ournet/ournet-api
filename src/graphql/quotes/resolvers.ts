@@ -14,7 +14,7 @@ export default {
       return context.data.quoteRep.getById(args.id);
     },
     quotes_quotesByIds: (_: any, args: { ids: string[] }, context: Context) => {
-      if (!args.ids?.length) return [];
+      if (!args.ids.length) return [];
       return context.data.quoteRep.getByIds(args.ids);
     },
     quotes_latest: (

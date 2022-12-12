@@ -20,7 +20,7 @@ export default {
       return context.data.placeRep.search(args);
     },
     places_placesByIds: (_: any, args: { ids: string[] }, context: Context) => {
-      if (!args.ids?.length) return [];
+      if (!args.ids.length) return [];
       return context.data.placeRep.getByIds(args.ids);
     },
     places_placesByAdmin1Code: (

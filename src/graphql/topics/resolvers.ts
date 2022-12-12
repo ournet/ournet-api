@@ -7,7 +7,7 @@ export default {
       return context.data.topicRep.getById(args.id);
     },
     topics_topicsByIds: (_: any, args: { ids: string[] }, context: Context) => {
-      if (!args.ids?.length) return [];
+      if (!args.ids.length) return [];
       return context.data.topicRep.getByIds(args.ids);
     },
     topics_topicsByWikiIds: (
@@ -15,7 +15,7 @@ export default {
       args: { wikiIds: TopicWikiId[] },
       context: Context
     ) => {
-      if (!args.wikiIds?.length) return [];
+      if (!args.wikiIds.length) return [];
       return context.data.topicRep.getByWikiIds(args.wikiIds);
     }
   }

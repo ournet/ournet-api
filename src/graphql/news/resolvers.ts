@@ -31,7 +31,7 @@ export default {
       return context.data.newsRep.getById(args.id);
     },
     news_itemsByIds: (_: any, args: { ids: string[] }, context: Context) => {
-      if (!args.ids?.length) return [];
+      if (!args.ids.length) return [];
       return context.data.newsRep.getByIds(args.ids);
     },
     news_itemsSearch: (
@@ -116,7 +116,7 @@ export default {
       return context.data.eventRep.getById(args.id);
     },
     news_eventsByIds: (_: any, args: { ids: string[] }, context: Context) => {
-      if (!args.ids?.length) return [];
+      if (!args.ids.length) return [];
       return context.data.eventRep.getByIds(args.ids);
     },
     news_eventsLatest: (
@@ -174,7 +174,7 @@ export default {
       args: { ids: string[] },
       context: Context
     ) => {
-      if (!args.ids?.length) return [];
+      if (!args.ids.length) return [];
       return context.data.articleContentRep.getByIds(args.ids);
     },
 
