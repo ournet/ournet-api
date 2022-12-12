@@ -21,6 +21,7 @@ export default {
       args: { ids: string[] },
       context: Context
     ) => {
+      if (!args.ids?.length) return [];
       return context.data.horoReportRep.getByIds(args.ids);
     },
 
