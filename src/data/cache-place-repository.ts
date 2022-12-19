@@ -26,7 +26,7 @@ export class CachePlaceRepository implements PlaceRepository {
     id: string,
     options?: RepositoryAccessOptions<Place> | undefined
   ): Promise<Place | null> {
-    const key = this.storage.formatKey(["Place", "getById", id]);
+    const key = this.storage.formatKey(["Place", "getById_1", id]);
 
     return this.storage.executeCached(key, SECONDS_7D, () =>
       this.rep.getById(id, options)
@@ -37,7 +37,7 @@ export class CachePlaceRepository implements PlaceRepository {
     ids: string[],
     options?: RepositoryAccessOptions<Place> | undefined
   ): Promise<Place[]> {
-    const key = this.storage.formatKey(["Place", "getByIds", ...uniq(ids)]);
+    const key = this.storage.formatKey(["Place", "getByIds_1", ...uniq(ids)]);
 
     return this.storage.executeCached(key, SECONDS_7D, () =>
       this.rep.getByIds(ids, options)
@@ -64,7 +64,7 @@ export class CachePlaceRepository implements PlaceRepository {
   ) {
     const key = this.storage.formatKey([
       "Place",
-      "getAdmin1s",
+      "getAdmin1s_1",
       data.country,
       data.limit
     ]);
@@ -77,7 +77,7 @@ export class CachePlaceRepository implements PlaceRepository {
   getAdmin1(data: PlaceAdminData, options?: RepositoryAccessOptions<Place>) {
     const key = this.storage.formatKey([
       "Place",
-      "getAdmin1",
+      "getAdmin1_1",
       data.country,
       data.admin1Code
     ]);
@@ -93,7 +93,7 @@ export class CachePlaceRepository implements PlaceRepository {
   ) {
     const key = this.storage.formatKey([
       "Place",
-      "getPlacesInAdmin1",
+      "getPlacesInAdmin1_1",
       data.country,
       data.admin1Code,
       data.limit
@@ -118,7 +118,7 @@ export class CachePlaceRepository implements PlaceRepository {
   ) {
     const key = this.storage.formatKey([
       "Place",
-      "getMainPlaces",
+      "getMainPlaces_1",
       data.country,
       data.limit
     ]);
