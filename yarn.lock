@@ -97,10 +97,10 @@
     "@ournet/domain" "~0.x.x"
     joi "^14.0.6"
 
-"@ournet/news-data@~0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@ournet/news-data/-/news-data-0.1.5.tgz#5bbee2f67e5e5e5650c4566f0acbddd697dbd266"
-  integrity sha512-M1XzEkknMTFsQ1jE1T8FZmwhmwBkO77sRw2nGvoRY5HcZiizBmuC+mH6NzlTHnegSwHarRb5atb/SD8vVW/isg==
+"@ournet/news-data@~0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@ournet/news-data/-/news-data-0.1.6.tgz#05a62cf29c6b4463e74bbe834a57ac48b943d80d"
+  integrity sha512-Tippgtr9QeKBuNF+EViE9RraprpcS7wuMdIxb7SkO0D56HSPg8M0yIO4+eQEG69eZMwKxF7Fb//OYG4oQ5rz9w==
   dependencies:
     "@ournet/domain" "~0.3.4"
     "@ournet/news-domain" "~0.1.x"
