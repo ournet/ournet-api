@@ -1,5 +1,7 @@
 {
-    "script": "./lib/app.js",
-    "max_memory_restart": "500M",
-    "name": "ournet-api-2"
+  "script": "./lib/app.js",
+  "max_memory_restart": "500M",
+  "name": "ournet-api",
+  "instances": 2,
+  "exec_mode": "cluster"
 }
