@@ -29,12 +29,14 @@ export default {
       return context.data.horoPhraseRep.getById(args.id);
     },
 
-    horoscopes_phraseList: (
+    horoscopes_phraseList: async (
       _: any,
       args: { params: { lang: string; limit: number; offset?: number } },
       context: Context
     ) => {
-      return context.data.horoPhraseRep.list(args.params);
+      const list = await context.data.horoPhraseRep.list(args.params);
+      const offset = args.params.offset || 0;
+      return list.map((it, i) => ({ iid: i + offset, ...it }));
     },
 
     horoscopes_generateReports: async (

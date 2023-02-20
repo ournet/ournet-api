@@ -2,6 +2,7 @@
 export default `
 
 type HoroscopePhrase {
+    iid: Int
     id: String!
     lang: String!
     source: String!
