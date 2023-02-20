@@ -29,6 +29,14 @@ export default {
       return context.data.horoPhraseRep.getById(args.id);
     },
 
+    horoscopes_phraseList: (
+      _: any,
+      args: { params: { lang: string; limit: number; offset?: number } },
+      context: Context
+    ) => {
+      return context.data.horoPhraseRep.list(args.params);
+    },
+
     horoscopes_generateReports: async (
       _: any,
       args: { params: { lang: string; period: string } },

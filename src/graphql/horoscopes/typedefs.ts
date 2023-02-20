@@ -36,10 +36,17 @@ input HoroscopeGenerateReportsParams {
     period: String!
 }
 
+input HoroscopeListPhraseParams {
+    lang: String!
+    limit: Int!
+    offset: Int
+}
+
 extend type Query {
     horoscopes_reportById(id: String!): HoroscopeReport
     horoscopes_reportsByIds(ids: [String!]!): [HoroscopeReport]!
     horoscopes_phraseById(id: String!): HoroscopePhrase
     horoscopes_generateReports(params: HoroscopeGenerateReportsParams!): [HoroscopeReport]!
+    horoscopes_phraseList(params: HoroscopeListPhraseParams!): [HoroscopePhrase]!
 }
 `;
