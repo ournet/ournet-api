@@ -4,6 +4,7 @@ import { logger } from "../logger";
 const getToken = (req: Request): string | string[] | null => {
   let token = req.headers.authorization || null;
   if (token) return token;
+  console.log("url", req.url, req.query, req.params);
   return new URL(req.url.toString()).searchParams.get("api_token") || null;
 };
 
