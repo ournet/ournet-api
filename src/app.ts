@@ -40,7 +40,8 @@ async function start() {
 
       return context;
     },
-    playground: true
+    playground: true,
+    introspection: true
   });
 
   await server.listen(PORT);
