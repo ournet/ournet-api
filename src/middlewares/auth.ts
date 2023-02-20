@@ -1,8 +1,17 @@
 import { Request, Response, NextFunction } from "express";
 import { logger } from "../logger";
 
-const getToken = (req: Request): string | string[] | null =>
-  req.headers.authorization || null;
+const getToken = (req: Request): string | string[] | null => {
+  let token = req.headers.authorization || null;
+  if (token) return token;
+  return new URL(req.url.toString()).searchParams.get("api_token") || null;
+};
+
+// (req.query["api_token"]?.length
+//   ? (req.query["api_token"] as never)
+//   : (null as never)) ||
+//   req.headers.authorization ||
+//   null;
 
 export function auth(req: Request, res: Response, next: NextFunction) {
   let hasData = false;
