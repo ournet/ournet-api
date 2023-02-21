@@ -36,7 +36,7 @@ export default {
     ) => {
       const list = await context.data.horoPhraseRep.list(args.params);
       const offset = args.params.offset || 0;
-      return list.map((it, i) => ({ iid: i + offset + 1, ...it }));
+      return list.map((it, i) => ({ iid: i + offset, ...it }));
     },
 
     horoscopes_generateReports: async (
