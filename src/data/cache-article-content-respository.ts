@@ -1,6 +1,6 @@
 import { RepositoryUpdateData, RepositoryAccessOptions } from "@ournet/domain";
 import { ArticleContent, ArticleContentRepository } from "@ournet/news-domain";
-import { SECONDS_1D, uniq } from "../utils";
+// import { SECONDS_1D, uniq } from "../utils";
 import { CacheStorage } from "./cache-storage";
 
 export class CacheActicleContentRepository implements ArticleContentRepository {
@@ -35,26 +35,28 @@ export class CacheActicleContentRepository implements ArticleContentRepository {
     id: string,
     options?: RepositoryAccessOptions<ArticleContent> | undefined
   ): Promise<ArticleContent | null> {
-    const key = this.storage.formatKey(["ArticleContent", "getById", id]);
+    return this.rep.getById(id, options);
+    // const key = this.storage.formatKey(["ArticleContent", "getById", id]);
 
-    return this.storage.executeCached(key, SECONDS_1D, () =>
-      this.rep.getById(id, options)
-    );
+    // return this.storage.executeCached(key, SECONDS_1D, () =>
+    //   this.rep.getById(id, options)
+    // );
   }
 
   getByIds(
     ids: string[],
     options?: RepositoryAccessOptions<ArticleContent> | undefined
   ): Promise<ArticleContent[]> {
-    const key = this.storage.formatKey([
-      "ArticleContent",
-      "getByIds",
-      ...uniq(ids)
-    ]);
+    return this.rep.getByIds(ids, options);
+    // const key = this.storage.formatKey([
+    //   "ArticleContent",
+    //   "getByIds",
+    //   ...uniq(ids)
+    // ]);
 
-    return this.storage.executeCached(key, SECONDS_1D, () =>
-      this.rep.getByIds(ids, options)
-    );
+    // return this.storage.executeCached(key, SECONDS_1D, () =>
+    //   this.rep.getByIds(ids, options)
+    // );
   }
 
   exists(id: string): Promise<boolean> {
