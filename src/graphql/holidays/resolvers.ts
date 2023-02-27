@@ -1,5 +1,5 @@
 import { Context } from "../../context";
-import { HolidaysGetParams } from "../../data/holiday-repository";
+import { HolidaysGetParams } from "../../data/cache-holiday-repository";
 
 export default {
   Query: {

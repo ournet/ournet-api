@@ -8,7 +8,7 @@ import {
 } from "@ournet/weather-domain";
 import { mapPromise } from "@ournet/domain";
 import { CacheStorage } from "./cache-storage";
-import { SECONDS_2H } from "../utils";
+import { SECONDS_3H } from "../utils";
 import { logger } from "../logger";
 
 export interface WeatherRepository {
@@ -34,7 +34,7 @@ export class CacheWeatherRepository {
       normalizedParams.latitude
     ]);
 
-    return this.storage.executeCached(key, SECONDS_2H, () =>
+    return this.storage.executeCached(key, SECONDS_3H, () =>
       this.getReportUseCase.execute(params)
     );
   }

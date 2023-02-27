@@ -30,7 +30,7 @@ export class CacheEventRepository implements EventRepository {
   ): Promise<NewsEvent | null> {
     const key = this.storage.formatKey(["Event", "getById", id]);
 
-    return this.storage.executeCached(key, SECONDS_1H, () =>
+    return this.storage.executeCached(key, SECONDS_3H, () =>
       this.rep.getById(id, options)
     );
   }
@@ -41,7 +41,7 @@ export class CacheEventRepository implements EventRepository {
   ): Promise<NewsEvent[]> {
     const key = this.storage.formatKey(["Event", "getByIds", ...uniq(ids)]);
 
-    return this.storage.executeCached(key, SECONDS_1H, () =>
+    return this.storage.executeCached(key, SECONDS_3H, () =>
       this.rep.getByIds(ids, options)
     );
   }

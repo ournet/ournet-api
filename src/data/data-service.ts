@@ -30,16 +30,16 @@ import { CachePlaceRepository } from "./cache-place-repository";
 import {
   HolidayRepository,
   CacheHolidayRepository
-} from "./holiday-repository";
+} from "./cache-holiday-repository";
 import {
   WeatherRepository,
   CacheWeatherRepository
-} from "./weather-repository";
+} from "./cache-weather-repository";
 import {
   HoroscopeReportRepository,
   HoroscopePhraseRepository,
   CacheHoroscopeReportRepository
-} from "./horoscope-repository";
+} from "./cache-horoscope-repository";
 import {
   PhraseRepositoryBuilder,
   ReportRepositoryBuilder
@@ -53,6 +53,8 @@ import { CacheVideoRepository } from "./cache-video-repository";
 import CocoshelService from "./cocoshel-service";
 import RedisCacheStorage from "./redis-cache-storage";
 import { getRedisInstance } from "./redis";
+import { CacheNewsRepository } from "./cache-news-repository";
+import { CacheActicleContentRepository } from "./cache-article-content-respository";
 
 export interface DataService {
   readonly topicRep: TopicRepository;
@@ -112,13 +114,18 @@ export class DbDataService implements DataService {
       ReportRepositoryBuilder.build(params.mongoDb),
       storage
     );
-    this.newsRep = NewsRepositoryBuilder.build(dynamoClient, params.newsESHost);
+    this.newsRep = new CacheNewsRepository(
+      NewsRepositoryBuilder.build(dynamoClient, params.newsESHost),
+      storage
+    );
     this.eventRep = new CacheEventRepository(
       EventRepositoryBuilder.build(dynamoClient),
       storage
     );
-    this.articleContentRep =
-      ArticleContentRepositoryBuilder.build(dynamoClient);
+    this.articleContentRep = new CacheActicleContentRepository(
+      ArticleContentRepositoryBuilder.build(dynamoClient),
+      storage
+    );
     this.imageRep = ImageRepositoryBuilder.build(dynamoClient);
     this.quoteRep = new CacheQuoteRepository(
       QuoteRepositoryBuilder.build(dynamoClient),
