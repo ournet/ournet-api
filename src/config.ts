@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 export interface Config {
   readonly MONGO_DB_CONNECTION: string;
 
@@ -37,6 +39,9 @@ function validateConfig(config: Config) {
   }
   if (!config.PLACES_ES_HOST) {
     throw new Error("PLACES_ES_HOST is required!");
+  }
+  if (!config.REDISCLOUD_URL) {
+    throw new Error("REDISCLOUD_URL is required!");
   }
 }
 
