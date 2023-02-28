@@ -39,11 +39,7 @@ export class CacheEventRepository implements EventRepository {
     ids: string[],
     options?: RepositoryAccessOptions<NewsEvent> | undefined
   ): Promise<NewsEvent[]> {
-    const key = this.storage.formatKey(["Event", "getByIds", ...uniq(ids)]);
-
-    return this.storage.executeCached(key, SECONDS_3H, () =>
-      this.rep.getByIds(ids, options)
-    );
+    return this.rep.getByIds(ids, options);
   }
 
   exists(id: string): Promise<boolean> {

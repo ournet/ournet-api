@@ -9,7 +9,7 @@ import {
   CountQuotesQueryParams,
   CountQuotesByAuthorQueryParams
 } from "@ournet/quotes-domain";
-import { SECONDS_1D, SECONDS_3H, SECONDS_6H, uniq } from "../utils";
+import { SECONDS_3H, SECONDS_6H } from "../utils";
 import { CacheStorage } from "./cache-storage";
 
 export class CacheQuoteRepository implements QuoteRepository {
@@ -28,22 +28,14 @@ export class CacheQuoteRepository implements QuoteRepository {
     id: string,
     options?: RepositoryAccessOptions<Quote> | undefined
   ): Promise<Quote | null> {
-    const key = this.storage.formatKey(["Quote", "getById", id]);
-
-    return this.storage.executeCached(key, SECONDS_1D, () =>
-      this.rep.getById(id, options)
-    );
+    return this.rep.getById(id, options);
   }
 
   getByIds(
     ids: string[],
     options?: RepositoryAccessOptions<Quote> | undefined
   ): Promise<Quote[]> {
-    const key = this.storage.formatKey(["Quote", "getByIds", ...uniq(ids)]);
-
-    return this.storage.executeCached(key, SECONDS_6H, () =>
-      this.rep.getByIds(ids, options)
-    );
+    return this.rep.getByIds(ids, options);
   }
 
   exists(id: string): Promise<boolean> {

@@ -28,7 +28,7 @@ export class CachePlaceRepository implements PlaceRepository {
   ): Promise<Place | null> {
     const key = this.storage.formatKey(["Place", "getById_1", id]);
 
-    return this.storage.executeCached(key, SECONDS_7D, () =>
+    return this.storage.executeCached(key, SECONDS_3D, () =>
       this.rep.getById(id, options)
     );
   }
@@ -39,7 +39,7 @@ export class CachePlaceRepository implements PlaceRepository {
   ): Promise<Place[]> {
     const key = this.storage.formatKey(["Place", "getByIds_1", ...uniq(ids)]);
 
-    return this.storage.executeCached(key, SECONDS_7D, () =>
+    return this.storage.executeCached(key, SECONDS_3D, () =>
       this.rep.getByIds(ids, options)
     );
   }
@@ -123,7 +123,7 @@ export class CachePlaceRepository implements PlaceRepository {
       data.limit
     ]);
 
-    return this.storage.executeCached(key, SECONDS_7D, () =>
+    return this.storage.executeCached(key, SECONDS_3D, () =>
       this.rep.getMainPlaces(data, options)
     );
   }

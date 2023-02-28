@@ -13,7 +13,7 @@ import {
   NewsSearchParams,
   TopItem
 } from "@ournet/news-domain";
-import { SECONDS_1H, SECONDS_3H, uniq } from "../utils";
+import { SECONDS_1H, SECONDS_3H } from "../utils";
 import { CacheStorage } from "./cache-storage";
 
 export class CacheNewsRepository implements NewsRepository {
@@ -99,7 +99,7 @@ export class CacheNewsRepository implements NewsRepository {
       params.minDate || ""
     ]);
 
-    return this.storage.executeCached(key, SECONDS_3H, () =>
+    return this.storage.executeCached(key, SECONDS_1H, () =>
       this.rep.latestByEvent(params, options)
     );
   }
@@ -162,7 +162,7 @@ export class CacheNewsRepository implements NewsRepository {
       params.minDate || ""
     ]);
 
-    return this.storage.executeCached(key, SECONDS_3H, () =>
+    return this.storage.executeCached(key, SECONDS_1H, () =>
       this.rep.countByEvent(params)
     );
   }
@@ -218,22 +218,14 @@ export class CacheNewsRepository implements NewsRepository {
     id: string,
     options?: RepositoryAccessOptions<NewsItem> | undefined
   ): Promise<NewsItem | null> {
-    const key = this.storage.formatKey(["NewsItem", "getById", id]);
-
-    return this.storage.executeCached(key, SECONDS_3H, () =>
-      this.rep.getById(id, options)
-    );
+    return this.rep.getById(id, options);
   }
 
   getByIds(
     ids: string[],
     options?: RepositoryAccessOptions<NewsItem> | undefined
   ): Promise<NewsItem[]> {
-    const key = this.storage.formatKey(["NewsItem", "getByIds", ...uniq(ids)]);
-
-    return this.storage.executeCached(key, SECONDS_3H, () =>
-      this.rep.getByIds(ids, options)
-    );
+    return this.rep.getByIds(ids, options);
   }
 
   exists(id: string): Promise<boolean> {

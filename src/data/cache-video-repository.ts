@@ -1,6 +1,5 @@
 import { RepositoryUpdateData, RepositoryAccessOptions } from "@ournet/domain";
 import { Video, VideoRepository } from "@ournet/videos-domain";
-import { SECONDS_3D, uniq } from "../utils";
 import { CacheStorage } from "./cache-storage";
 
 export class CacheVideoRepository implements VideoRepository {
@@ -12,6 +11,7 @@ export class CacheVideoRepository implements VideoRepository {
     return this.rep.create(data);
   }
   update(data: RepositoryUpdateData<Video>): Promise<Video> {
+    this.storage.removeCacheValue("1");
     return this.rep.update(data);
   }
 
@@ -19,20 +19,14 @@ export class CacheVideoRepository implements VideoRepository {
     id: string,
     options?: RepositoryAccessOptions<Video> | undefined
   ): Promise<Video | null> {
-    const key = this.storage.formatKey(["videoById", id]);
-    return this.storage.executeCached(key, SECONDS_3D, () =>
-      this.rep.getById(id, options)
-    );
+    return this.rep.getById(id, options);
   }
 
   getByIds(
     ids: string[],
     options?: RepositoryAccessOptions<Video> | undefined
   ): Promise<Video[]> {
-    const key = this.storage.formatKey(["videoByIds", ...uniq(ids)]);
-    return this.storage.executeCached(key, SECONDS_3D, () =>
-      this.rep.getByIds(ids, options)
-    );
+    return this.rep.getByIds(ids, options);
   }
 
   exists(id: string): Promise<boolean> {
