@@ -9,7 +9,7 @@ import {
   TrendingTopicsQueryParams,
   SimilarEventsByTopicsQueryParams
 } from "@ournet/news-domain";
-import { SECONDS_1D, SECONDS_1H, SECONDS_3H, uniq } from "../utils";
+import { SECONDS_1D, SECONDS_1H, SECONDS_3H } from "../utils";
 import { CacheStorage } from "./cache-storage";
 
 export class CacheEventRepository implements EventRepository {
@@ -161,20 +161,21 @@ export class CacheEventRepository implements EventRepository {
     params: SimilarEventsByTopicsQueryParams,
     options?: RepositoryAccessOptions<NewsEvent>
   ) {
-    const key = this.storage.formatKey([
-      "Event",
-      "similarByTopics",
-      params.country,
-      params.lang,
-      params.maxDate || "",
-      params.minDate || "",
-      params.limit,
-      params.exceptId || "",
-      ...uniq(params.topicIds)
-    ]);
+    return this.rep.similarByTopics(params, options);
+    // const key = this.storage.formatKey([
+    //   "Event",
+    //   "similarByTopics",
+    //   params.country,
+    //   params.lang,
+    //   params.maxDate || "",
+    //   params.minDate || "",
+    //   params.limit,
+    //   params.exceptId || "",
+    //   ...uniq(params.topicIds)
+    // ]);
 
-    return this.storage.executeCached(key, SECONDS_1H, () =>
-      this.rep.similarByTopics(params, options)
-    );
+    // return this.storage.executeCached(key, SECONDS_1H, () =>
+    //   this.rep.similarByTopics(params, options)
+    // );
   }
 }
