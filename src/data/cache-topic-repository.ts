@@ -1,6 +1,6 @@
 import { RepositoryAccessOptions, RepositoryUpdateData } from "@ournet/domain";
 import { Topic, TopicRepository, TopicWikiId } from "@ournet/topics-domain";
-import { SECONDS_1D, SECONDS_7D, uniq } from "../utils";
+import { SECONDS_7D, uniq } from "../utils";
 import { CacheStorage } from "./cache-storage";
 
 export class CacheTopicRepository implements TopicRepository {
@@ -49,13 +49,6 @@ export class CacheTopicRepository implements TopicRepository {
     wikiIds: TopicWikiId[],
     options?: RepositoryAccessOptions<Topic>
   ) {
-    const key = this.storage.formatKey([
-      "Topic",
-      "getByWikiIds",
-      ...uniq(wikiIds.map((it) => [it.country, it.lang, it.wikiId].join("_")))
-    ]);
-    return this.storage.executeCached(key, SECONDS_1D, () =>
-      this.rep.getByWikiIds(wikiIds, options)
-    );
+    return this.rep.getByWikiIds(wikiIds, options);
   }
 }

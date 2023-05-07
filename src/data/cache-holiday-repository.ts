@@ -18,8 +18,8 @@ export class CacheHolidayRepository implements HolidayRepository {
 
   async get(params: HolidaysGetParams) {
     const key = `holidays:${params.country}_${params.lang}_${
-      params.start || 0
-    }_${params.end || 0}`;
+      params.start ? Math.round(params.start / 10) : 0
+    }_${params.end ? Math.round(params.end / 10) : 0}`;
 
     return this.storage.executeCached(key, SECONDS_7D, async () => {
       const data = await getHolidays({

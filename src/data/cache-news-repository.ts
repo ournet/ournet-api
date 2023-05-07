@@ -13,7 +13,7 @@ import {
   NewsSearchParams,
   TopItem
 } from "@ournet/news-domain";
-import { SECONDS_1H, SECONDS_3H } from "../utils";
+import { SECONDS_1H, SECONDS_30M, SECONDS_3H } from "../utils";
 import { CacheStorage } from "./cache-storage";
 
 export class CacheNewsRepository implements NewsRepository {
@@ -99,7 +99,7 @@ export class CacheNewsRepository implements NewsRepository {
       params.minDate || ""
     ]);
 
-    return this.storage.executeCached(key, SECONDS_1H, () =>
+    return this.storage.executeCached(key, SECONDS_30M, () =>
       this.rep.latestByEvent(params, options)
     );
   }

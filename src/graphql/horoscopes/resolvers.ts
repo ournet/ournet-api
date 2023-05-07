@@ -73,5 +73,10 @@ export default {
 
       return list;
     }
+  },
+  HoroscopeReport: {
+    phrases: (report: Report, _: any, context: Context) => {
+      return context.data.horoPhraseRep.getByIds(report.phrasesIds);
+    }
   }
 };

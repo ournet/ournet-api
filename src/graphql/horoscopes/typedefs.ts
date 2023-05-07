@@ -20,6 +20,7 @@ type HoroscopeReport {
     sign: Int!
     period: String!
     phrasesIds: [String!]!
+    phrases: [HoroscopePhrase!]!
     numbers: [Int!]!
     stats: HoroscopeReportStats!
     createdAt: String!
