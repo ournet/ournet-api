@@ -12,6 +12,7 @@ type HoroscopePhrase {
     period: String!
     createdAt: String!
 }
+
 type HoroscopeReport {
     id: String!
     lang: String!

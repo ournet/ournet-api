@@ -57,6 +57,7 @@ export const resolvers = {
     ...cocoshel.resolvers.Query
   },
   Place: places.resolvers.Place,
+  HoroscopeReport: horoscopes.resolvers.HoroscopeReport,
   Mutation: {
     ...rootResolvers.Mutation,
     ...news.resolvers.Mutation
