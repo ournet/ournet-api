@@ -1863,10 +1863,10 @@ negotiator@0.6.2:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
 
-news-sources@^0.1.3:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/news-sources/-/news-sources-0.1.5.tgz#bd0dc95599d81937db8beab558381f8fcf054978"
-  integrity sha512-+yBrNYCMedPdAC78rojwk7sp0afXY9Kq8DRw+n3TpJxHSbEYiBM2w3RizEiqIaj8FphmBmzTV99TxFmyFK8rzw==
+news-sources@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/news-sources/-/news-sources-0.1.10.tgz#9b6c69face4fecd758d50bcd13142c6d44dac5d9"
+  integrity sha512-WnG+W//k8o161KU21YXgwMmDTUybWEoi3kvI6jHDbEkxCkli0vNpI72n5zF8guW8dFYCfUmf3Cpb2u9X9f2Kwg==
 
 nice-try@^1.0.4:
   version "1.0.5"
