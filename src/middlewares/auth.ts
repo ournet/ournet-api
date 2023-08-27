@@ -1,29 +1,20 @@
 import { Request, Response, NextFunction } from "express";
 import { logger } from "../logger";
 
-const getToken = (req: Request): string | string[] | null => {
+const getToken = (req: Request): string | null => {
   let token = req.headers.authorization || null;
-  if (token) return token;
+  if (token) return token.split(" ").pop() || null;
 
-  return new URL(req.url.toString()).searchParams.get("api_token") || null;
+  return (req.query.api_token as string) || null;
 };
-
-// (req.query["api_token"]?.length
-//   ? (req.query["api_token"] as never)
-//   : (null as never)) ||
-//   req.headers.authorization ||
-//   null;
 
 export function auth(req: Request, res: Response, next: NextFunction) {
   let hasData = false;
   const token = getToken(req);
   if (token) {
-    const parts = Array.isArray(token) ? token : (<string>token).split(" ");
-    if (parts.length === 2) {
-      hasData = true;
-      if (parts[1] === process.env.OURNET_API_KEY) {
-        return next();
-      }
+    hasData = true;
+    if (token === process.env.OURNET_API_KEY) {
+      return next();
     }
   }
   logger.warn(`invalid header authorization: ${JSON.stringify(req.headers)}`);
@@ -36,12 +27,10 @@ export function auth(req: Request, res: Response, next: NextFunction) {
 export function isAuthenticated(req: Request) {
   const token = getToken(req);
   if (token) {
-    const parts = Array.isArray(token) ? token : (<string>token).split(" ");
-    if (parts.length === 2) {
-      if (parts[1] === process.env.OURNET_API_KEY) {
-        return true;
-      }
+    if (token === process.env.OURNET_API_KEY) {
+      return true;
     }
   }
+
   return false;
 }
