@@ -43,6 +43,6 @@ extend type Query {
     topics_topicsByWikiIds(wikiIds: [TopicWikiId]!): [Topic]!
 }
 extend type Mutation {
-    topics_setTopicType(id: String!, type: TopicType!): Topic!
+    topics_setTopicType(id: String!, type: TopicType): Topic!
 }
 `;
