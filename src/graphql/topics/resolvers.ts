@@ -1,5 +1,6 @@
+import { RepositoryUpdateData } from "@ournet/domain";
 import { Context } from "../../context";
-import { TopicType, TopicWikiId } from "@ournet/topics-domain";
+import { Topic, TopicType, TopicWikiId } from "@ournet/topics-domain";
 
 export default {
   Mutation: {
@@ -8,7 +9,10 @@ export default {
       { id, type }: { id: string; type: TopicType },
       context: Context
     ) => {
-      return context.data.topicRep.update({ id, set: { type } });
+      const data: RepositoryUpdateData<Topic> = { id };
+      if (type) data.set = { type };
+      else data.delete = ["type"];
+      return context.data.topicRep.update(data);
     }
   },
   Query: {
