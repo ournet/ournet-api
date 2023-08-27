@@ -1,7 +1,16 @@
 import { Context } from "../../context";
-import { TopicWikiId } from "@ournet/topics-domain";
+import { TopicType, TopicWikiId } from "@ournet/topics-domain";
 
 export default {
+  Mutation: {
+    topics_setTopicType: (
+      _: any,
+      { id, type }: { id: string; type: TopicType },
+      context: Context
+    ) => {
+      return context.data.topicRep.update({ id, set: { type } });
+    }
+  },
   Query: {
     topics_topicById: (_: any, args: { id: string }, context: Context) => {
       return context.data.topicRep.getById(args.id);
