@@ -7,6 +7,7 @@ import quotes from "./quotes";
 import horoscopes from "./horoscopes";
 import videos from "./videos";
 import cocoshel from "./cocoshel";
+import articles from "./articles";
 
 const GraphQLJsonType = require("graphql-type-json");
 
@@ -40,7 +41,8 @@ export const typedefs = [
   quotes.typedefs,
   horoscopes.typedefs,
   videos.typedefs,
-  cocoshel.typedefs
+  cocoshel.typedefs,
+  articles.typedefs
 ].join("\n");
 
 export const resolvers = {
@@ -54,13 +56,15 @@ export const resolvers = {
     ...quotes.resolvers.Query,
     ...horoscopes.resolvers.Query,
     ...videos.resolvers.Query,
-    ...cocoshel.resolvers.Query
+    ...cocoshel.resolvers.Query,
+    ...articles.resolvers.Query
   },
   Place: places.resolvers.Place,
   HoroscopeReport: horoscopes.resolvers.HoroscopeReport,
   Mutation: {
     ...rootResolvers.Mutation,
-    ...news.resolvers.Mutation
+    ...news.resolvers.Mutation,
+    ...topics.resolvers.Mutation
   },
   JSON: GraphQLJsonType
 };

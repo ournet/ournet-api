@@ -10,6 +10,7 @@ import {
   AuthenticationError,
   IResolvers
 } from "apollo-server";
+import { createApiContext } from "./container/api-context";
 const typeDefs = gql`
   ${typedefs}
 `;
@@ -25,7 +26,6 @@ declare global {
 }
 
 async function start() {
-  const context = await Context.create();
   const server = new ApolloServer({
     typeDefs,
     resolvers: resolvers as IResolvers<any, Context>,
@@ -37,6 +37,8 @@ async function start() {
         );
         throw new AuthenticationError("No key");
       }
+
+      const context = await Context.create(await createApiContext(req));
 
       return context;
     },

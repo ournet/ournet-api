@@ -30,6 +30,7 @@ export interface ArticleService
   find(params: FindArticleParams): Promise<Article[]>;
   findCount(params: FindArticleCountParams): Promise<number>;
   findCursor(params: FindArticleParams): Promise<CursorPage<Article>>;
+  viewArticle(id: string): Promise<number>;
 }
 
 export interface ArticleContentService

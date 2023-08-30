@@ -84,8 +84,9 @@ export class Article extends BaseEntity<ArticleData> implements ArticleData {
   }
 
   static createId(input: Pick<ArticleData, "country" | "lang">) {
-    return `${BaseEntity.createId().substring(0, 10)}-${this.createProjectKey(
-      input
+    return `${this.createProjectKey(input)}${BaseEntity.createId().substring(
+      0,
+      8
     )}`;
   }
 
@@ -101,9 +102,7 @@ export class Article extends BaseEntity<ArticleData> implements ArticleData {
   }
 
   static extractProjectKey(id: string) {
-    const value = id.split("-").pop();
-    if (!value) throw new Error("Invalid article id");
-    return value;
+    return id.slice(0, 4);
   }
 
   static override jsonSchema: RequiredJSONSchema = {
@@ -113,7 +112,7 @@ export class Article extends BaseEntity<ArticleData> implements ArticleData {
       ...BaseEntity.jsonSchema.properties,
       lang: { type: "string", pattern: "^[a-z]{2}$" },
       country: { type: "string", pattern: "^[a-z]{2}$" },
-      projectKey: { type: "string", pattern: "^[a-z]{2}-[a-z]{2}$" },
+      projectKey: { type: "string", pattern: "^[a-z]{2}[a-z]{2}$" },
       type: { type: "string", enum: Object.values(ArticleType) },
       title: { type: "string", minLength: 1, maxLength: 255 },
       slug: { type: "string", pattern: "^[a-z0-9-]{1,100}$" },

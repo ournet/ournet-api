@@ -1,7 +1,9 @@
 import {
   AttributeValue,
   QueryCommand,
-  QueryCommandInput
+  QueryCommandInput,
+  UpdateItemCommand,
+  UpdateItemCommandInput
 } from "@aws-sdk/client-dynamodb";
 import {
   Article,
@@ -29,6 +31,21 @@ export class ArticleDynamoService
 {
   constructor() {
     super(Article, "article_v0");
+  }
+
+  async viewArticle(id: string): Promise<number> {
+    const input: UpdateItemCommandInput = {
+      TableName: this.tableName,
+      Key: this.getKeyFromId(id),
+      UpdateExpression: "SET countViews = countViews + 1",
+      ReturnValues: "UPDATED_NEW"
+    };
+
+    const command = new UpdateItemCommand(input);
+    const response = await dynamoClient.send(command);
+    return response.Attributes
+      ? this.attributesToEntity(response.Attributes).countViews
+      : 0;
   }
 
   async find(params: FindArticleParams): Promise<Article[]> {
