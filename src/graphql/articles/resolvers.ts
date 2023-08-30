@@ -4,11 +4,33 @@ import {
   ArticleStatus,
   ArticleType
 } from "../../domain/article/entity/article";
+import { ArticleContentFormat } from "../../domain/article/entity/acticle-content";
 
 export default {
   Mutation: {
-    viewArticle: async (_: any, args: { id: string }, { api }: Context) => {
+    viewArticle: (_: any, args: { id: string }, { api }: Context) => {
       return api.services.article.viewArticle(args.id);
+    },
+    createArticle: (
+      _: any,
+      args: {
+        lang: string;
+        country: string;
+        type: ArticleType;
+        title: string;
+        status: ArticleStatus;
+        description?: string;
+        imageId?: string;
+        client: string;
+        content: string;
+        format: ArticleContentFormat;
+      },
+      { api }: Context
+    ) => {
+      return api.usecases.createArticle.execute(args, api);
+    },
+    deleteArticle: (_: any, args: { id: string }, { api }: Context) => {
+      return api.usecases.deleteArticle.execute(args, api);
     }
   },
   Query: {
@@ -38,6 +60,11 @@ export default {
         offset: args.offset,
         status: args.status
       });
+    }
+  },
+  Article: {
+    content: (root: Article, _: any, { api }: Context) => {
+      return api.services.articleContent.findById(root.id);
     }
   }
 };

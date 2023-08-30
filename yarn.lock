@@ -1577,7 +1577,7 @@ async-retry@^1.2.1:
 atonic@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/atonic/-/atonic-1.0.4.tgz#7db3f216070abb68660f18122a380903e09d27c7"
-  integrity sha1-fbPyFgcKu2hmDxgSKjgJA+CdJ8c=
+  integrity sha512-+U13M/pUhDSaJV7tGv90Ay7POf5hC6dvuhQyattSsVcGzSnzeVsjV4E0//L/GjUOpLFCzK4TtiKEiGOyh1NDiA==
 
 aws-sdk@^2.1058.0, aws-sdk@^2.286.2, aws-sdk@^2.291.0, aws-sdk@^2.354.0, aws-sdk@^2.382.0:
   version "2.1058.0"
@@ -1950,10 +1950,10 @@ ellipsize@^0.1.0:
   resolved "https://registry.yarnpkg.com/ellipsize/-/ellipsize-0.1.0.tgz#9d43682d44b91ad16ebd84268ac103170a6553f8"
   integrity sha1-nUNoLUS5GtFuvYQmisEDFwplU/g=
 
-emittery@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/emittery/-/emittery-1.0.1.tgz#e0cf36e2d7eef94dbd025969f642d57ae50a56cd"
-  integrity sha512-2ID6FdrMD9KDLldGesP6317G78K7km/kMcwItRtVFva7I/cSEOIaLpewaUb+YLXVwdAp3Ctfxh/V5zIl1sj7dQ==
+emittery@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/emittery/-/emittery-0.6.0.tgz#e85312468d77c3ed9a6adf43bb57d34849e0c95a"
+  integrity sha512-6EMRGr9KzYWp8DzHFZsKVZBsMO6QhAeHMeHND8rhyBNCHKMLpgW9tZv40bwN3rAIKRS5CxcK8oLRKUJSB9h7yQ==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -2823,11 +2823,6 @@ normalize-url@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
-
-normalize-url@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-8.0.0.tgz#593dbd284f743e8dcf6a5ddf8fadff149c82701a"
-  integrity sha512-uVFpKhj5MheNBJRTiMZ9pE/7hD1QTeEvugSJW/OmLzAp78PB5O6adfMNTvmfKhXBkvCzC+rqifWcVYpGFwTjnw==
 
 npm-run-path@^2.0.0:
   version "2.0.2"

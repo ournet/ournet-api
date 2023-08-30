@@ -37,7 +37,13 @@ export class ArticleDynamoService
     const input: UpdateItemCommandInput = {
       TableName: this.tableName,
       Key: this.getKeyFromId(id),
-      UpdateExpression: "SET countViews = countViews + 1",
+      UpdateExpression: "SET #countViews = #countViews + :inc",
+      ExpressionAttributeNames: {
+        "#countViews": "countViews"
+      },
+      ExpressionAttributeValues: {
+        ":inc": { N: "1" }
+      },
       ReturnValues: "UPDATED_NEW"
     };
 

@@ -8,7 +8,7 @@ import {
 
 export type CreateArticleInput = Omit<
   ArticleCreateData,
-  "id" | "createdAt" | "updatedAt" | "projectKey" | "countViews"
+  "id" | "createdAt" | "updatedAt" | "projectKey" | "countViews" | "slug"
 > &
   Pick<ArticleContentCreateData, "format" | "content">;
 
@@ -32,7 +32,8 @@ export class CreateArticleUsecase extends BaseUseCase<
       ...input,
       id: Article.createId(input),
       projectKey: Article.createProjectKey(input),
-      countViews: 0
+      countViews: 0,
+      slug: Article.createSlug(input.title)
     };
 
     const article = await this.articleService.create(createData);

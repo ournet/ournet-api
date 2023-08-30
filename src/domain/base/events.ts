@@ -51,30 +51,30 @@ export interface IEmitter<EventDataMap extends Events> {
 export class Emitter<EventDataMap extends Events>
   implements IEmitter<EventDataMap>
 {
-  private _emitter: Emittery<EventDataMap>;
+  private _emitter: Emittery.Typed<EventDataMap>;
 
   public constructor() {
-    this._emitter = new Emittery<EventDataMap>();
+    this._emitter = new Emittery.Typed<EventDataMap>();
   }
 
   public on<Name extends keyof EventDataMap>(
     eventName: Name,
     listener: (eventData: EventDataMap[Name]) => void
   ): UnsubscribeFn {
-    return this._emitter.on(eventName, listener);
+    return this._emitter.on(eventName as any, listener as any);
   }
 
   public once<Name extends keyof EventDataMap>(
     eventName: Name
   ): Promise<EventDataMap[Name]> {
-    return this._emitter.once(eventName);
+    return this._emitter.once(eventName as any);
   }
 
   public off<Name extends keyof EventDataMap>(
     eventName: Name,
     listener: (eventData: EventDataMap[Name]) => void
   ): void {
-    return this._emitter.off(eventName, listener);
+    return this._emitter.off(eventName as any, listener as any);
   }
 
   public onAny(
@@ -83,7 +83,7 @@ export class Emitter<EventDataMap extends Events>
       eventData?: EventDataMap[keyof EventDataMap]
     ) => void
   ): UnsubscribeFn {
-    return this._emitter.onAny(listener);
+    return this._emitter.onAny(listener as any);
   }
 
   public offAny(
@@ -92,20 +92,20 @@ export class Emitter<EventDataMap extends Events>
       eventData?: EventDataMap[keyof EventDataMap]
     ) => void
   ): void {
-    return this._emitter.offAny(listener);
+    return this._emitter.offAny(listener as any);
   }
 
   public emit<Name extends keyof EventDataMap>(
     eventName: Name,
     eventData: EventDataMap[Name]
   ): Promise<void> {
-    return this._emitter.emit(eventName, eventData);
+    return this._emitter.emit(eventName as any, eventData);
   }
 
   public emitSerial<Name extends keyof EventDataMap>(
     eventName: Name,
     eventData: EventDataMap[Name]
   ): Promise<void> {
-    return this._emitter.emitSerial(eventName, eventData);
+    return this._emitter.emitSerial(eventName as any, eventData);
   }
 }

@@ -188,26 +188,29 @@ export abstract class DynamoRepository<
   }
 
   public async findById(id: EntityId): Promise<TEntity | null> {
-    const data = this.attributesToData(this.getKeyFromId(id));
+    const data = this.getKeyFromId(id);
     const keys = Object.keys(data);
     const values = Object.values(data);
-    const query = new QueryCommand({
+    const input: QueryCommandInput = {
       TableName: this.tableName,
       KeyConditionExpression: keys
         .map((key) => `#${key} = :${key}`)
-        .join(" and "),
+        .join(" AND "),
       ExpressionAttributeNames: keys.reduce(
         (acc, key) => ({ ...acc, [`#${key}`]: key }),
         {}
       ),
-      ExpressionAttributeValues: values.reduce(
-        (acc, value) => ({ ...acc, [`:${value}`]: value }),
+      ExpressionAttributeValues: keys.reduce(
+        (acc, key, i) => ({ ...acc, [`:${key}`]: values[i] }),
         {}
       ),
       Limit: 1
-    });
+    };
+
+    const query = new QueryCommand(input);
 
     const response = await dynamoClient.send(query);
+
     return response.Items && response.Items.length > 0
       ? this.attributesToEntity(response.Items[0])
       : null;

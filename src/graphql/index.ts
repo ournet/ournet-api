@@ -61,10 +61,12 @@ export const resolvers = {
   },
   Place: places.resolvers.Place,
   HoroscopeReport: horoscopes.resolvers.HoroscopeReport,
+  Article: articles.resolvers.Article,
   Mutation: {
     ...rootResolvers.Mutation,
     ...news.resolvers.Mutation,
-    ...topics.resolvers.Mutation
+    ...topics.resolvers.Mutation,
+    ...articles.resolvers.Mutation
   },
   JSON: GraphQLJsonType
 };

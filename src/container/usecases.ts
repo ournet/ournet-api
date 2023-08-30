@@ -3,14 +3,14 @@ import { DeleteArticleUsecase } from "../domain/article/usecase/delete-article-u
 import { ApiServices } from "./services";
 
 export interface ApiUsecases {
-  createActicle: CreateArticleUsecase;
+  createArticle: CreateArticleUsecase;
   deleteArticle: DeleteArticleUsecase;
 }
 
 let instance: ApiUsecases;
 
 const create = (services: ApiServices) => {
-  const createActicle = new CreateArticleUsecase(
+  const createArticle = new CreateArticleUsecase(
     services.article,
     services.articleContent
   );
@@ -20,7 +20,7 @@ const create = (services: ApiServices) => {
   );
 
   const usecases: ApiUsecases = {
-    createActicle,
+    createArticle,
     deleteArticle
   };
 
