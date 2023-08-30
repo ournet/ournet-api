@@ -12,6 +12,8 @@ export interface Config {
   readonly PLACES_ES_HOST: string;
 
   readonly REDISCLOUD_URL: string;
+
+  readonly OURNET_API_KEY: string;
 }
 
 export function getConfigFromEnv(): Config {
@@ -22,7 +24,8 @@ export function getConfigFromEnv(): Config {
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || "",
     AWS_REGION: process.env.AWS_REGION || "",
     PLACES_ES_HOST: process.env.PLACES_ES_HOST || "",
-    REDISCLOUD_URL: process.env.REDISCLOUD_URL || ""
+    REDISCLOUD_URL: process.env.REDISCLOUD_URL || "",
+    OURNET_API_KEY: process.env.OURNET_API_KEY || ""
   };
 
   validateConfig(config);
@@ -42,6 +45,9 @@ function validateConfig(config: Config) {
   }
   if (!config.REDISCLOUD_URL) {
     throw new Error("REDISCLOUD_URL is required!");
+  }
+  if (!config.OURNET_API_KEY) {
+    throw new Error("OURNET_API_KEY is required!");
   }
 }
 

@@ -1,7 +1,8 @@
 import { RepositoryAccessOptions, RepositoryUpdateData } from "@ournet/domain";
 import { Topic, TopicRepository, TopicWikiId } from "@ournet/topics-domain";
-import { SECONDS_7D, uniq } from "../utils";
+import { SECONDS_7D } from "../utils";
 import { CacheStorage } from "./cache-storage";
+import { uniq } from "../domain/base/util";
 
 export class CacheTopicRepository implements TopicRepository {
   constructor(private rep: TopicRepository, private storage: CacheStorage) {}
