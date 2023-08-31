@@ -19,7 +19,7 @@ const getInfo = async (input: Buffer) => {
   return {
     height: data.height || 1,
     width: data.width || 1,
-    length: data.size || 1,
+    length: data.size || 1
   };
 };
 
@@ -36,17 +36,19 @@ export class UploadImageUsecase extends BaseUseCase<UploadImageInput, Image> {
         Accept: "image/*",
         Referer: referer || undefined,
         "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
       },
       responseType: "stream",
       maxRedirects: 0,
-      maxContentLength: bytes("12MB"),
+      maxContentLength: bytes("12MB")
     });
 
-    const contentInfo = parse(response.headers["Content-Type"] as never);
+    const contentInfo = parse(
+      (response.headers["content-type"] || "") as never
+    );
     if (!contentInfo || !contentInfo.type)
       throw new Error(
-        `Invalid content type: ${response.headers["Content-Type"]}`
+        `Invalid content type: ${response.headers["content-type"]}`
       );
 
     const body = await streamToBuffer(response.data);
@@ -59,13 +61,13 @@ export class UploadImageUsecase extends BaseUseCase<UploadImageInput, Image> {
     await this.imageService.upload({
       id,
       contentType,
-      body,
+      body
     });
 
     return this.imageService.create({
       ...info,
       id,
-      contentType,
+      contentType
     });
   }
 }

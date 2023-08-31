@@ -25,11 +25,11 @@ type Mutation {
 
 const rootResolvers = {
   Query: {
-    ping: () => "pong",
+    ping: () => "pong"
   },
   Mutation: {
-    add: (_: any, { n1, n2 }: { n1: number; n2: number }) => n1 + n2,
-  },
+    add: (_: any, { n1, n2 }: { n1: number; n2: number }) => n1 + n2
+  }
 };
 
 export const typedefs = [
@@ -44,6 +44,7 @@ export const typedefs = [
   videos.typedefs,
   cocoshel.typedefs,
   articles.typedefs,
+  images.typedefs
 ].join("\n");
 
 export const resolvers = {
@@ -59,7 +60,7 @@ export const resolvers = {
     ...videos.resolvers.Query,
     ...cocoshel.resolvers.Query,
     ...articles.resolvers.Query,
-    ...images.resolvers.Query,
+    ...images.resolvers.Query
   },
   Place: places.resolvers.Place,
   HoroscopeReport: horoscopes.resolvers.HoroscopeReport,
@@ -69,7 +70,7 @@ export const resolvers = {
     ...news.resolvers.Mutation,
     ...topics.resolvers.Mutation,
     ...articles.resolvers.Mutation,
-    ...images.resolvers.Mutation,
+    ...images.resolvers.Mutation
   },
-  JSON: GraphQLJsonType,
+  JSON: GraphQLJsonType
 };
