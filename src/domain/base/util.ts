@@ -4,9 +4,20 @@ import objectHashFn from "object-hash";
 import slugFn from "slug";
 import crypto from "crypto";
 import ms from "ms";
+import { ReadStream } from "fs";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const atonic = require("atonic");
+
+export const streamToBuffer = (stream: ReadStream): Promise<Buffer> => {
+  return new Promise<Buffer>((resolve, reject) => {
+    const _buf: Uint8Array[] = [];
+
+    stream.on("data", (chunk) => _buf.push(chunk as never));
+    stream.on("end", () => resolve(Buffer.concat(_buf)));
+    stream.on("error", (err) => reject(`error converting stream - ${err}`));
+  });
+};
 
 export const isValidTimeInterval = (interval: string) => isNumber(ms(interval));
 export const checkTimeInterval = (interval: string) => {

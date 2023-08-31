@@ -1,10 +1,12 @@
 import { CreateArticleUsecase } from "../domain/article/usecase/create-article-usecase";
 import { DeleteArticleUsecase } from "../domain/article/usecase/delete-article-usecase";
+import { UploadImageUsecase } from "../domain/image/usecase/image-usecase";
 import { ApiServices } from "./services";
 
 export interface ApiUsecases {
   createArticle: CreateArticleUsecase;
   deleteArticle: DeleteArticleUsecase;
+  uploadImage: UploadImageUsecase;
 }
 
 let instance: ApiUsecases;
@@ -18,10 +20,12 @@ const create = (services: ApiServices) => {
     services.article,
     services.articleContent
   );
+  const uploadImage = new UploadImageUsecase(services.image);
 
   const usecases: ApiUsecases = {
     createArticle,
-    deleteArticle
+    deleteArticle,
+    uploadImage,
   };
 
   return usecases;
