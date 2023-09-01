@@ -3,19 +3,19 @@ import {
   QueryCommand,
   QueryCommandInput,
   UpdateItemCommand,
-  UpdateItemCommandInput
+  UpdateItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
 import {
   Article,
   ArticleCreateData,
   ArticleData,
-  ArticleUpdateData
+  ArticleUpdateData,
 } from "../../domain/article/entity/article";
 import { DynamoRepository } from "../db/dynamo-repoitory";
 import {
   ArticleService,
   FindArticleCountParams,
-  FindArticleParams
+  FindArticleParams,
 } from "../../domain/article/service/article-service";
 import { CursorPage, createCursorPage } from "../../domain/base/pagination";
 import dynamoClient from "../db/dynamo-client";
@@ -27,8 +27,7 @@ export class ArticleDynamoService
     ArticleCreateData,
     ArticleUpdateData
   >
-  implements ArticleService
-{
+  implements ArticleService {
   constructor() {
     super(Article, "article_v0");
   }
@@ -39,12 +38,12 @@ export class ArticleDynamoService
       Key: this.getKeyFromId(id),
       UpdateExpression: "SET #countViews = #countViews + :inc",
       ExpressionAttributeNames: {
-        "#countViews": "countViews"
+        "#countViews": "countViews",
       },
       ExpressionAttributeValues: {
-        ":inc": { N: "1" }
+        ":inc": { N: "1" },
       },
-      ReturnValues: "UPDATED_NEW"
+      ReturnValues: "UPDATED_NEW",
     };
 
     const command = new UpdateItemCommand(input);
@@ -59,15 +58,16 @@ export class ArticleDynamoService
       TableName: this.tableName,
       KeyConditionExpression: "#projectKey = :projectKey",
       ExpressionAttributeNames: {
-        "#projectKey": "projectKey"
+        "#projectKey": "projectKey",
       },
       ExpressionAttributeValues: {
-        ":projectKey": { S: params.projectKey }
+        ":projectKey": { S: params.projectKey },
       },
       Limit: params.first,
       ExclusiveStartKey: params.after
         ? this.getKeyFromId(params.after)
-        : undefined
+        : undefined,
+      ScanIndexForward: false,
     };
 
     const command = new QueryCommand(input);
@@ -83,12 +83,12 @@ export class ArticleDynamoService
       TableName: this.tableName,
       KeyConditionExpression: "#projectKey = :projectKey",
       ExpressionAttributeNames: {
-        "#projectKey": "projectKey"
+        "#projectKey": "projectKey",
       },
       ExpressionAttributeValues: {
-        ":projectKey": { S: params.projectKey }
+        ":projectKey": { S: params.projectKey },
       },
-      Select: "COUNT"
+      Select: "COUNT",
     };
 
     const command = new QueryCommand(input);
@@ -109,7 +109,7 @@ export class ArticleDynamoService
     const projectKey = Article.extractProjectKey(id);
     return {
       projectKey: { S: projectKey },
-      id: { S: id }
+      id: { S: id },
     };
   }
 
