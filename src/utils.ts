@@ -1,7 +1,3 @@
-export function uniq<T>(items: T[]) {
-  return [...new Set(items)];
-}
-
 export const SECONDS_24H = 3600 * 24;
 export const SECONDS_12H = 3600 * 12;
 export const SECONDS_6H = 3600 * 6;

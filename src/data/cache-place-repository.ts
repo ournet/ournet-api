@@ -8,7 +8,8 @@ import {
 } from "@ournet/places-domain";
 import { RepositoryAccessOptions, RepositoryUpdateData } from "@ournet/domain";
 import { CacheStorage } from "./cache-storage";
-import { SECONDS_1D, SECONDS_3D, SECONDS_7D, uniq } from "../utils";
+import { SECONDS_1D, SECONDS_3D, SECONDS_7D } from "../utils";
+import { uniq } from "../domain/base/util";
 
 export class CachePlaceRepository implements PlaceRepository {
   constructor(private rep: PlaceRepository, private storage: CacheStorage) {}

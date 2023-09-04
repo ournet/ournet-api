@@ -106,13 +106,13 @@ type NewsEventItem {
 	publishedAt: String!
 }
 
-enum ArticleContentFormat {
+enum NewsArticleContentFormat {
     text
     md
     json
 }
 
-type ArticleContent {
+type NewsArticleContent {
     id: String!
     refId: String!
     refType: String!
@@ -125,12 +125,12 @@ type ArticleContent {
     updatedAt: String
 }
 
-enum ArticleContentRefType {
+enum NewsArticleContentRefType {
     NEWS
     EVENT
 }
 
-type ArticleContentRef {
+type NewsArticleContentRef {
     refId: String!
     refType: String!
 }
@@ -290,8 +290,8 @@ extend type Query {
 
     news_similarEventsByTopics(params: SimilarEventsByTopicsQueryParams): [NewsEvent]!
 
-    news_articleContentById (id: String!): ArticleContent
-    news_articleContentsByIds (ids: [String]!): [ArticleContent]!
+    news_articleContentById (id: String!): NewsArticleContent
+    news_articleContentsByIds (ids: [String]!): [NewsArticleContent]!
 }
 extend type Mutation {
     news_viewNewsEvent(id: String!): Int!

@@ -5,7 +5,8 @@ import {
 } from "@ournet/horoscopes-domain";
 import { RepositoryUpdateData, RepositoryAccessOptions } from "@ournet/domain";
 import { CacheStorage } from "./cache-storage";
-import { SECONDS_6H, uniq } from "../utils";
+import { SECONDS_6H } from "../utils";
+import { uniq } from "../domain/base/util";
 
 export { HoroscopePhraseRepository, HoroscopeReportRepository };
 
