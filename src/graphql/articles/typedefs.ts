@@ -38,6 +38,9 @@ type Article {
     expiresAt: String
     createdAt: String!
     updatedAt: String!
+    doFollowLinks: Boolean
+    totalCost: Float
+    currency: String
     
     content: ArticleContent
 }
@@ -49,7 +52,7 @@ extend type Query {
 }
 extend type Mutation {
     viewArticle(id: String!): Int!
-    createArticle(lang: String!, country: String!, type: ArticleType!, title: String!, status: ArticleStatus!, description: String, imageId: String, client: String!, content: String!, format: ArticleContentFormat!): Article!
+    createArticle(lang: String!, country: String!, type: ArticleType!, title: String!, status: ArticleStatus!, description: String, imageId: String, client: String!, content: String!, format: ArticleContentFormat!, doFollowLinks: Boolean, totalCost: Float, currency: String): Article!
     deleteArticle(id: String!): Boolean!
 }
 `;

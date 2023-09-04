@@ -2,36 +2,21 @@ import { Context } from "../../context";
 import {
   Article,
   ArticleStatus,
-  ArticleType
+  ArticleType,
 } from "../../domain/article/entity/article";
-import { ArticleContentFormat } from "../../domain/article/entity/acticle-content";
+import { CreateArticleInput } from "../../domain/article/usecase/create-article-usecase";
 
 export default {
   Mutation: {
     viewArticle: (_: any, args: { id: string }, { api }: Context) => {
       return api.services.article.viewArticle(args.id);
     },
-    createArticle: (
-      _: any,
-      args: {
-        lang: string;
-        country: string;
-        type: ArticleType;
-        title: string;
-        status: ArticleStatus;
-        description?: string;
-        imageId?: string;
-        client: string;
-        content: string;
-        format: ArticleContentFormat;
-      },
-      { api }: Context
-    ) => {
+    createArticle: (_: any, args: CreateArticleInput, { api }: Context) => {
       return api.usecases.createArticle.execute(args, api);
     },
     deleteArticle: (_: any, args: { id: string }, { api }: Context) => {
       return api.usecases.deleteArticle.execute(args, api);
-    }
+    },
   },
   Query: {
     articleById: (_: any, args: { id: string }, { api }: Context) => {
@@ -58,13 +43,13 @@ export default {
         first: args.limit,
         projectKey,
         offset: args.offset,
-        status: args.status
+        status: args.status,
       });
-    }
+    },
   },
   Article: {
     content: (root: Article, _: any, { api }: Context) => {
       return api.services.articleContent.findById(root.id);
-    }
-  }
+    },
+  },
 };

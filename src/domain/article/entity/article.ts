@@ -29,6 +29,9 @@ export interface ArticleData extends EntityData {
   description?: string;
   imageId?: string;
   expiresAt?: string;
+  totalCost?: number;
+  currency?: string;
+  doFollowLinks?: boolean;
 }
 
 export type ArticleUpdateData = EntityUpdateData<ArticleData>;
@@ -83,6 +86,18 @@ export class Article extends BaseEntity<ArticleData> implements ArticleData {
     return this.get("expiresAt");
   }
 
+  get totalCost() {
+    return this.get("totalCost");
+  }
+
+  get currency() {
+    return this.get("currency");
+  }
+
+  get doFollowLinks() {
+    return this.get("doFollowLinks");
+  }
+
   static createId(input: Pick<ArticleData, "country" | "lang">) {
     return `${this.createProjectKey(input)}${BaseEntity.createId().substring(
       0,
@@ -121,7 +136,10 @@ export class Article extends BaseEntity<ArticleData> implements ArticleData {
       imageId: { type: ["null", "string"], minLength: 1, maxLength: 40 },
       client: { type: "string", minLength: 1, maxLength: 50 },
       countViews: { type: "integer", minimum: 0 },
-      expiresAt: { type: ["null", "string"], format: "date-time" }
+      expiresAt: { type: ["null", "string"], format: "date-time" },
+      totalCost: {type:["number","null"], minimum: 0},
+      currency:{type:["null", "string"], pattern:"^[A-Z]{3}$"},
+      doFollowLinks:{type:["null", "boolean"]}
     },
 
     required: [
