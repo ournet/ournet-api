@@ -1,19 +1,25 @@
 import { BaseUseCase } from "../../base/usecase";
-import { ArticleContentCreateData } from "../entity/acticle-content";
-import { Article, ArticleCreateData } from "../entity/article";
+import { ArticleContentUpdateData } from "../entity/acticle-content";
+import { Article, ArticleUpdateData } from "../entity/article";
 import {
   ArticleService,
   ArticleContentService
 } from "../service/article-service";
 
-export type CreateArticleInput = Omit<
-  ArticleCreateData,
-  "id" | "createdAt" | "updatedAt" | "projectKey" | "countViews" | "slug"
+export type UpdateArticleInput = Omit<
+  ArticleUpdateData,
+  | "createdAt"
+  | "updatedAt"
+  | "projectKey"
+  | "countViews"
+  | "slug"
+  | "lang"
+  | "country"
 > &
-  Pick<ArticleContentCreateData, "format" | "content">;
+  Pick<ArticleContentUpdateData, "format" | "content">;
 
-export class CreateArticleUsecase extends BaseUseCase<
-  CreateArticleInput,
+export class UpdateArticleUsecase extends BaseUseCase<
+  UpdateArticleInput,
   Article
 > {
   constructor(
@@ -24,30 +30,25 @@ export class CreateArticleUsecase extends BaseUseCase<
   }
 
   protected async innerExecute({
+    id,
     content,
     format,
     ...input
-  }: CreateArticleInput): Promise<Article> {
-    const createData: ArticleCreateData = {
-      ...input,
-      id: Article.createId(input),
-      projectKey: Article.createProjectKey(input),
-      countViews: 0,
-      slug: Article.createSlug(input.title)
+  }: UpdateArticleInput): Promise<Article> {
+    let article = await this.articleService.checkById(id);
+    const updateData: UpdateArticleInput = {
+      id,
+      ...input
     };
 
-    const article = await this.articleService.create(createData);
+    article = await this.articleService.update(updateData);
 
-    try {
-      await this.articleContentService.create({
-        id: article.id,
-        format,
-        content
+    if (content || format) {
+      await this.articleContentService.update({
+        id,
+        content,
+        format
       });
-    } catch (e) {
-      console.error(e);
-      await this.articleService.deleteById(article.id);
-      throw e;
     }
 
     return article;

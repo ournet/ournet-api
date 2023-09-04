@@ -53,6 +53,7 @@ extend type Query {
 extend type Mutation {
     viewArticle(id: String!): Int!
     createArticle(lang: String!, country: String!, type: ArticleType!, title: String!, status: ArticleStatus!, description: String, imageId: String, client: String!, content: String!, format: ArticleContentFormat!, doFollowLinks: Boolean, totalCost: Float, currency: String): Article!
+    updateArticle(id: ID!, type: ArticleType, title: String, status: ArticleStatus, description: String, imageId: String, client: String, content: String, format: ArticleContentFormat, doFollowLinks: Boolean, totalCost: Float, currency: String): Article!
     deleteArticle(id: String!): Boolean!
 }
 `;

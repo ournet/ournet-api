@@ -1,11 +1,13 @@
 import { CreateArticleUsecase } from "../domain/article/usecase/create-article-usecase";
 import { DeleteArticleUsecase } from "../domain/article/usecase/delete-article-usecase";
+import { UpdateArticleUsecase } from "../domain/article/usecase/update-article-usecase";
 import { UploadImageUsecase } from "../domain/image/usecase/image-usecase";
 import { ApiServices } from "./services";
 
 export interface ApiUsecases {
   createArticle: CreateArticleUsecase;
   deleteArticle: DeleteArticleUsecase;
+  updateArticle: UpdateArticleUsecase;
   uploadImage: UploadImageUsecase;
 }
 
@@ -20,12 +22,17 @@ const create = (services: ApiServices) => {
     services.article,
     services.articleContent
   );
+  const updateArticle = new UpdateArticleUsecase(
+    services.article,
+    services.articleContent
+  );
   const uploadImage = new UploadImageUsecase(services.image);
 
   const usecases: ApiUsecases = {
     createArticle,
     deleteArticle,
-    uploadImage,
+    updateArticle,
+    uploadImage
   };
 
   return usecases;
