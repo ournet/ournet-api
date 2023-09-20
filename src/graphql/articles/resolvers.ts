@@ -2,9 +2,10 @@ import { Context } from "../../context";
 import {
   Article,
   ArticleStatus,
-  ArticleType,
+  ArticleType
 } from "../../domain/article/entity/article";
 import { CreateArticleInput } from "../../domain/article/usecase/create-article-usecase";
+import { UpdateArticleInput } from "../../domain/article/usecase/update-article-usecase";
 
 export default {
   Mutation: {
@@ -17,6 +18,9 @@ export default {
     deleteArticle: (_: any, args: { id: string }, { api }: Context) => {
       return api.usecases.deleteArticle.execute(args, api);
     },
+    updateArticle: (_: any, args: UpdateArticleInput, { api }: Context) => {
+      return api.usecases.updateArticle.execute(args, api);
+    }
   },
   Query: {
     articleById: (_: any, args: { id: string }, { api }: Context) => {
@@ -43,13 +47,13 @@ export default {
         first: args.limit,
         projectKey,
         offset: args.offset,
-        status: args.status,
+        status: args.status
       });
-    },
+    }
   },
   Article: {
     content: (root: Article, _: any, { api }: Context) => {
       return api.services.articleContent.findById(root.id);
-    },
-  },
+    }
+  }
 };
