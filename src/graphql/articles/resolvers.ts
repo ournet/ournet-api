@@ -47,7 +47,8 @@ export default {
         first: args.limit,
         projectKey,
         offset: args.offset,
-        status: args.status
+        status: args.status,
+        type: args.type
       });
     }
   },

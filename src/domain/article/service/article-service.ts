@@ -6,12 +6,14 @@ import {
   ArticleCreateData,
   ArticleData,
   ArticleStatus,
+  ArticleType,
   ArticleUpdateData
 } from "../entity/article";
 
 export interface FindArticleCountParams {
   projectKey: string;
   status?: ArticleStatus;
+  type?: ArticleType;
 }
 
 export interface FindArticleParams extends FindArticleCountParams {
