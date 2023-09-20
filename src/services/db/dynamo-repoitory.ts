@@ -139,9 +139,13 @@ export abstract class DynamoRepository<
 
     updateData["updatedAt"] = updateAt || new Date().toISOString();
 
+    const Key = this.getKeyFromId(id);
+
+    const updateAttributes = this.dataToAttributes(updateData);
+
     const query = new UpdateItemCommand({
       TableName: this.tableName,
-      Key: this.getKeyFromId(id),
+      Key,
       UpdateExpression: `SET ${Object.keys(updateData)
         .map((key) => `#${key} = :${key}`)
         .join(", ")}`,
@@ -150,7 +154,7 @@ export abstract class DynamoRepository<
         {}
       ),
       ExpressionAttributeValues: Object.keys(updateData).reduce(
-        (acc, key) => ({ ...acc, [`:${key}`]: updateData[key] }),
+        (acc, key) => ({ ...acc, [`:${key}`]: updateAttributes[key] }),
         {}
       ),
       ReturnValues: "ALL_NEW"

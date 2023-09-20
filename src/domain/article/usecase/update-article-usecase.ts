@@ -37,8 +37,8 @@ export class UpdateArticleUsecase extends BaseUseCase<
   }: UpdateArticleInput): Promise<Article> {
     let article = await this.articleService.checkById(id);
     const updateData: UpdateArticleInput = {
-      id,
-      ...input
+      ...input,
+      id
     };
 
     article = await this.articleService.update(updateData);
