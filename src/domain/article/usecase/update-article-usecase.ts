@@ -41,7 +41,8 @@ export class UpdateArticleUsecase extends BaseUseCase<
       id
     };
 
-    article = await this.articleService.update(updateData);
+    if (Object.keys(updateData).length > 1)
+      article = await this.articleService.update(updateData);
 
     if (content || format) {
       await this.articleContentService.update({
